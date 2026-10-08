@@ -102,38 +102,38 @@
       ]
     }
   ];
-  // Only the limited motion set changes its approach vector. The three
-  // landing/flattening profiles below are retained exactly from v7; they
-  // interpolate x and y from this vector to (0,0) without overshoot.
-  const DIRECTIONAL_LIMITED_PROFILES = [
-    {
-      ...MOTION_PROFILES[0],
-      build:(finalDeg, seed) => [
-        K(0,.17,{x:seed.approachX,y:seed.approachY,z:finalDeg+1.25*seed.turn,rx:3.2,s:1.011},gravA),
-        K(.32,.48,{x:seed.approachX*.8,y:seed.approachY*.8,z:finalDeg+.9*seed.turn,rx:2.45,s:1.009},gravB),
-        K(.70,.85,{z:finalDeg,rx:1.2,s:1.008},softSettle),
-        K(1,1,{z:finalDeg})
-      ]
-    },
-    {
-      ...MOTION_PROFILES[1],
-      build:(finalDeg, seed) => [
-        K(0,.17,{x:seed.approachX,y:seed.approachY,z:finalDeg+1.25*seed.turn,rx:3,s:1.013},gravA),
-        K(.26,.39,{x:seed.approachX*.9,y:seed.approachY*.88,z:finalDeg+1.0*seed.turn,rx:2.65,s:1.012},gravB),
-        K(.58,.79,{z:finalDeg,rx:2.2,s:1.015},settle),
-        K(1,1,{z:finalDeg})
-      ]
-    },
-    {
-      ...MOTION_PROFILES[2],
-      build:(finalDeg, seed) => [
-        K(0,.18,{x:seed.approachX,y:seed.approachY,z:finalDeg+1.25*seed.turn,rx:3,s:1.011},gravA),
-        K(.32,.49,{x:seed.approachX*.8,y:seed.approachY*.82,z:finalDeg+.95*seed.turn,rx:2.3,s:1.008},gravB),
-        K(.64,.80,{z:finalDeg,rx:1.5,s:1.01},'linear'),
-        K(.78,.86,{z:finalDeg,rx:1.5,s:1.01},'linear'),
-        K(1,1,{z:finalDeg},settle)
-      ]
+  // Sample one continuous curve instead of restarting easing at each phase.
+  // The quintic has zero velocity and acceleration at both ends, so contact
+  // flows into a stationary pose. Only a subpixel release remains afterward.
+  const smoothProgress = t => {
+    t = Math.max(0, Math.min(1, t));
+    return t * t * t * (10 + t * (-15 + 6 * t));
+  };
+  const quietLanding = (profile, {contactAt, releaseAt=contactAt, opacity=.17,
+    tilt=3, scale=.011, restTilt=.08, restScale=.0004}) => ({
+    ...profile, contactAt, releaseAt,
+    build:(finalDeg, seed) => {
+      const times = [...new Set([
+        ...Array.from({length:121}, (_, i) => i / 120), contactAt, releaseAt
+      ])].sort((a, b) => a - b);
+      return times.map(t => {
+        const approach = smoothProgress(t / contactAt);
+        const release = smoothProgress((t - releaseAt) / (1 - releaseAt));
+        const remaining = 1 - approach;
+        return K(t, opacity + (1 - opacity) * approach, {
+          x:seed.approachX * remaining,
+          y:seed.approachY * remaining,
+          z:finalDeg + 1.25 * seed.turn * remaining,
+          rx:(tilt - restTilt) * remaining + restTilt * (1 - release),
+          s:1 + (scale - restScale) * remaining + restScale * (1 - release)
+        });
+      });
     }
+  });
+  const DIRECTIONAL_LIMITED_PROFILES = [
+    quietLanding(MOTION_PROFILES[0], {contactAt:.70, tilt:3.2}),
+    quietLanding(MOTION_PROFILES[1], {contactAt:.58, scale:.013, restTilt:.10, restScale:.0005}),
+    quietLanding(MOTION_PROFILES[2], {contactAt:.64, releaseAt:.78, opacity:.18})
   ];
   const SELECTED_MOTION_PROFILES = document.documentElement.dataset.motionSet === 'mixed'
     ? [...MOTION_PROFILES, ...ADDITIONAL_MOTION_PROFILES]

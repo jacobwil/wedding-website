@@ -1,4 +1,4 @@
-# Animation contract (as of v8)
+# Animation contract (limited v5 model, refined October 8, 2026)
 
 ## Preferred motion profiles
 
@@ -8,7 +8,9 @@ Current production choice is the **limited three-profile set** selected via `dat
 - **05 · Longer perspective exhale:** the arrival occurs earlier, leaving more time for a slow flattening/scale release.
 - **06 · Hold then flatten:** brief immobile contact phase, then the final tilt and opacity finish.
 
-These are numbered from the **11+13 hybrid carousel**, not from the earlier 17-option carousel. See `experiments/hybrids-11-13/index.html` for the original named studies; the shipped website adds varied final rotation and entry vector without changing their general settle. The seven-profile comparison is retained, but was judged too busy as a site background.
+These are numbered from the **11+13 hybrid carousel**, not from the earlier 17-option carousel. See `experiments/hybrids-11-13/index.html` for the original named studies; the shipped website adds varied final rotation and entry vector and refines how the three styles finish. The seven-profile comparison is retained, but was judged too busy as a site background.
+
+The October 8 review rejected visible phase changes and an emphasized final air-release drop. The limited profiles now share a sampled quintic approach with zero endpoint velocity and acceleration, so they decelerate into contact without restarting easing. Their existing contact timings and the exact hold in profile 06 remain. Opacity reaches 1 at contact; the remaining release is only 0.04–0.05% scale and 0.08–0.10° tilt. These numerical bounds are implementation choices intended to make that release almost imperceptible. Scale must decrease monotonically: the old profile 05 enlarged briefly before shrinking, which accentuated the final drop.
 
 ## Position, direction, rotation
 
@@ -29,12 +31,15 @@ These are numbered from the **11+13 hybrid carousel**, not from the earlier 17-o
 
 ## Regression testing
 
-`python3 tests/test_motion_browser.py` samples keyframes and actual rendered DOM matrices with several positive/negative resting angles and all compass entry sectors, tests the initial pair direction separation, verifies no transform snap on cleanup, and checks page load/reduced motion. Run after **any** change to `pose()`, `K()`, profile builders, profile selection, entry vector generation, retirement CSS or resize/parallax behavior. Static checks: `python3 scripts/verify_repo.py`.
+`python3 tests/test_motion_curves.py` runs the same numerical curve assertions using Node.js or macOS JavaScriptCore, without Playwright dependencies. This provides repeatable curve verification when browser execution is unavailable, but does not replace rendered regression checks.
+
+`python3 tests/test_motion_browser.py` samples keyframes and actual rendered DOM matrices with several positive/negative resting angles and all compass entry sectors, tests the initial pair direction separation, verifies no transform snap on cleanup, and checks page load/reduced motion. It also bounds approach speed changes and requires the final release to move the bounds of a large desktop postcard by less than half a CSS pixel. Run after **any** change to `pose()`, `K()`, profile builders, profile selection, entry vector generation, retirement CSS or resize/parallax behavior. Static checks: `python3 scripts/verify_repo.py`.
 
 ## Rejected behaviors
 
 - Small overshoot followed by a corrective move (earlier “phase 4” in the first v3 drop).
 - Implicit reset of yaw to 0° in intermediate frames and return to a nonzero resting angle (v4/v5 bug).
 - Independently randomized poses inside a supposedly stationary hold.
+- Distinct easing stages with an abrupt stop, a late scale increase, or a conspicuous final flattening/shrink.
 - Broad multi-style animation mix as the *preferred* live background. This remains a historical comparison, not a mandate to delete it.
 - Card motion that dominates the landing message or looks like a digital wobble rather than paper settling.

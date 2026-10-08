@@ -17,6 +17,15 @@ inside its linked image directories are available automatically. Keep source
 archives, originals, experiments, internal documentation, and guest data out
 of this review root.
 
+## Git tracking
+
+Track changes across this workspace, including source artwork and review
+symlinks. Git metadata is in `.git-data/`. If the user has created the root
+`.git` pointer, ordinary commands work. Otherwise use
+`git --git-dir=.git-data --work-tree=.` from this workspace. Do not initialize
+a competing nested repository. The baseline commit contains the original
+imported runtime; subsequent changes belong in their own commits.
+
 ## Persistent tailnet review hosting
 
 Homelab ingress Caddy serves `serve/` on loopback port 18114 with a read-only

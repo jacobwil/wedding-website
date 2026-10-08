@@ -10,13 +10,14 @@ You are working on a real wedding website, not an abstract animation demo. Read 
 - Current preferred default: `index.html` / `wedding-limited-v5-style.html`. Only three motion profiles: **04 Softer direct hybrid**, **05 Longer perspective exhale**, **06 Hold then flatten**. `wedding-mixed-v4-style.html` is a historical seven-profile comparison, **not** the preferred default. Do not blend profiles 7–10 back into the default without direction from the user.
 - Cards enter from randomly chosen local compass directions (including from below, sides, diagonals), with little travel: currently 27–37 CSS px and up to ±8° angular jitter around eight sectors. The first two choose deliberately distinct directions (at least 127° apart after jitter). Variation should be present but *barely noticeable*.
 - A card should fade from translucent to **fully opaque** as it comes to rest, stop translation before its final flattening, then hold its final pose exactly. **No bounce, no corrective movement, no yaw reversal, no snap when an animation class or Web Animation is removed.**
+- October 8 refinement: no conspicuous phase boundaries or emphasized air-release drop. The limited profiles use a continuous decelerating approach; remaining flattening is only 0.04–0.05% scale and 0.08–0.10° tilt. Scale must never grow before the final shrink. Preserve the exact hold in profile 06 and make its subsequent release almost imperceptible.
 - Two cards already settling at first paint, one on each side; incremental shuffled arrivals thereafter, usually alternating sides; coverage-aware placement with ~70% target; recycling/retirement of old cards; subtle slower-than-content parallax; `prefers-reduced-motion` support. Keep these behaviors when refactoring.
 - Desktop sizing target: roughly ¾ of a physical postcard on a 13-inch MacBook Air at a ~1280px viewport (~432px long edge); max about 576 CSS px on sufficiently wide desktop. Avoid giant images or unnecessary large downloads.
 - Do not silently redefine explicit preferences by attempting to make the motion “more physical.” The previous team introduced unwanted overshoot and wobble for that reason.
 
 ## Repo entry points
 
-- `index.html`: canonical version, currently byte-identical to `wedding-limited-v5-style.html` (limited 3-profile, eight-direction v8).
+- `index.html`: canonical version, currently byte-identical to `wedding-limited-v5-style.html` (limited 3-profile, eight-direction approach with quiet settling).
 - `wedding-limited-v5-style.html`: named comparison copy of canonical site.
 - `wedding-mixed-v4-style.html`: secondary reference, 7 styles. The two pages share `script.js` and `styles.css`, selecting their profile pool through `<html data-motion-set="limited|mixed">`.
 - `script.js`: random deck, card placement/coverage, WAAPI motion profiles, retirement, parallax, responsive layout, navigation state.

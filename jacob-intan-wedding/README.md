@@ -15,7 +15,7 @@ make serve
 
 | File | Purpose |
 | --- | --- |
-| `index.html` | **Preferred current version**: three smooth motion profiles and eight entry directions (v8) |
+| `index.html` | **Preferred current version**: three motion profiles, eight entry directions, and almost imperceptible final settling |
 | `wedding-limited-v5-style.html` | Identical named entry point for the preferred version |
 | `wedding-mixed-v4-style.html` | Seven-profile alternative retained for comparison; not the default |
 | `script.js` / `styles.css` | Shared runtime and styling |
@@ -39,6 +39,7 @@ make serve
 - The preferred motion pool contains only 04 Softer direct hybrid, 05 Longer perspective exhale and 06 Hold then flatten, in mixed order, with no immediate repeat of a profile.
 - The approach begins 27–37 CSS px away from rest along any of eight compass directions, jittered by ±8°. Initial two directions are at least 127° apart after jitter.
 - Cards become fully opaque and stop with no corrective bounce, yaw reversal or transform jump on cleanup. Reduced-motion users see a static composition.
+- The limited profiles decelerate smoothly into contact, where opacity is already 1. Final flattening is only 0.04–0.05% scale and 0.08–0.10° tilt, without the former changes in easing or late scale growth.
 
 ## Development and checks
 
@@ -49,6 +50,18 @@ Static repository and image checks (Python standard library only):
 ```sh
 python3 scripts/verify_repo.py
 ```
+
+Motion-curve checks use Node.js when available, or the built-in JavaScriptCore
+engine on macOS. They run the browser suite's keyframe checks without extra
+Python dependencies:
+
+```sh
+python3 tests/test_motion_curves.py
+```
+
+These checks cover 432 direction/rotation/profile cases, smooth speed changes,
+monotonic scale and tilt, and the exact hold. They supplement the browser suite;
+they cannot verify rendered layout, image loading, or animation cleanup.
 
 Browser animation regression tests use Playwright for Python and Chromium:
 

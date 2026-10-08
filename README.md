@@ -9,8 +9,9 @@ the design decisions from the handoff.
 
 - Wedding: Jacob and Intan, Jakarta, July 3, 2027.
 - Confirmed direction: **v5 limited motion**, using only profiles 04, 05, and 06,
-  with the handoff's repaired settling behavior and short approaches from eight
-  directions. `index.html` already selects this version.
+  with short approaches from eight directions. The October 8 refinement smooths
+  the stop and reduces the final flattening to almost imperceptible motion.
+  `index.html` selects this version.
 - Plain HTML, CSS, and JavaScript; no build step. The 24 postcards have three
   web image tiers.
 - Navigation and section placeholders are present. Real event copy and RSVP
@@ -38,6 +39,26 @@ make serve
 ```
 
 Caddy is managed separately by the user.
+
+## Git history
+
+The workspace is tracked on `main`, including supplied original crops and the
+review symlinks. Git metadata lives in `.git-data/`, which is ignored. Local
+development artifacts and credentials are ignored; source artwork is tracked.
+
+The agent's sandbox cannot create the root `.git` pointer. To enable ordinary
+`git status`, `git diff`, and `git commit`, run this once from the workspace in
+your terminal (only while `.git` is absent):
+
+```sh
+printf 'gitdir: .git-data\n' > .git
+```
+
+Until that pointer exists, commands work with the explicit repository path:
+
+```sh
+git --git-dir=.git-data --work-tree=. status
+```
 
 ## Persistent tailnet endpoint
 
