@@ -1,0 +1,560 @@
+{
+  "display": {
+    "max_long_edge_css_px": 576,
+    "recommended_image_css": "max-width: min(100%, 576px); max-height: 576px; width:auto; height:auto"
+  },
+  "items": [
+    {
+      "file": "geometric_stained_glass_heart",
+      "name": "Geometric stained glass heart",
+      "unsent": false,
+      "full": {
+        "src": "images/geometric_stained_glass_heart.webp",
+        "width": 1200,
+        "height": 988,
+        "bytes": 142480
+      },
+      "thumbnail": {
+        "src": "thumbnails/geometric_stained_glass_heart.webp",
+        "width": 480,
+        "height": 395,
+        "bytes": 11776
+      },
+      "medium": {
+        "src": "medium/geometric_stained_glass_heart.webp",
+        "width": 960,
+        "height": 790,
+        "bytes": 99048
+      }
+    },
+    {
+      "file": "japanese_cherry_blossoms_landscape",
+      "name": "Japanese cherry blossoms landscape",
+      "unsent": false,
+      "full": {
+        "src": "images/japanese_cherry_blossoms_landscape.webp",
+        "width": 746,
+        "height": 1200,
+        "bytes": 199500
+      },
+      "thumbnail": {
+        "src": "thumbnails/japanese_cherry_blossoms_landscape.webp",
+        "width": 299,
+        "height": 480,
+        "bytes": 32464
+      },
+      "medium": {
+        "src": "medium/japanese_cherry_blossoms_landscape.webp",
+        "width": 597,
+        "height": 960,
+        "bytes": 140280
+      }
+    },
+    {
+      "file": "london_skyline_yellow",
+      "name": "London skyline yellow",
+      "unsent": false,
+      "full": {
+        "src": "images/london_skyline_yellow.webp",
+        "width": 1200,
+        "height": 962,
+        "bytes": 322818
+      },
+      "thumbnail": {
+        "src": "thumbnails/london_skyline_yellow.webp",
+        "width": 480,
+        "height": 385,
+        "bytes": 61002
+      },
+      "medium": {
+        "src": "medium/london_skyline_yellow.webp",
+        "width": 960,
+        "height": 770,
+        "bytes": 236428
+      }
+    },
+    {
+      "file": "love_sculpture_in_park",
+      "name": "Love sculpture in park",
+      "unsent": false,
+      "full": {
+        "src": "images/love_sculpture_in_park.webp",
+        "width": 1200,
+        "height": 863,
+        "bytes": 184776
+      },
+      "thumbnail": {
+        "src": "thumbnails/love_sculpture_in_park.webp",
+        "width": 480,
+        "height": 345,
+        "bytes": 33298
+      },
+      "medium": {
+        "src": "medium/love_sculpture_in_park.webp",
+        "width": 960,
+        "height": 690,
+        "bytes": 130148
+      }
+    },
+    {
+      "file": "monet_water_lilies_bridge",
+      "name": "Monet water lilies bridge",
+      "unsent": false,
+      "full": {
+        "src": "images/monet_water_lilies_bridge.webp",
+        "width": 886,
+        "height": 1200,
+        "bytes": 198492
+      },
+      "thumbnail": {
+        "src": "thumbnails/monet_water_lilies_bridge.webp",
+        "width": 354,
+        "height": 480,
+        "bytes": 27848
+      },
+      "medium": {
+        "src": "medium/monet_water_lilies_bridge.webp",
+        "width": 709,
+        "height": 960,
+        "bytes": 133064
+      }
+    },
+    {
+      "file": "person_at_desk_blue_room",
+      "name": "Person at desk blue room",
+      "unsent": false,
+      "full": {
+        "src": "images/person_at_desk_blue_room.webp",
+        "width": 892,
+        "height": 1200,
+        "bytes": 76160
+      },
+      "thumbnail": {
+        "src": "thumbnails/person_at_desk_blue_room.webp",
+        "width": 357,
+        "height": 480,
+        "bytes": 14752
+      },
+      "medium": {
+        "src": "medium/person_at_desk_blue_room.webp",
+        "width": 714,
+        "height": 960,
+        "bytes": 52218
+      }
+    },
+    {
+      "file": "pink_lip_print",
+      "name": "Pink lip print",
+      "unsent": false,
+      "full": {
+        "src": "images/pink_lip_print.webp",
+        "width": 1200,
+        "height": 859,
+        "bytes": 161108
+      },
+      "thumbnail": {
+        "src": "thumbnails/pink_lip_print.webp",
+        "width": 480,
+        "height": 343,
+        "bytes": 14684
+      },
+      "medium": {
+        "src": "medium/pink_lip_print.webp",
+        "width": 960,
+        "height": 687,
+        "bytes": 104264
+      }
+    },
+    {
+      "file": "pointillist_studio_three_figures",
+      "name": "Pointillist studio three figures",
+      "unsent": false,
+      "full": {
+        "src": "images/pointillist_studio_three_figures.webp",
+        "width": 1200,
+        "height": 869,
+        "bytes": 281164
+      },
+      "thumbnail": {
+        "src": "thumbnails/pointillist_studio_three_figures.webp",
+        "width": 480,
+        "height": 348,
+        "bytes": 20800
+      },
+      "medium": {
+        "src": "medium/pointillist_studio_three_figures.webp",
+        "width": 960,
+        "height": 695,
+        "bytes": 166892
+      }
+    },
+    {
+      "file": "portrait_colorful_striped_dress",
+      "name": "Portrait colorful striped dress",
+      "unsent": false,
+      "full": {
+        "src": "images/portrait_colorful_striped_dress.webp",
+        "width": 895,
+        "height": 1200,
+        "bytes": 61804
+      },
+      "thumbnail": {
+        "src": "thumbnails/portrait_colorful_striped_dress.webp",
+        "width": 358,
+        "height": 480,
+        "bytes": 10216
+      },
+      "medium": {
+        "src": "medium/portrait_colorful_striped_dress.webp",
+        "width": 716,
+        "height": 960,
+        "bytes": 34936
+      }
+    },
+    {
+      "file": "purple_abstract_graffiti",
+      "name": "Purple abstract graffiti",
+      "unsent": false,
+      "full": {
+        "src": "images/purple_abstract_graffiti.webp",
+        "width": 1200,
+        "height": 859,
+        "bytes": 131320
+      },
+      "thumbnail": {
+        "src": "thumbnails/purple_abstract_graffiti.webp",
+        "width": 480,
+        "height": 344,
+        "bytes": 26498
+      },
+      "medium": {
+        "src": "medium/purple_abstract_graffiti.webp",
+        "width": 960,
+        "height": 687,
+        "bytes": 90640
+      }
+    },
+    {
+      "file": "seated_white_sculpture",
+      "name": "Seated white sculpture",
+      "unsent": false,
+      "full": {
+        "src": "images/seated_white_sculpture.webp",
+        "width": 900,
+        "height": 1200,
+        "bytes": 52988
+      },
+      "thumbnail": {
+        "src": "thumbnails/seated_white_sculpture.webp",
+        "width": 360,
+        "height": 480,
+        "bytes": 7516
+      },
+      "medium": {
+        "src": "medium/seated_white_sculpture.webp",
+        "width": 720,
+        "height": 960,
+        "bytes": 33852
+      }
+    },
+    {
+      "file": "sleeping_cats_red_background",
+      "name": "Sleeping cats red background",
+      "unsent": false,
+      "full": {
+        "src": "images/sleeping_cats_red_background.webp",
+        "width": 1200,
+        "height": 840,
+        "bytes": 200846
+      },
+      "thumbnail": {
+        "src": "thumbnails/sleeping_cats_red_background.webp",
+        "width": 480,
+        "height": 336,
+        "bytes": 19290
+      },
+      "medium": {
+        "src": "medium/sleeping_cats_red_background.webp",
+        "width": 960,
+        "height": 672,
+        "bytes": 127262
+      }
+    },
+    {
+      "file": "smiling_man_mosaic_portrait",
+      "name": "Smiling man mosaic portrait",
+      "unsent": false,
+      "full": {
+        "src": "images/smiling_man_mosaic_portrait.webp",
+        "width": 856,
+        "height": 1200,
+        "bytes": 167666
+      },
+      "thumbnail": {
+        "src": "thumbnails/smiling_man_mosaic_portrait.webp",
+        "width": 342,
+        "height": 480,
+        "bytes": 31180
+      },
+      "medium": {
+        "src": "medium/smiling_man_mosaic_portrait.webp",
+        "width": 685,
+        "height": 960,
+        "bytes": 121148
+      }
+    },
+    {
+      "file": "soto_ayam_ambengan_food_illustration",
+      "name": "Soto ayam ambengan food illustration",
+      "unsent": false,
+      "full": {
+        "src": "images/soto_ayam_ambengan_food_illustration.webp",
+        "width": 1200,
+        "height": 847,
+        "bytes": 142340
+      },
+      "thumbnail": {
+        "src": "thumbnails/soto_ayam_ambengan_food_illustration.webp",
+        "width": 480,
+        "height": 339,
+        "bytes": 27342
+      },
+      "medium": {
+        "src": "medium/soto_ayam_ambengan_food_illustration.webp",
+        "width": 960,
+        "height": 678,
+        "bytes": 104364
+      }
+    },
+    {
+      "file": "street_parade_striped_costume",
+      "name": "Street parade striped costume",
+      "unsent": false,
+      "full": {
+        "src": "images/street_parade_striped_costume.webp",
+        "width": 710,
+        "height": 1200,
+        "bytes": 256010
+      },
+      "thumbnail": {
+        "src": "thumbnails/street_parade_striped_costume.webp",
+        "width": 284,
+        "height": 480,
+        "bytes": 33988
+      },
+      "medium": {
+        "src": "medium/street_parade_striped_costume.webp",
+        "width": 568,
+        "height": 960,
+        "bytes": 169836
+      }
+    },
+    {
+      "file": "unsent_acrobat_backbend_ink_wash",
+      "name": "Acrobat backbend ink wash",
+      "unsent": true,
+      "full": {
+        "src": "images/unsent_acrobat_backbend_ink_wash.webp",
+        "width": 1200,
+        "height": 903,
+        "bytes": 106626
+      },
+      "thumbnail": {
+        "src": "thumbnails/unsent_acrobat_backbend_ink_wash.webp",
+        "width": 480,
+        "height": 361,
+        "bytes": 20962
+      },
+      "medium": {
+        "src": "medium/unsent_acrobat_backbend_ink_wash.webp",
+        "width": 960,
+        "height": 722,
+        "bytes": 76784
+      }
+    },
+    {
+      "file": "unsent_bainbridge_island_orcas",
+      "name": "Bainbridge island orcas",
+      "unsent": true,
+      "full": {
+        "src": "images/unsent_bainbridge_island_orcas.webp",
+        "width": 845,
+        "height": 1200,
+        "bytes": 86782
+      },
+      "thumbnail": {
+        "src": "thumbnails/unsent_bainbridge_island_orcas.webp",
+        "width": 338,
+        "height": 480,
+        "bytes": 14748
+      },
+      "medium": {
+        "src": "medium/unsent_bainbridge_island_orcas.webp",
+        "width": 676,
+        "height": 960,
+        "bytes": 53868
+      }
+    },
+    {
+      "file": "unsent_colorful_concentric_circles",
+      "name": "Colorful concentric circles",
+      "unsent": true,
+      "full": {
+        "src": "images/unsent_colorful_concentric_circles.webp",
+        "width": 1200,
+        "height": 901,
+        "bytes": 179910
+      },
+      "thumbnail": {
+        "src": "thumbnails/unsent_colorful_concentric_circles.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 42768
+      },
+      "medium": {
+        "src": "medium/unsent_colorful_concentric_circles.webp",
+        "width": 960,
+        "height": 721,
+        "bytes": 131824
+      }
+    },
+    {
+      "file": "unsent_japanese_cherry_blossoms_landscape",
+      "name": "Japanese cherry blossoms landscape",
+      "unsent": true,
+      "full": {
+        "src": "images/unsent_japanese_cherry_blossoms_landscape.webp",
+        "width": 801,
+        "height": 1200,
+        "bytes": 209714
+      },
+      "thumbnail": {
+        "src": "thumbnails/unsent_japanese_cherry_blossoms_landscape.webp",
+        "width": 320,
+        "height": 480,
+        "bytes": 34292
+      },
+      "medium": {
+        "src": "medium/unsent_japanese_cherry_blossoms_landscape.webp",
+        "width": 641,
+        "height": 960,
+        "bytes": 147634
+      }
+    },
+    {
+      "file": "unsent_la_pecora_bianca_restaurant",
+      "name": "La pecora bianca restaurant",
+      "unsent": true,
+      "full": {
+        "src": "images/unsent_la_pecora_bianca_restaurant.webp",
+        "width": 880,
+        "height": 1200,
+        "bytes": 105298
+      },
+      "thumbnail": {
+        "src": "thumbnails/unsent_la_pecora_bianca_restaurant.webp",
+        "width": 352,
+        "height": 480,
+        "bytes": 24816
+      },
+      "medium": {
+        "src": "medium/unsent_la_pecora_bianca_restaurant.webp",
+        "width": 704,
+        "height": 960,
+        "bytes": 76838
+      }
+    },
+    {
+      "file": "unsent_moomins_darling_beloved",
+      "name": "Moomins darling beloved",
+      "unsent": true,
+      "full": {
+        "src": "images/unsent_moomins_darling_beloved.webp",
+        "width": 846,
+        "height": 1200,
+        "bytes": 135098
+      },
+      "thumbnail": {
+        "src": "thumbnails/unsent_moomins_darling_beloved.webp",
+        "width": 338,
+        "height": 480,
+        "bytes": 34546
+      },
+      "medium": {
+        "src": "medium/unsent_moomins_darling_beloved.webp",
+        "width": 677,
+        "height": 960,
+        "bytes": 103130
+      }
+    },
+    {
+      "file": "unsent_seattle_space_needle_monorail",
+      "name": "Seattle space needle monorail",
+      "unsent": true,
+      "full": {
+        "src": "images/unsent_seattle_space_needle_monorail.webp",
+        "width": 791,
+        "height": 1200,
+        "bytes": 136594
+      },
+      "thumbnail": {
+        "src": "thumbnails/unsent_seattle_space_needle_monorail.webp",
+        "width": 316,
+        "height": 480,
+        "bytes": 25544
+      },
+      "medium": {
+        "src": "medium/unsent_seattle_space_needle_monorail.webp",
+        "width": 633,
+        "height": 960,
+        "bytes": 96476
+      }
+    },
+    {
+      "file": "vintage_valentine_greetings",
+      "name": "Vintage valentine greetings",
+      "unsent": false,
+      "full": {
+        "src": "images/vintage_valentine_greetings.webp",
+        "width": 773,
+        "height": 1200,
+        "bytes": 79698
+      },
+      "thumbnail": {
+        "src": "thumbnails/vintage_valentine_greetings.webp",
+        "width": 309,
+        "height": 480,
+        "bytes": 14916
+      },
+      "medium": {
+        "src": "medium/vintage_valentine_greetings.webp",
+        "width": 618,
+        "height": 960,
+        "bytes": 54588
+      }
+    },
+    {
+      "file": "woman_and_baby_indoors",
+      "name": "Woman and baby indoors",
+      "unsent": false,
+      "full": {
+        "src": "images/woman_and_baby_indoors.webp",
+        "width": 1180,
+        "height": 1200,
+        "bytes": 237824
+      },
+      "thumbnail": {
+        "src": "thumbnails/woman_and_baby_indoors.webp",
+        "width": 472,
+        "height": 480,
+        "bytes": 45058
+      },
+      "medium": {
+        "src": "medium/woman_and_baby_indoors.webp",
+        "width": 944,
+        "height": 960,
+        "bytes": 169180
+      }
+    }
+  ]
+}

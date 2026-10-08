@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0d0d">
+  <meta name="description" content="A postcard landing animation comparison for Jacob and Intan's wedding website.">
+  <title>Postcard Motion Studies · Jacob &amp; Intan</title>
+  <link rel="preload" as="image" href="assets/love_sculpture_in_park.webp">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <div class="brand"><span class="mark" aria-hidden="true">J<span class="amp">&amp;</span>I</span><span class="brand-name">Jacob &amp; Intan <span class="brand-divider">/</span> Motion studies</span></div>
+      <div class="edition">WEDDING WEBSITE EXPERIMENT <span class="edition-id">01 — 17</span></div>
+    </header>
+
+    <main id="main">
+      <section class="intro" aria-labelledby="title">
+        <div class="overline">ANIMATION STUDY / 17 WAYS TO LAND A POSTCARD</div>
+        <h1 id="title">The art of <em>settling.</em></h1>
+        <p>The same postcard, the same resting place—seventeen variations on how it gets there. Use the arrows to compare; replay as often as you like.</p>
+      </section>
+
+      <section class="carousel" aria-roledescription="carousel" aria-label="Postcard landing animation options">
+        <div class="stage" id="stage" aria-label="Animation demonstration on a dark tabletop">
+          <div class="stage-top">
+            <div class="stage-label"><span class="signal" aria-hidden="true"></span> MOTION PREVIEW <span class="stage-separator">/</span> <span id="stage-status">READY</span></div>
+            <div class="stage-badge">MATTE BLACK TABLETOP</div>
+          </div>
+          <button class="stage-arrow prev-arrow" id="prev" aria-label="Previous animation" title="Previous animation (left arrow)"><span aria-hidden="true">‹</span></button>
+          <div class="card-mount" id="card-mount">
+            <figure class="sample-card" id="sample-card"><img id="card-image" src="assets/love_sculpture_in_park.webp" alt="Postcard: Love sculpture in park" width="1200" height="863" draggable="false"></figure>
+          </div>
+          <button class="stage-arrow next-arrow" id="next" aria-label="Next animation" title="Next animation (right arrow)"><span aria-hidden="true">›</span></button>
+          <div class="stage-foot"><span>TRANSFORM + OPACITY</span><span id="time-label">1.8 S / NORMAL</span></div>
+          <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+        </div>
+
+        <div class="toolbar">
+          <div class="toolbar-group">
+            <button class="control primary" id="replay" aria-label="Replay selected animation"><span aria-hidden="true">↻</span> Replay</button>
+            <button class="control" id="change-art">Different postcard <span aria-hidden="true">↗</span></button>
+            <span class="art-label" id="art-label">04 / 24</span>
+          </div>
+          <div class="toolbar-group toolbar-right">
+            <div class="speed-choices" role="group" aria-label="Playback speed">
+              <button class="speed" data-speed="0.5" aria-pressed="false">½×</button>
+              <button class="speed active" data-speed="1" aria-pressed="true">1×</button>
+              <button class="speed" data-speed="1.5" aria-pressed="false">1½×</button>
+            </div>
+            <button class="control autoplay" id="autoplay" aria-pressed="false">Auto-advance <span class="auto-indicator" aria-hidden="true"></span></button>
+          </div>
+        </div>
+
+        <nav class="strip-wrap" aria-label="Choose an animation">
+          <div class="strip" id="option-strip"></div>
+        </nav>
+
+        <article class="description" aria-live="polite" aria-atomic="true">
+          <div class="description-number" id="option-counter">01 / 17 <span>THE REFERENCE</span></div>
+          <h2 id="option-title">Current v3 · reference</h2>
+          <p class="summary" id="option-summary">The existing animation, with its final corrective movement, for comparison.</p>
+          <div class="description-grid">
+            <div class="description-cell"><h3>ON THE WAY DOWN</h3><p id="option-flight"></p></div>
+            <div class="description-cell"><h3>AT THE END</h3><p id="option-landing"></p></div>
+            <div class="description-cell"><h3>WHAT TO NOTICE</h3><p id="option-note"></p></div>
+          </div>
+        </article>
+      </section>
+      <footer><span>JACOB &amp; INTAN · JULY 3, 2027</span><span>← → change option &nbsp;·&nbsp; Space replay</span></footer>
+    </main>
+  </div>
+</body>
+</html>

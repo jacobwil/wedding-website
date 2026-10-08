@@ -1,0 +1,13 @@
+# Local development artifacts; do not ignore source art.
+.DS_Store
+Thumbs.db
+__pycache__/
+.pytest_cache/
+.playwright/
+node_modules/
+.venv/
+venv/
+*.pyc
+*.log
+coverage/
+dist/

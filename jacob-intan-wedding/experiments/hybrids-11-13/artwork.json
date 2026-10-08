@@ -1,0 +1,170 @@
+[
+  {
+    "id": "geometric_stained_glass_heart",
+    "label": "Geometric stained glass heart",
+    "src": "assets/geometric_stained_glass_heart.webp",
+    "w": 1200,
+    "h": 988
+  },
+  {
+    "id": "japanese_cherry_blossoms_landscape",
+    "label": "Japanese cherry blossoms landscape",
+    "src": "assets/japanese_cherry_blossoms_landscape.webp",
+    "w": 746,
+    "h": 1200
+  },
+  {
+    "id": "london_skyline_yellow",
+    "label": "London skyline yellow",
+    "src": "assets/london_skyline_yellow.webp",
+    "w": 1200,
+    "h": 962
+  },
+  {
+    "id": "love_sculpture_in_park",
+    "label": "Love sculpture in park",
+    "src": "assets/love_sculpture_in_park.webp",
+    "w": 1200,
+    "h": 863
+  },
+  {
+    "id": "monet_water_lilies_bridge",
+    "label": "Monet water lilies bridge",
+    "src": "assets/monet_water_lilies_bridge.webp",
+    "w": 886,
+    "h": 1200
+  },
+  {
+    "id": "person_at_desk_blue_room",
+    "label": "Person at desk blue room",
+    "src": "assets/person_at_desk_blue_room.webp",
+    "w": 892,
+    "h": 1200
+  },
+  {
+    "id": "pink_lip_print",
+    "label": "Pink lip print",
+    "src": "assets/pink_lip_print.webp",
+    "w": 1200,
+    "h": 859
+  },
+  {
+    "id": "pointillist_studio_three_figures",
+    "label": "Pointillist studio three figures",
+    "src": "assets/pointillist_studio_three_figures.webp",
+    "w": 1200,
+    "h": 869
+  },
+  {
+    "id": "portrait_colorful_striped_dress",
+    "label": "Portrait colorful striped dress",
+    "src": "assets/portrait_colorful_striped_dress.webp",
+    "w": 895,
+    "h": 1200
+  },
+  {
+    "id": "purple_abstract_graffiti",
+    "label": "Purple abstract graffiti",
+    "src": "assets/purple_abstract_graffiti.webp",
+    "w": 1200,
+    "h": 859
+  },
+  {
+    "id": "seated_white_sculpture",
+    "label": "Seated white sculpture",
+    "src": "assets/seated_white_sculpture.webp",
+    "w": 900,
+    "h": 1200
+  },
+  {
+    "id": "sleeping_cats_red_background",
+    "label": "Sleeping cats red background",
+    "src": "assets/sleeping_cats_red_background.webp",
+    "w": 1200,
+    "h": 840
+  },
+  {
+    "id": "smiling_man_mosaic_portrait",
+    "label": "Smiling man mosaic portrait",
+    "src": "assets/smiling_man_mosaic_portrait.webp",
+    "w": 856,
+    "h": 1200
+  },
+  {
+    "id": "soto_ayam_ambengan_food_illustration",
+    "label": "Soto ayam ambengan food illustration",
+    "src": "assets/soto_ayam_ambengan_food_illustration.webp",
+    "w": 1200,
+    "h": 847
+  },
+  {
+    "id": "street_parade_striped_costume",
+    "label": "Street parade striped costume",
+    "src": "assets/street_parade_striped_costume.webp",
+    "w": 710,
+    "h": 1200
+  },
+  {
+    "id": "unsent_acrobat_backbend_ink_wash",
+    "label": "Acrobat backbend ink wash",
+    "src": "assets/unsent_acrobat_backbend_ink_wash.webp",
+    "w": 1200,
+    "h": 903
+  },
+  {
+    "id": "unsent_bainbridge_island_orcas",
+    "label": "Bainbridge island orcas",
+    "src": "assets/unsent_bainbridge_island_orcas.webp",
+    "w": 845,
+    "h": 1200
+  },
+  {
+    "id": "unsent_colorful_concentric_circles",
+    "label": "Colorful concentric circles",
+    "src": "assets/unsent_colorful_concentric_circles.webp",
+    "w": 1200,
+    "h": 901
+  },
+  {
+    "id": "unsent_japanese_cherry_blossoms_landscape",
+    "label": "Japanese cherry blossoms landscape",
+    "src": "assets/unsent_japanese_cherry_blossoms_landscape.webp",
+    "w": 801,
+    "h": 1200
+  },
+  {
+    "id": "unsent_la_pecora_bianca_restaurant",
+    "label": "La pecora bianca restaurant",
+    "src": "assets/unsent_la_pecora_bianca_restaurant.webp",
+    "w": 880,
+    "h": 1200
+  },
+  {
+    "id": "unsent_moomins_darling_beloved",
+    "label": "Moomins darling beloved",
+    "src": "assets/unsent_moomins_darling_beloved.webp",
+    "w": 846,
+    "h": 1200
+  },
+  {
+    "id": "unsent_seattle_space_needle_monorail",
+    "label": "Seattle space needle monorail",
+    "src": "assets/unsent_seattle_space_needle_monorail.webp",
+    "w": 791,
+    "h": 1200
+  },
+  {
+    "id": "vintage_valentine_greetings",
+    "label": "Vintage valentine greetings",
+    "src": "assets/vintage_valentine_greetings.webp",
+    "w": 773,
+    "h": 1200
+  },
+  {
+    "id": "woman_and_baby_indoors",
+    "label": "Woman and baby indoors",
+    "src": "assets/woman_and_baby_indoors.webp",
+    "w": 1180,
+    "h": 1200
+  }
+]

@@ -1,0 +1,22 @@
+# Development artifacts; keep source artwork and live review links tracked.
+.DS_Store
+Thumbs.db
+__pycache__/
+.pytest_cache/
+.playwright/
+node_modules/
+.venv/
+venv/
+*.pyc
+*.log
+coverage/
+dist/
+.git-data/
+
+# Local settings and credentials.
+.agents/
+.codex/
+.aws/
+.env
+.env.*
+!.env.example
