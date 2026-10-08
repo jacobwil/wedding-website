@@ -170,15 +170,32 @@
   let viewport = {w: innerWidth, h: innerHeight};
   let lastDropScroll = 0;
   let serial = 0;
+  const coverageCells = new Map();
 
-  const offset = () => window.scrollY * PARALLAX;
+  const nativeParallax = window.CSS && CSS.supports('animation-timeline: scroll(root block)');
+  plane.classList.toggle('has-scroll-timeline', Boolean(nativeParallax));
+  const offset = () => reduced.matches ? 0 : window.scrollY * PARALLAX;
   const syncParallax = () => {
     scrollFrame = null;
-    plane.style.transform = `translate3d(0,${-offset().toFixed(2)}px,0)`;
+    if (nativeParallax) {
+      // Resolve the endpoint only when page/viewport dimensions change.
+      // The browser then tracks scrolling without a JS callback every frame.
+      const root = document.documentElement;
+      const end = `${-(Math.max(0, root.scrollHeight - root.clientHeight) * PARALLAX).toFixed(2)}px`;
+      if (plane.style.getPropertyValue('--parallax-end') !== end) plane.style.setProperty('--parallax-end', end);
+    } else {
+      plane.style.transform = `translate3d(0,${-offset().toFixed(2)}px,0)`;
+    }
   };
-  window.addEventListener('scroll', () => {
-    if (scrollFrame == null) scrollFrame = requestAnimationFrame(syncParallax);
-  }, {passive: true});
+  if (nativeParallax && 'ResizeObserver' in window) {
+    new ResizeObserver(() => {
+      if (scrollFrame == null) scrollFrame = requestAnimationFrame(syncParallax);
+    }).observe(document.body, {box:'border-box'});
+  } else if (!nativeParallax) {
+    window.addEventListener('scroll', () => {
+      if (!reduced.matches && !document.hidden && scrollFrame == null) scrollFrame = requestAnimationFrame(syncParallax);
+    }, {passive: true});
+  }
   syncParallax();
 
   function ensureDeck() {
@@ -221,15 +238,17 @@
     const edge = Math.max(art.width, art.height);
     return {w: longEdge * art.width / edge, h: longEdge * art.height / edge};
   }
-  function contains(card, x, screenY) {
-    if (card.retiring) return false;
-    const dx = x - card.x - card.w / 2;
-    const dy = screenY + offset() - card.y - card.h / 2;
-    const ca = Math.cos(card.angle), sa = Math.sin(card.angle);
-    return Math.abs(dx * ca + dy * sa) <= card.w / 2 &&
-           Math.abs(-dx * sa + dy * ca) <= card.h / 2;
+  function screenBounds(card, shift) {
+    return {cx:card.x + card.w / 2, cy:card.y + card.h / 2 - shift,
+      ca:Math.cos(card.angle), sa:Math.sin(card.angle), hw:card.w / 2, hh:card.h / 2};
+  }
+  function contains(bounds, x, screenY) {
+    const dx = x - bounds.cx, dy = screenY - bounds.cy;
+    return Math.abs(dx * bounds.ca + dy * bounds.sa) <= bounds.hw &&
+           Math.abs(-dx * bounds.sa + dy * bounds.ca) <= bounds.hh;
   }
   function cellsFor(side) {
+    if (coverageCells.has(side)) return coverageCells.get(side);
     const x0 = side === 'left' ? 0 : viewport.w * .62;
     const x1 = side === 'left' ? viewport.w * .38 : viewport.w;
     const points = [];
@@ -238,6 +257,7 @@
         points.push({x:x0 + (ix+.5)*(x1-x0)/16, y:(iy+.5)*viewport.h/20});
       }
     }
+    coverageCells.set(side, points);
     return points;
   }
   function chooseSide() {
@@ -246,8 +266,9 @@
   }
   function choosePosition(art, side, initial = false) {
     const {w,h} = sizeOf(art);
+    const shift = offset();
     const pts = cellsFor(side);
-    const visible = [...active.values()].filter(c => !c.retiring);
+    const visible = [...active.values()].filter(c => !c.retiring).map(c => screenBounds(c, shift));
     const filled = pts.map(p => visible.some(c => contains(c,p.x,p.y)));
     const coverage = filled.filter(Boolean).length / pts.length;
     const catchingUp = Math.abs(scrollY - lastDropScroll) > viewport.h * .25;
@@ -264,11 +285,12 @@
                  viewport.h * (side === 'left' ? .43 : .79) - h*.45)
         : random(minY, Math.max(minY+5,maxY));
       const angle = random(-7.5,7.5) * Math.PI / 180;
-      const candidate = {x,y:sy+offset(),w,h,angle,retiring:false};
+      const candidate = {x,y:sy+shift,w,h,angle,retiring:false};
+      const bounds = screenBounds(candidate, shift);
       let newly = 0, projected = 0, bottomNew = 0;
       for (let j = 0; j < pts.length; j++) {
         const p = pts[j];
-        if (!contains(candidate,p.x,p.y)) continue;
+        if (!contains(bounds,p.x,p.y)) continue;
         projected++;
         if (!filled[j]) { newly++; if (p.y > viewport.h*.63) bottomNew++; }
       }
@@ -286,22 +308,25 @@
     if (active.get(card.art.id) === card) active.delete(card.art.id);
   }
   function completelyCovered(card) {
-    const above = [...active.values()].filter(c => c.serial > card.serial && !c.retiring);
+    const shift = offset();
+    const above = [...active.values()].filter(c => c.serial > card.serial && !c.retiring)
+      .map(c => screenBounds(c, shift));
     if (!above.length) return false;
+    const bounds = screenBounds(card, shift);
     for (let iy = 0; iy < 9; iy++) for (let ix = 0; ix < 9; ix++) {
       const lx = (ix+.5)/9*card.w - card.w/2;
       const ly = (iy+.5)/9*card.h - card.h/2;
-      const x = card.x + card.w/2 + lx*Math.cos(card.angle) - ly*Math.sin(card.angle);
-      const worldY = card.y + card.h/2 + lx*Math.sin(card.angle) + ly*Math.cos(card.angle);
-      const p = {x,y:worldY-offset()};
-      if (!above.some(c => contains(c,p.x,p.y))) return false;
+      const x = bounds.cx + lx*bounds.ca - ly*bounds.sa;
+      const y = bounds.cy + lx*bounds.sa + ly*bounds.ca;
+      if (!above.some(c => contains(c,x,y))) return false;
     }
     return true;
   }
   function pruneHidden() {
+    const shift = offset();
     for (const card of [...active.values()]) {
       if (card.retiring || card.isAnimating) continue;
-      const screenY = card.y - offset();
+      const screenY = card.y - shift;
       if (completelyCovered(card) || screenY + card.h < -viewport.h*.9 || screenY > viewport.h*1.9) {
         remove(card);
       }
@@ -450,20 +475,30 @@
       card.node.style.opacity = '1';
       card.node.style.transform = pose({z: card.angle * 180 / Math.PI});
     }
+    syncParallax();
     if (!reduced.matches) schedule(2400);
   });
   let resizeFrame;
   window.addEventListener('resize', () => {
     cancelAnimationFrame(resizeFrame);
     resizeFrame = requestAnimationFrame(() => {
-      const before=viewport;viewport={w:innerWidth,h:innerHeight};
+      const next = {w:innerWidth,h:innerHeight};
+      // Mobile browser chrome/keyboard changes height during scrolling. Keep
+      // the decorative composition stable; reflow it on a real width change.
+      if (next.w === viewport.w && (next.h === viewport.h || next.w <= 650)) {
+        syncParallax();
+        return;
+      }
+      const before=viewport;viewport=next;
+      coverageCells.clear();
+      const shift = offset();
       for (const c of active.values()) {
-        const screenY = c.y - offset();
+        const screenY = c.y - shift;
         const side=c.node.dataset.side;
         const leftMargin=side==='left' ? c.x : before.w-c.x-c.w;
         const dims=sizeOf(c.art);
         c.x=side==='left' ? leftMargin*viewport.w/before.w : viewport.w-dims.w-leftMargin*viewport.w/before.w;
-        c.y=screenY*viewport.h/before.h+offset();
+        c.y=screenY*viewport.h/before.h+shift;
         c.w=dims.w;c.h=dims.h;
         c.node.style.left=`${c.x}px`;c.node.style.top=`${c.y}px`;
         c.node.style.width=`${c.w}px`;c.node.style.height=`${c.h}px`;

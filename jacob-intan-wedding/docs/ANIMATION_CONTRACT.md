@@ -28,12 +28,22 @@ The October 8 review rejected visible phase changes and an emphasized final air-
 - Before WAAPI cancellation, write the final `transform`/`opacity` inline. The computed matrix must match before and after teardown within browser precision.
 - A fully obscured postcard may be removed. A still-visible card should smoothly fade out before reuse; don't allow existing inline opacity to block `.is-retiring`.
 - For reduced motion, no falling/fading loop is shown; the cards are statically arranged.
+- Parallax remains exactly 18% of page scrolling in normal mode, with a native
+  root scroll timeline where supported and a frame-batched JavaScript fallback.
+  Reduced-motion mode also disables parallax. Mobile toolbar height changes
+  must not reshape the card composition; orientation/width changes still do.
 
 ## Regression testing
 
 `python3 tests/test_motion_curves.py` runs the same numerical curve assertions using Node.js or macOS JavaScriptCore, without Playwright dependencies. This provides repeatable curve verification when browser execution is unavailable, but does not replace rendered regression checks.
 
 `python3 tests/test_motion_browser.py` samples keyframes and actual rendered DOM matrices with several positive/negative resting angles and all compass entry sectors, tests the initial pair direction separation, verifies no transform snap on cleanup, and checks page load/reduced motion. It also bounds approach speed changes and requires the final release to move the bounds of a large desktop postcard by less than half a CSS pixel. Run after **any** change to `pose()`, `K()`, profile builders, profile selection, entry vector generation, retirement CSS or resize/parallax behavior. Static checks: `python3 scripts/verify_repo.py`.
+
+`python3 tests/test_performance_browser.py` additionally checks real image
+loading, native and fallback parallax, fully static reduced motion, stable
+mobile height-only resizing, orientation and page-height changes, and retirement.
+`python3 tests/test_placement_geometry.py` compares cached coverage calculations
+with the original rotated-rectangle equation across 40,000 samples.
 
 ## Rejected behaviors
 

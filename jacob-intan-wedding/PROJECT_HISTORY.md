@@ -103,6 +103,26 @@ This document preserves the evolution of the wedding website and, especially, **
 58. The runtime shuffles each collection independently and chooses the arrival category by the configured share. It caches lookahead so retirement and the subsequent drop agree, and avoids immediate repeats on collection reshuffles. The same quiet v5 animations, sizing, placement, recycling, parallax, and reduced-motion support apply to photos. Asset checks cover the ten selected web derivatives and 19 unchanged archival images; seeded deck checks cover ratios, independent shuffle cycles, approved IDs, and lookahead stability.
 59. The user additionally requires the first three arrivals on every page load to be postcards, followed by one photo, while the identities of all four remain random. This opening sequence takes precedence over the photo-share setting; the configured ratio applies only to subsequent random arrivals. Repeated lookahead must not advance the opening counter. Tests cover this sequence under multiple shares and 40 different page-load seeds.
 
+## Mobile performance audit — October 8, 2026
+
+60. The user reported occasional mobile scroll lag and requested inspection and
+    applied improvements. Placement/retirement calculations now cache rotated
+    screen-space geometry and scroll offsets, preserving the scoring and
+    coverage math. Supporting browsers use native scroll timelines at the
+    existing 18% ratio; the passive frame-batched fallback remains. Height-only
+    mobile toolbar resizes no longer reshape all cards. Mobile blur radii were
+    reduced while retaining translucent panels. Reduced motion now also
+    disables parallax. These are implementation choices for the requested
+    optimization, not new user-approved motion profiles.
+61. Paired 6× CPU-throttled mobile Chromium measurements with 22 cards reduced
+    placement median from 28.0ms to 0.8ms and p95 from 32.1ms to 3.2ms; native
+    tabletop scroll style writes fell from 118 to zero over 120 frames.
+    Real-asset browser tests cover native/fallback/reduced paths, resizing,
+    page-height changes, retirement and navigation. Existing motion tests pass
+    at mobile, laptop and larger desktop sizes; 40,000 coverage samples match
+    the original equation. Physical-phone/Safari performance is not measured.
+    See `docs/PERFORMANCE.md` for the method, evidence and reproduction steps.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

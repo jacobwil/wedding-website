@@ -34,7 +34,7 @@ make serve
 - Subsequent background cards arrive on a randomized interval, with independently shuffled collections of 24 postcards and five approved photos.
 - The side selection prefers alternation (~80%), and placement favors uncovered space until around 70% coverage before accepting more overlap.
 - Postcards retire/recycle as appropriate, avoiding two visible instances of the same design.
-- The backdrop follows scrolling at a fraction of the foreground scroll movement (currently 18%).
+- The backdrop follows scrolling at 18% of the foreground movement, using a native scroll timeline where supported and a passive, frame-batched fallback elsewhere. Reduced-motion compositions remain static while scrolling.
 - Desktop postcards reach approximately 432 CSS px on a ~1280 px wide laptop viewport and top out around 576 CSS px on wider desktops. Smaller screen rules apply on phones.
 - The preferred motion pool contains only 04 Softer direct hybrid, 05 Longer perspective exhale and 06 Hold then flatten, in mixed order, with no immediate repeat of a profile.
 - The approach begins 27–37 CSS px away from rest along any of eight compass directions, jittered by ±8°. Initial two directions are at least 127° apart after jitter.
@@ -63,6 +63,7 @@ Static repository and image checks (Python standard library only):
 ```sh
 python3 scripts/verify_repo.py
 python3 tests/test_background_deck.py
+python3 tests/test_placement_geometry.py
 ```
 
 Motion-curve checks use Node.js when available, or the built-in JavaScriptCore
@@ -83,9 +84,16 @@ Browser animation regression tests use Playwright for Python and Chromium:
 python3 -m pip install -r requirements-dev.txt
 python3 -m playwright install chromium
 python3 tests/test_motion_browser.py
+python3 tests/test_performance_browser.py
 ```
 
 If Chromium is installed by the operating system and Playwright-managed Chromium is unavailable, set `CHROMIUM_PATH=/path/to/chromium` before the test. The test covers the limited and mixed entry points, desktop/mobile/reduced-motion, sampled keyframe paths, initial direction separation and cleanup continuity. It does not replace manual visual review on the target laptop.
+
+The performance browser test loads the actual public review assets through
+Playwright routing, without a preview server. It checks native/fallback/reduced
+parallax, mobile toolbar and orientation resizes, image loading, retirement, and
+live reduced-motion changes, and prints a seeded benchmark with 6× CPU throttling.
+See [`docs/PERFORMANCE.md`](docs/PERFORMANCE.md) for measurements and limits.
 
 To import the true original archive once it is supplied (copies bytes; never resizes or recompresses):
 

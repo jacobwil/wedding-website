@@ -16,7 +16,7 @@
 4. Construct a positioned `<figure>` with an `<img srcset>` from the available tiers (postcards: 480/960/1200; photos: 480/1200 longest-side families). Preserve the image's full aspect ratio. Lazy-by-creation means absent cards are not requested up front.
 5. Generate per-card keyframes from a selected profile with a final rotation specific to that card. For limited mode, add an independent approach vector from eight compass directions. Apply WAAPI; commit final inline pose/opacity then cancel animation.
 6. Periodically remove fully obscured or far-offscreen cards. If the next card's art ID is still visible, begin fading the existing copy one drop interval earlier.
-7. The fixed background plane translates at `scrollY * 0.18` to provide parallax behind independently scrolling content. Position candidates are based on the visible window.
+7. The fixed background plane translates at `scrollY * 0.18` to provide parallax behind independently scrolling content. Supported browsers use a CSS root scroll timeline with an endpoint updated on body/viewport size changes; other browsers retain a passive, frame-batched scroll handler. Reduced-motion mode has no parallax. Position candidates are based on the visible window.
 
 ## Fragility and known tradeoffs
 
@@ -24,7 +24,7 @@
 - **WAAPI cleanup:** Commit exactly the computed final pose before cancellation; do not alter the transform during cleanup. The last interpolation and the at-rest CSS must agree.
 - **Retirement opacity:** CSS retirement transition needs to win over a previously set inline opacity. Keep the tested workaround.
 - **Randomness:** Failing cases can be difficult to reproduce unless an agent introduces seeded RNG in tests or injects explicit approach vectors. Use deterministic sampled tests in addition to manual randomized viewing.
-- **Performance:** Candidate scoring and full-coverage checks are CPU-side; monitor lower-powered phones. The current 24-card pool and low per-drop frequency are modest but not a proven bound for every device. Avoid unnecessary perpetual requestAnimationFrame loops.
+- **Performance:** Candidate scoring caches each rectangle's trigonometry and screen-space center per operation, reads the scroll offset once, and reuses coverage cells until viewport geometry changes. Mobile height-only resizes from browser chrome/keyboard do not reposition or resize every card; width changes still reflow the composition. Mobile panels retain blur with smaller radii. See `PERFORMANCE.md` for the paired browser measurements and remaining device verification.
 - **Source artwork:** Large WebP derivatives were produced from earlier full-res cropped JPEGs, but source JPEGs are missing from this handoff. The WebP `images/` directory is *not* archival source.
 - **Content readiness:** Placeholder sections are navigable but incomplete, and no real RSVP backend exists. Treat this as a design prototype, not a completed publicly launchable wedding site.
 
@@ -34,4 +34,9 @@ Improve content authoring and semantics, add real event details, consider a well
 
 ## Test environment note
 
-The handoff was checked via Playwright `page.set_content` with scripts and CSS injected, because this execution environment's Chromium policy blocks direct `file://` navigation (`ERR_BLOCKED_BY_ADMINISTRATOR`). Repository integrity, motion and computed-transform continuity tests pass; the next coding agent should additionally run a normal local static-server visual smoke test to verify actual asset loading and final styling.
+The motion suite uses Playwright `page.set_content` with scripts/CSS injected.
+The performance suite additionally loads the complete public review tree with
+real image bytes via Playwright routing. Both pass in local headless Chromium,
+including mobile and desktop motion/cleanup checks. `CHROMIUM_PATH` can point
+to an existing cached browser if its version differs from Playwright's default.
+Headless mobile emulation is not a physical-device GPU or Safari performance test.
