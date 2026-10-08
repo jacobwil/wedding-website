@@ -1,0 +1,251 @@
+{
+  "archive": "Wedding_Photos_18_Archival_and_Web.zip",
+  "size_bytes": 24809847,
+  "sha256": "e47e9cc7f23e4210be5e59ecb37defe4c44de3413e8fd17b41c1910929356f61",
+  "selected_ids": [
+    2,
+    6,
+    9,
+    13,
+    18
+  ],
+  "photos": [
+    {
+      "photo_id": 2,
+      "runtime": {
+        "id": "photo-02",
+        "photoId": 2,
+        "kind": "photo",
+        "thumb": "photos/thumbnails/02_alfi_color_photo_sheet.webp",
+        "tw": 332,
+        "full": "photos/display/02_alfi_color_photo_sheet.webp",
+        "fw": 830,
+        "width": 830,
+        "height": 1200
+      },
+      "thumbnail": {
+        "path": "photos/thumbnails/02_alfi_color_photo_sheet.webp",
+        "width": 332,
+        "height": 480,
+        "size_bytes": 23530,
+        "sha256": "97d4b119961c6d228a863f9e48be1d43920bfa7b94ba781aa31b39d270e9cb1a"
+      },
+      "display": {
+        "path": "photos/display/02_alfi_color_photo_sheet.webp",
+        "width": 830,
+        "height": 1200,
+        "size_bytes": 79294,
+        "sha256": "410cfe7a894cf10d3fb14850161dfb9ca7b90abd4c76a52edcd39a2761d79f60"
+      }
+    },
+    {
+      "photo_id": 6,
+      "runtime": {
+        "id": "photo-06",
+        "photoId": 6,
+        "kind": "photo",
+        "thumb": "photos/thumbnails/06_win_the_day_kiss.webp",
+        "tw": 163,
+        "full": "photos/display/06_win_the_day_kiss.webp",
+        "fw": 408,
+        "width": 408,
+        "height": 1200
+      },
+      "thumbnail": {
+        "path": "photos/thumbnails/06_win_the_day_kiss.webp",
+        "width": 163,
+        "height": 480,
+        "size_bytes": 13832,
+        "sha256": "2e46bacea52748cb909ac93323ccac8528b8e94f151431a0ea8185b1ea5a9b57"
+      },
+      "display": {
+        "path": "photos/display/06_win_the_day_kiss.webp",
+        "width": 408,
+        "height": 1200,
+        "size_bytes": 54414,
+        "sha256": "e00e5d916f35eb76e122425690f570c975f1d28913305135b1475368a33cc614"
+      }
+    },
+    {
+      "photo_id": 9,
+      "runtime": {
+        "id": "photo-09",
+        "photoId": 9,
+        "kind": "photo",
+        "thumb": "photos/thumbnails/09_second_hand_photo_sheet.webp",
+        "tw": 384,
+        "full": "photos/display/09_second_hand_photo_sheet.webp",
+        "fw": 960,
+        "width": 960,
+        "height": 1200
+      },
+      "thumbnail": {
+        "path": "photos/thumbnails/09_second_hand_photo_sheet.webp",
+        "width": 384,
+        "height": 480,
+        "size_bytes": 20982,
+        "sha256": "6b98cc31b6fb99342c148647d46f313b0094a3f678306be14a7fec38b3fb8de7"
+      },
+      "display": {
+        "path": "photos/display/09_second_hand_photo_sheet.webp",
+        "width": 960,
+        "height": 1200,
+        "size_bytes": 68072,
+        "sha256": "08ebb71b0c4cf1ae906d9105074d98634c7f505a56817f65af93468e8a745b7c"
+      }
+    },
+    {
+      "photo_id": 13,
+      "runtime": {
+        "id": "photo-13",
+        "photoId": 13,
+        "kind": "photo",
+        "thumb": "photos/thumbnails/13_hannah_spencer_closeup_playful.webp",
+        "tw": 480,
+        "full": "photos/display/13_hannah_spencer_closeup_playful.webp",
+        "fw": 1200,
+        "width": 1200,
+        "height": 796
+      },
+      "thumbnail": {
+        "path": "photos/thumbnails/13_hannah_spencer_closeup_playful.webp",
+        "width": 480,
+        "height": 318,
+        "size_bytes": 19206,
+        "sha256": "13e78cd4971c81e0e76804606a4725b4fb0b061185f8f772aa64b7b62251d969"
+      },
+      "display": {
+        "path": "photos/display/13_hannah_spencer_closeup_playful.webp",
+        "width": 1200,
+        "height": 796,
+        "size_bytes": 84052,
+        "sha256": "a8a3afeb067a8f5cbafb0d17f3578c58989686335dc3d2548fcedb2304e8c78a"
+      }
+    },
+    {
+      "photo_id": 18,
+      "runtime": {
+        "id": "photo-18",
+        "photoId": 18,
+        "kind": "photo",
+        "thumb": "photos/thumbnails/18_hannah_spencer_photo_strip_three.webp",
+        "tw": 173,
+        "full": "photos/display/18_hannah_spencer_photo_strip_three.webp",
+        "fw": 434,
+        "width": 434,
+        "height": 1200
+      },
+      "thumbnail": {
+        "path": "photos/thumbnails/18_hannah_spencer_photo_strip_three.webp",
+        "width": 173,
+        "height": 480,
+        "size_bytes": 9264,
+        "sha256": "bb2ecb0b542d0298bdf7fa76d8746f26fd3e7eb532485e5cb90208a55b362b39"
+      },
+      "display": {
+        "path": "photos/display/18_hannah_spencer_photo_strip_three.webp",
+        "width": 434,
+        "height": 1200,
+        "size_bytes": 34468,
+        "sha256": "4039c00c26f0ef53c9152d67a6e1f8fc9a24d0f33bddb7d6ef543be16c9ac726"
+      }
+    }
+  ],
+  "originals": [
+    {
+      "path": "originals/photos/masters/01_framed_couple_portrait.jpg",
+      "size_bytes": 7794951,
+      "sha256": "f594b6b8f9b659d482059fa299d3b1477587cb357085d89223600c43df806959"
+    },
+    {
+      "path": "originals/photos/masters/02_alfi_color_photo_sheet.jpg",
+      "size_bytes": 1008666,
+      "sha256": "eba77f1a4865e9fb88b9235cc3ebd074b386cc6acea1d2688719fee3ab87d357"
+    },
+    {
+      "path": "originals/photos/masters/03_alfi_black_white_strip.jpg",
+      "size_bytes": 629200,
+      "sha256": "8043e935427251f7e49ec4ad13b4796e2afacdd40fd4b10ec0cdceeb84ab8d72"
+    },
+    {
+      "path": "originals/photos/masters/04_win_the_day_pointing.jpg",
+      "size_bytes": 216529,
+      "sha256": "5335026296c227f5dfb6e54bf8ec14c78f4469dae79a60e40cd859edd1353dd8"
+    },
+    {
+      "path": "originals/photos/masters/05_win_the_day_laughing.jpg",
+      "size_bytes": 639233,
+      "sha256": "32997a317a7ea12c9a2508b123d675950be90b174ff0e445260e0904395bae6a"
+    },
+    {
+      "path": "originals/photos/masters/06_win_the_day_kiss.jpg",
+      "size_bytes": 701958,
+      "sha256": "0bd64f2b0a58478a6128650957f7334e4302a7663d98a8d6695d998f14adfe5f"
+    },
+    {
+      "path": "originals/photos/masters/07_darmoh_rays_color.jpg",
+      "size_bytes": 484469,
+      "sha256": "a6d8f33febc4052191b606daaf164288accd7e8f3c8e5987cf2c17dc0812a11b"
+    },
+    {
+      "path": "originals/photos/masters/08_darmoh_rays_black_white.jpg",
+      "size_bytes": 532222,
+      "sha256": "c6c0ddbf2015ee104889c1365b92e8b9fa5fc024de85e878b7c0be356eb629a3"
+    },
+    {
+      "path": "originals/photos/masters/09_second_hand_photo_sheet.jpg",
+      "size_bytes": 204628,
+      "sha256": "b432a9e492f74227664200d3c399d6a8da3ee645af856c939e5cad096f3aa8e1"
+    },
+    {
+      "path": "originals/photos/masters/10_win_the_day_celebration.jpg",
+      "size_bytes": 668579,
+      "sha256": "8a8542c3f15322363fd51913cc7d6b0c82895467da6620c6a9e745d95cc4d59f"
+    },
+    {
+      "path": "originals/photos/masters/11_wedding_photo_booth_variant.jpg",
+      "size_bytes": 1583063,
+      "sha256": "baf414464135f0b8a1e61af97d6b7d1e183ed4ce9a07fe01d549d8d1898e1bd0"
+    },
+    {
+      "path": "originals/photos/masters/12_wedding_photo_booth_digital.jpg",
+      "size_bytes": 268454,
+      "sha256": "c38abd63a24b149c094e6ec70e232c94968c035a41113c369b7ca507c34196eb"
+    },
+    {
+      "path": "originals/photos/masters/13_hannah_spencer_closeup_playful.jpg",
+      "size_bytes": 728525,
+      "sha256": "8658cebf5e94dfc233f31c81f46adcd96febc40a45d999b7f08788826d68da47"
+    },
+    {
+      "path": "originals/photos/masters/14_hannah_spencer_closeup_laughing.jpg",
+      "size_bytes": 693079,
+      "sha256": "460588ee5472ab37491e4ed4328bba028b7c09f644d61572fc6d3ad49a2d37eb"
+    },
+    {
+      "path": "originals/photos/masters/15_hannah_spencer_closeup_smiling.jpg",
+      "size_bytes": 438833,
+      "sha256": "7a549b600660048534796cbc003404c2cbf5963eca910bce588f26712d97c665"
+    },
+    {
+      "path": "originals/photos/masters/16_hannah_spencer_photo_strip_one.jpg",
+      "size_bytes": 335857,
+      "sha256": "bce4439ef8554e1eaa60ea3a2fb0cab584ab75d3d002f4836813f0e622ac5d3f"
+    },
+    {
+      "path": "originals/photos/masters/17_hannah_spencer_photo_strip_two.jpg",
+      "size_bytes": 437708,
+      "sha256": "ba1532e23965900460f0dddb6216a23c8309ce4dabb90b7f6b85794d1049ee03"
+    },
+    {
+      "path": "originals/photos/masters/18_hannah_spencer_photo_strip_three.jpg",
+      "size_bytes": 496021,
+      "sha256": "218b06b5a5a56db9487ef4075761c9ccfb5edac8a9e2665e25c8f493fbb23a3e"
+    },
+    {
+      "path": "originals/photos/sources/2026-10-08_original_full_scan_600dpi.jpg",
+      "size_bytes": 2243739,
+      "sha256": "de48d77acbf123cb785fb5c5c50d7ea7d4474cb62052162cb38f0497a8043bf3"
+    }
+  ]
+}

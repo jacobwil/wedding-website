@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "filename": "01_framed_couple_portrait.jpg",
+    "master": "masters/01_framed_couple_portrait.jpg",
+    "width": 4610,
+    "height": 6840,
+    "display": "web/display/01_framed_couple_portrait.webp",
+    "thumbnail": "web/thumbnails/01_framed_couple_portrait.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 2,
+    "filename": "02_alfi_color_photo_sheet.jpg",
+    "master": "masters/02_alfi_color_photo_sheet.jpg",
+    "width": 2400,
+    "height": 3470,
+    "display": "web/display/02_alfi_color_photo_sheet.webp",
+    "thumbnail": "web/thumbnails/02_alfi_color_photo_sheet.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 3,
+    "filename": "03_alfi_black_white_strip.jpg",
+    "master": "masters/03_alfi_black_white_strip.jpg",
+    "width": 990,
+    "height": 4850,
+    "display": "web/display/03_alfi_black_white_strip.webp",
+    "thumbnail": "web/thumbnails/03_alfi_black_white_strip.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 4,
+    "filename": "04_win_the_day_pointing.jpg",
+    "master": "masters/04_win_the_day_pointing.jpg",
+    "width": 620,
+    "height": 1844,
+    "display": "web/display/04_win_the_day_pointing.webp",
+    "thumbnail": "web/thumbnails/04_win_the_day_pointing.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 5,
+    "filename": "05_win_the_day_laughing.jpg",
+    "master": "masters/05_win_the_day_laughing.jpg",
+    "width": 1255,
+    "height": 3590,
+    "display": "web/display/05_win_the_day_laughing.webp",
+    "thumbnail": "web/thumbnails/05_win_the_day_laughing.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 6,
+    "filename": "06_win_the_day_kiss.jpg",
+    "master": "masters/06_win_the_day_kiss.jpg",
+    "width": 1230,
+    "height": 3620,
+    "display": "web/display/06_win_the_day_kiss.webp",
+    "thumbnail": "web/thumbnails/06_win_the_day_kiss.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 7,
+    "filename": "07_darmoh_rays_color.jpg",
+    "master": "masters/07_darmoh_rays_color.jpg",
+    "width": 1210,
+    "height": 3685,
+    "display": "web/display/07_darmoh_rays_color.webp",
+    "thumbnail": "web/thumbnails/07_darmoh_rays_color.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 8,
+    "filename": "08_darmoh_rays_black_white.jpg",
+    "master": "masters/08_darmoh_rays_black_white.jpg",
+    "width": 1200,
+    "height": 3690,
+    "display": "web/display/08_darmoh_rays_black_white.webp",
+    "thumbnail": "web/thumbnails/08_darmoh_rays_black_white.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 9,
+    "filename": "09_second_hand_photo_sheet.jpg",
+    "master": "masters/09_second_hand_photo_sheet.jpg",
+    "width": 1080,
+    "height": 1350,
+    "display": "web/display/09_second_hand_photo_sheet.webp",
+    "thumbnail": "web/thumbnails/09_second_hand_photo_sheet.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 10,
+    "filename": "10_win_the_day_celebration.jpg",
+    "master": "masters/10_win_the_day_celebration.jpg",
+    "width": 1255,
+    "height": 3650,
+    "display": "web/display/10_win_the_day_celebration.webp",
+    "thumbnail": "web/thumbnails/10_win_the_day_celebration.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 11,
+    "filename": "11_wedding_photo_booth_variant.jpg",
+    "master": "masters/11_wedding_photo_booth_variant.jpg",
+    "width": 4010,
+    "height": 2990,
+    "display": "web/display/11_wedding_photo_booth_variant.webp",
+    "thumbnail": "web/thumbnails/11_wedding_photo_booth_variant.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 12,
+    "filename": "12_wedding_photo_booth_digital.jpg",
+    "master": "masters/12_wedding_photo_booth_digital.jpg",
+    "width": 1800,
+    "height": 1200,
+    "display": "web/display/12_wedding_photo_booth_digital.webp",
+    "thumbnail": "web/thumbnails/12_wedding_photo_booth_digital.webp",
+    "source": "prior cleaned wedding-photo collection"
+  },
+  {
+    "id": 13,
+    "filename": "13_hannah_spencer_closeup_playful.jpg",
+    "master": "masters/13_hannah_spencer_closeup_playful.jpg",
+    "width": 3620,
+    "height": 2400,
+    "display": "web/display/13_hannah_spencer_closeup_playful.webp",
+    "thumbnail": "web/thumbnails/13_hannah_spencer_closeup_playful.webp",
+    "source": "2026-10-08 600-DPI scan"
+  },
+  {
+    "id": 14,
+    "filename": "14_hannah_spencer_closeup_laughing.jpg",
+    "master": "masters/14_hannah_spencer_closeup_laughing.jpg",
+    "width": 3620,
+    "height": 2495,
+    "display": "web/display/14_hannah_spencer_closeup_laughing.webp",
+    "thumbnail": "web/thumbnails/14_hannah_spencer_closeup_laughing.webp",
+    "source": "2026-10-08 600-DPI scan"
+  },
+  {
+    "id": 15,
+    "filename": "15_hannah_spencer_closeup_smiling.jpg",
+    "master": "masters/15_hannah_spencer_closeup_smiling.jpg",
+    "width": 3620,
+    "height": 2430,
+    "display": "web/display/15_hannah_spencer_closeup_smiling.webp",
+    "thumbnail": "web/thumbnails/15_hannah_spencer_closeup_smiling.webp",
+    "source": "2026-10-08 600-DPI scan"
+  },
+  {
+    "id": 16,
+    "filename": "16_hannah_spencer_photo_strip_one.jpg",
+    "master": "masters/16_hannah_spencer_photo_strip_one.jpg",
+    "width": 1360,
+    "height": 3640,
+    "display": "web/display/16_hannah_spencer_photo_strip_one.webp",
+    "thumbnail": "web/thumbnails/16_hannah_spencer_photo_strip_one.webp",
+    "source": "2026-10-08 600-DPI scan"
+  },
+  {
+    "id": 17,
+    "filename": "17_hannah_spencer_photo_strip_two.jpg",
+    "master": "masters/17_hannah_spencer_photo_strip_two.jpg",
+    "width": 1440,
+    "height": 3640,
+    "display": "web/display/17_hannah_spencer_photo_strip_two.webp",
+    "thumbnail": "web/thumbnails/17_hannah_spencer_photo_strip_two.webp",
+    "source": "2026-10-08 600-DPI scan"
+  },
+  {
+    "id": 18,
+    "filename": "18_hannah_spencer_photo_strip_three.jpg",
+    "master": "masters/18_hannah_spencer_photo_strip_three.jpg",
+    "width": 1330,
+    "height": 3680,
+    "display": "web/display/18_hannah_spencer_photo_strip_three.webp",
+    "thumbnail": "web/thumbnails/18_hannah_spencer_photo_strip_three.webp",
+    "source": "2026-10-08 600-DPI scan"
+  }
+]

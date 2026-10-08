@@ -14,6 +14,9 @@ the design decisions from the handoff.
   `index.html` selects this version.
 - Plain HTML, CSS, and JavaScript; no build step. The 24 postcards have three
   web image tiers.
+- Selected photo IDs 2, 6, 9, 13, and 18 have a separate photo library. Adjust
+  `photoShare` in `jacob-intan-wedding/background-config.js` (initially 0.20)
+  for arrivals after the opening three random postcards and one random photo.
 - Navigation and section placeholders are present. Real event copy and RSVP
   submission remain unfinished.
 

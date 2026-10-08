@@ -5,3 +5,6 @@
 *.tif binary
 *.tiff binary
 *.zip binary
+# Keep archived source bytes intact, including their original line endings.
+originals/** -text
+originals/photos/quality_report.csv whitespace=cr-at-eol

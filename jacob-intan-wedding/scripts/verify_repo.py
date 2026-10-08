@@ -17,9 +17,11 @@ class PageLinks(HTMLParser):
         self.names = []
         self.record = False
         self.motion_set = None
+        self.scripts = []
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         if tag == 'html': self.motion_set = a.get('data-motion-set')
+        if tag == 'script' and a.get('src'): self.scripts.append(a['src'])
         if a.get('id'): self.ids.add(a['id'])
         if tag == 'a' and 'nav-link' in a.get('class', '').split():
             self.hrefs.append(a.get('href'))
@@ -36,7 +38,7 @@ def verify():
     def check(value, message):
         if not value: failures.append(message)
 
-    required = ['index.html','wedding-limited-v5-style.html','wedding-mixed-v4-style.html','script.js', 'styles.css', 'AGENTS.md','PROJECT_HISTORY.md','manifest.json','docs/asset-inventory.json']
+    required = ['index.html','wedding-limited-v5-style.html','wedding-mixed-v4-style.html','script.js', 'styles.css', 'AGENTS.md','PROJECT_HISTORY.md','manifest.json','docs/asset-inventory.json', 'background-config.js', 'photos/catalog.js', 'docs/photo-inventory.json']
     for name in required: check((ROOT/name).is_file(), f'Missing: {name}')
     if (ROOT/'index.html').exists() and (ROOT/'wedding-limited-v5-style.html').exists():
         check((ROOT/'index.html').read_bytes() == (ROOT/'wedding-limited-v5-style.html').read_bytes(), 'Default must match limited reference page')
@@ -46,6 +48,7 @@ def verify():
         check(p.motion_set == mode, f'{html}: wrong motion set')
         check([x.strip() for x in p.names] == EXPECTED_TABS, f'{html}: navigation labels/order incorrect: {p.names}')
         check(len(p.hrefs)==8 and all(h and h[0]=='#' and h[1:] in p.ids for h in p.hrefs), f'{html}: missing section anchor')
+        check(p.scripts == ['background-config.js', 'photos/catalog.js', 'script.js'], f'{html}: background configuration/catalog must load before runtime')
         for asset in ['styles.css', 'script.js']:
             check(asset in (ROOT/html).read_text(encoding='utf-8'), f'{html}: missing {asset} reference')
     manifest = json.loads((ROOT/'manifest.json').read_text())
@@ -61,6 +64,29 @@ def verify():
                 data=f.read_bytes()
                 check(hashlib.sha256(data).hexdigest() == entry['sha256'], f'Checksum mismatch: {entry["path"]}')
                 check(len(data) == entry['size_bytes'], f'Size mismatch: {entry["path"]}')
+    photo_inventory = json.loads((ROOT/'docs/photo-inventory.json').read_text())
+    catalog_text = (ROOT/'photos/catalog.js').read_text()
+    photo_catalog = json.loads(catalog_text.split('window.WEDDING_PHOTOS = ', 1)[1].strip().removesuffix(';'))
+    check(photo_inventory['selected_ids'] == [2, 6, 9, 13, 18], 'Only photos 2, 6, 9, 13, 18 are approved')
+    check(photo_catalog == [p['runtime'] for p in photo_inventory['photos']], 'Photo runtime catalog differs from asset inventory')
+    check([p['photoId'] for p in photo_catalog] == photo_inventory['selected_ids'], 'Photo catalog selection differs')
+    public_photos = set()
+    for item in photo_inventory['photos']:
+        for key in ('thumbnail', 'display'):
+            entry = item[key]
+            public_photos.add(entry['path'])
+            file = ROOT/entry['path']
+            check(file.is_file(), f'Missing photo: {file}')
+            if file.is_file():
+                data = file.read_bytes()
+                check(len(data) == entry['size_bytes'] and hashlib.sha256(data).hexdigest() == entry['sha256'], f'Photo derivative changed: {file}')
+    actual_photos = {p.relative_to(ROOT).as_posix() for p in (ROOT/'photos').rglob('*.webp')}
+    check(actual_photos == public_photos, 'Unexpected/unapproved photos in the public photo folder')
+    for entry in photo_inventory['originals']:
+        file = ROOT/entry['path']
+        check(file.is_file(), f'Missing photo original: {file}')
+        if file.is_file():
+            check(hashlib.sha256(file.read_bytes()).hexdigest() == entry['sha256'], f'Photo original modified: {file}')
     check((ROOT/'experiments'/'original-17-options'/'index.html').is_file(), 'Missing 17-option motion lab')
     check((ROOT/'experiments'/'hybrids-11-13'/'index.html').is_file(), 'Missing hybrid motion lab')
     check((ROOT/'originals'/'README.md').is_file(), 'Missing originals provenance instructions')
@@ -69,6 +95,7 @@ def verify():
         sys.exit(1)
     print('PASS: three HTML entries, correct preferred/default mode, all eight links,')
     print('      24 distinct designs, 72 fingerprint-verified WebP derivatives,')
+    print('      five approved photos, ten verified web derivatives, 19 preserved originals,')
     print('      both historic labs, docs and original-source placeholders.')
 
 if __name__=='__main__': verify()

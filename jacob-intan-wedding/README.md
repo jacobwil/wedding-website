@@ -31,7 +31,7 @@ make serve
 ## Current behavior
 
 - Two postcards are present on load, one per side, with deliberately different approach directions.
-- Subsequent postcards arrive on a randomized interval, shuffled through all 24 designs.
+- Subsequent background cards arrive on a randomized interval, with independently shuffled collections of 24 postcards and five approved photos.
 - The side selection prefers alternation (~80%), and placement favors uncovered space until around 70% coverage before accepting more overlap.
 - Postcards retire/recycle as appropriate, avoiding two visible instances of the same design.
 - The backdrop follows scrolling at a fraction of the foreground scroll movement (currently 18%).
@@ -41,6 +41,19 @@ make serve
 - Cards become fully opaque and stop with no corrective bounce, yaw reversal or transform jump on cleanup. Reduced-motion users see a static composition.
 - The limited profiles decelerate smoothly into contact, where opacity is already 1. Final flattening is only 0.04–0.05% scale and 0.08–0.10° tilt, without the former changes in easing or late scale growth.
 
+## Photos and background mix
+
+Photos **2, 6, 9, 13, and 18** from the uploaded photo archive are included.
+Their public WebP files are stored separately in `photos/`; archival masters
+and the source scan are preserved in `originals/photos/` outside the review root.
+
+Change `photoShare` in [`background-config.js`](background-config.js) to adjust
+the ratio after the opening sequence. Every load starts with three randomly
+chosen postcards followed by one randomly chosen photo. The starting value
+is `0.20`: approximately one photo per five later arrivals. The mix is
+independent of each collection's size. See
+[`docs/PHOTO_LIBRARY.md`](docs/PHOTO_LIBRARY.md) for imports and preservation.
+
 ## Development and checks
 
 The project intentionally remains plain HTML/CSS/JavaScript, using the Web Animations API (WAAPI). This allows direct local preview and straightforward deployment to any static web host. The other sections currently have **editable placeholder copy** and RSVP does **not** submit data.
@@ -49,6 +62,7 @@ Static repository and image checks (Python standard library only):
 
 ```sh
 python3 scripts/verify_repo.py
+python3 tests/test_background_deck.py
 ```
 
 Motion-curve checks use Node.js when available, or the built-in JavaScriptCore

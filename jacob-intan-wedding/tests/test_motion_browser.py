@@ -6,6 +6,8 @@ from playwright.sync_api import sync_playwright
 BASE = Path(__file__).resolve().parents[1]
 SCRIPT = (BASE/'script.js').read_text()
 STYLE = (BASE/'styles.css').read_text()
+BACKGROUND_CONFIG = (BASE/'background-config.js').read_text()
+PHOTO_CATALOG = (BASE/'photos/catalog.js').read_text()
 assert all((BASE/n).exists() for n in ['index.html','wedding-limited-v5-style.html','wedding-mixed-v4-style.html'])
 JS = r'''async () => {
   const {profiles, chooseEntryVector, circularSeparation} = window.__motionDebug;
@@ -118,8 +120,11 @@ with sync_playwright() as p:
         page.on('pageerror',lambda e:errors.append(str(e)))
         html=(BASE/f'wedding-{mode}-v{5 if mode=="limited" else 4}-style.html').read_text()
         html=html.replace('<link rel="stylesheet" href="styles.css">','').replace('<script defer src="script.js"></script>','')
+        html=html.replace('<script defer src="background-config.js"></script>','').replace('<script defer src="photos/catalog.js"></script>','')
         page.set_content(html)
         page.add_style_tag(content=STYLE)
+        page.add_script_tag(content=BACKGROUND_CONFIG)
+        page.add_script_tag(content=PHOTO_CATALOG)
         injected=SCRIPT.replace('  let deck = shuffle(ART);','  window.__motionDebug={profiles:SELECTED_MOTION_PROFILES,chooseEntryVector,circularSeparation};\n  let deck = shuffle(ART);')
         page.add_script_tag(content=injected)
         page.wait_for_timeout(1400 if not reduced else 100)

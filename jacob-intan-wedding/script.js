@@ -1,8 +1,12 @@
-/* Postcards on a virtual table. Mixed landing motions based on selected hybrid studies.
+/* Postcards and selected photos on a virtual table. Gentle hybrid landing motions.
    No dependencies; works from file:// as well as a web host. */
 (() => {
   const plane = document.getElementById('postcard-plane');
   const ART = [{"id":"geometric_stained_glass_heart","thumb":"thumbnails/geometric_stained_glass_heart.webp","tw":480,"mid":"medium/geometric_stained_glass_heart.webp","mw":960,"full":"images/geometric_stained_glass_heart.webp","fw":1200,"width":1200,"height":988},{"id":"japanese_cherry_blossoms_landscape","thumb":"thumbnails/japanese_cherry_blossoms_landscape.webp","tw":299,"mid":"medium/japanese_cherry_blossoms_landscape.webp","mw":597,"full":"images/japanese_cherry_blossoms_landscape.webp","fw":746,"width":746,"height":1200},{"id":"london_skyline_yellow","thumb":"thumbnails/london_skyline_yellow.webp","tw":480,"mid":"medium/london_skyline_yellow.webp","mw":960,"full":"images/london_skyline_yellow.webp","fw":1200,"width":1200,"height":962},{"id":"love_sculpture_in_park","thumb":"thumbnails/love_sculpture_in_park.webp","tw":480,"mid":"medium/love_sculpture_in_park.webp","mw":960,"full":"images/love_sculpture_in_park.webp","fw":1200,"width":1200,"height":863},{"id":"monet_water_lilies_bridge","thumb":"thumbnails/monet_water_lilies_bridge.webp","tw":354,"mid":"medium/monet_water_lilies_bridge.webp","mw":709,"full":"images/monet_water_lilies_bridge.webp","fw":886,"width":886,"height":1200},{"id":"person_at_desk_blue_room","thumb":"thumbnails/person_at_desk_blue_room.webp","tw":357,"mid":"medium/person_at_desk_blue_room.webp","mw":714,"full":"images/person_at_desk_blue_room.webp","fw":892,"width":892,"height":1200},{"id":"pink_lip_print","thumb":"thumbnails/pink_lip_print.webp","tw":480,"mid":"medium/pink_lip_print.webp","mw":960,"full":"images/pink_lip_print.webp","fw":1200,"width":1200,"height":859},{"id":"pointillist_studio_three_figures","thumb":"thumbnails/pointillist_studio_three_figures.webp","tw":480,"mid":"medium/pointillist_studio_three_figures.webp","mw":960,"full":"images/pointillist_studio_three_figures.webp","fw":1200,"width":1200,"height":869},{"id":"portrait_colorful_striped_dress","thumb":"thumbnails/portrait_colorful_striped_dress.webp","tw":358,"mid":"medium/portrait_colorful_striped_dress.webp","mw":716,"full":"images/portrait_colorful_striped_dress.webp","fw":895,"width":895,"height":1200},{"id":"purple_abstract_graffiti","thumb":"thumbnails/purple_abstract_graffiti.webp","tw":480,"mid":"medium/purple_abstract_graffiti.webp","mw":960,"full":"images/purple_abstract_graffiti.webp","fw":1200,"width":1200,"height":859},{"id":"seated_white_sculpture","thumb":"thumbnails/seated_white_sculpture.webp","tw":360,"mid":"medium/seated_white_sculpture.webp","mw":720,"full":"images/seated_white_sculpture.webp","fw":900,"width":900,"height":1200},{"id":"sleeping_cats_red_background","thumb":"thumbnails/sleeping_cats_red_background.webp","tw":480,"mid":"medium/sleeping_cats_red_background.webp","mw":960,"full":"images/sleeping_cats_red_background.webp","fw":1200,"width":1200,"height":840},{"id":"smiling_man_mosaic_portrait","thumb":"thumbnails/smiling_man_mosaic_portrait.webp","tw":342,"mid":"medium/smiling_man_mosaic_portrait.webp","mw":685,"full":"images/smiling_man_mosaic_portrait.webp","fw":856,"width":856,"height":1200},{"id":"soto_ayam_ambengan_food_illustration","thumb":"thumbnails/soto_ayam_ambengan_food_illustration.webp","tw":480,"mid":"medium/soto_ayam_ambengan_food_illustration.webp","mw":960,"full":"images/soto_ayam_ambengan_food_illustration.webp","fw":1200,"width":1200,"height":847},{"id":"street_parade_striped_costume","thumb":"thumbnails/street_parade_striped_costume.webp","tw":284,"mid":"medium/street_parade_striped_costume.webp","mw":568,"full":"images/street_parade_striped_costume.webp","fw":710,"width":710,"height":1200},{"id":"unsent_acrobat_backbend_ink_wash","thumb":"thumbnails/unsent_acrobat_backbend_ink_wash.webp","tw":480,"mid":"medium/unsent_acrobat_backbend_ink_wash.webp","mw":960,"full":"images/unsent_acrobat_backbend_ink_wash.webp","fw":1200,"width":1200,"height":903},{"id":"unsent_bainbridge_island_orcas","thumb":"thumbnails/unsent_bainbridge_island_orcas.webp","tw":338,"mid":"medium/unsent_bainbridge_island_orcas.webp","mw":676,"full":"images/unsent_bainbridge_island_orcas.webp","fw":845,"width":845,"height":1200},{"id":"unsent_colorful_concentric_circles","thumb":"thumbnails/unsent_colorful_concentric_circles.webp","tw":480,"mid":"medium/unsent_colorful_concentric_circles.webp","mw":960,"full":"images/unsent_colorful_concentric_circles.webp","fw":1200,"width":1200,"height":901},{"id":"unsent_japanese_cherry_blossoms_landscape","thumb":"thumbnails/unsent_japanese_cherry_blossoms_landscape.webp","tw":320,"mid":"medium/unsent_japanese_cherry_blossoms_landscape.webp","mw":641,"full":"images/unsent_japanese_cherry_blossoms_landscape.webp","fw":801,"width":801,"height":1200},{"id":"unsent_la_pecora_bianca_restaurant","thumb":"thumbnails/unsent_la_pecora_bianca_restaurant.webp","tw":352,"mid":"medium/unsent_la_pecora_bianca_restaurant.webp","mw":704,"full":"images/unsent_la_pecora_bianca_restaurant.webp","fw":880,"width":880,"height":1200},{"id":"unsent_moomins_darling_beloved","thumb":"thumbnails/unsent_moomins_darling_beloved.webp","tw":338,"mid":"medium/unsent_moomins_darling_beloved.webp","mw":677,"full":"images/unsent_moomins_darling_beloved.webp","fw":846,"width":846,"height":1200},{"id":"unsent_seattle_space_needle_monorail","thumb":"thumbnails/unsent_seattle_space_needle_monorail.webp","tw":316,"mid":"medium/unsent_seattle_space_needle_monorail.webp","mw":633,"full":"images/unsent_seattle_space_needle_monorail.webp","fw":791,"width":791,"height":1200},{"id":"vintage_valentine_greetings","thumb":"thumbnails/vintage_valentine_greetings.webp","tw":309,"mid":"medium/vintage_valentine_greetings.webp","mw":618,"full":"images/vintage_valentine_greetings.webp","fw":773,"width":773,"height":1200},{"id":"woman_and_baby_indoors","thumb":"thumbnails/woman_and_baby_indoors.webp","tw":472,"mid":"medium/woman_and_baby_indoors.webp","mw":944,"full":"images/woman_and_baby_indoors.webp","fw":1180,"width":1180,"height":1200}];
+  const PHOTOS = window.WEDDING_PHOTOS || [];
+  const requestedPhotoShare = Number((window.WEDDING_BACKGROUND || {}).photoShare ?? .20);
+  const PHOTO_SHARE = PHOTOS.length && Number.isFinite(requestedPhotoShare)
+    ? Math.max(0, Math.min(1, requestedPhotoShare)) : 0;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const PARALLAX = 0.18;
   const COVERAGE_TARGET = 0.70;
@@ -141,6 +145,10 @@
 
   let deck = shuffle(ART);
   let nextIndex = 0;
+  let photoDeck = shuffle(PHOTOS);
+  let photoIndex = 0;
+  let pendingArt = null;
+  let arrivalCount = 0;
   let active = new Map();
   let lastSide = 'right';
   let lastProfileId = null;
@@ -174,15 +182,30 @@
   syncParallax();
 
   function ensureDeck() {
-    if (nextIndex === deck.length) {
-      const previous = deck[deck.length - 1];
-      deck = shuffle(ART);
-      if (deck[0] === previous) [deck[0], deck[1]] = [deck[1], deck[0]];
-      nextIndex = 0;
+    // Cache the next arrival so retirement previews and the actual drop agree.
+    if (pendingArt) return;
+    const usePhoto = PHOTOS.length > 0 && (arrivalCount < 4
+      ? arrivalCount === 3
+      : PHOTO_SHARE > 0 && (PHOTO_SHARE === 1 || Math.random() < PHOTO_SHARE));
+    let pool = usePhoto ? photoDeck : deck;
+    let index = usePhoto ? photoIndex : nextIndex;
+    if (index === pool.length) {
+      const previous = pool[pool.length - 1];
+      pool = shuffle(usePhoto ? PHOTOS : ART);
+      if (pool.length > 1 && pool[0].id === previous.id) [pool[0], pool[1]] = [pool[1], pool[0]];
+      index = 0;
+    }
+    pendingArt = pool[index++];
+    if (usePhoto) {
+      photoDeck = pool;
+      photoIndex = index;
+    } else {
+      deck = pool;
+      nextIndex = index;
     }
   }
-  function nextArt() { ensureDeck(); return deck[nextIndex++]; }
-  function peekArt() { ensureDeck(); return deck[nextIndex]; }
+  function nextArt() { ensureDeck(); const art = pendingArt; pendingArt = null; arrivalCount++; return art; }
+  function peekArt() { ensureDeck(); return pendingArt; }
 
   function chooseMotionProfile() {
     const pool = lastProfileId ? SELECTED_MOTION_PROFILES.filter(p => p.id !== lastProfileId) : SELECTED_MOTION_PROFILES;
@@ -368,6 +391,7 @@
     const node = document.createElement('figure');
     node.className = 'postcard';
     node.dataset.card = art.id;
+    node.dataset.kind = art.kind || 'postcard';
     node.dataset.side = side;
     node.style.left = `${geometry.x}px`;
     node.style.top = `${geometry.y}px`;
@@ -380,7 +404,8 @@
     img.width = art.width;
     img.height = art.height;
     img.sizes = `${Math.ceil(geometry.w)}px`;
-    img.srcset = `${art.thumb} ${art.tw}w, ${art.mid} ${art.mw}w, ${art.full} ${art.fw}w`;
+    img.srcset = [[art.thumb, art.tw], [art.mid, art.mw], [art.full, art.fw]]
+      .filter(([src]) => src).map(([src, width]) => `${src} ${width}w`).join(', ');
     img.src = art.thumb;
     node.append(img);
     plane.append(node);

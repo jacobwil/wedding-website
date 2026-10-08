@@ -23,6 +23,7 @@ You are working on a real wedding website, not an abstract animation demo. Read 
 - `script.js`: random deck, card placement/coverage, WAAPI motion profiles, retirement, parallax, responsive layout, navigation state.
 - `styles.css`: layout, hero, cards and readability.
 - `images/`, `medium/`, `thumbnails/`: **web derivatives**, not archival originals.
+- `photos/`: separate public photo catalog and derivatives. Only photo IDs **2, 6, 9, 13, 18** are approved. Every load must begin with three random postcards followed by one random photo. `background-config.js` sets `photoShare` for subsequent arrivals (initially 0.20); photos and postcards must shuffle independently, with stable lookahead for recycling. Keep original masters in `originals/photos/` outside the review root. See `docs/PHOTO_LIBRARY.md`.
 - `manifest.json`, `docs/asset-inventory.json`: art IDs/dimensions and image inventory.
 - `experiments/`: complete standalone historic animation carousels, for comparison; not production code.
 - `originals/`: source-media destination. See `originals/README.md` BEFORE importing or modifying photos.

@@ -23,6 +23,13 @@ Use `python3 scripts/import_originals.py path/to/input.zip --kind scans` (or `--
 
 ## Publishing and privacy
 
+The separately supplied `Wedding_Photos_18_Archival_and_Web.zip` adds a photo
+library. All 18 provided photo masters and the original scan are preserved
+byte-for-byte in `originals/photos/`. Only photo IDs 2, 6, 9, 13, and 18 have
+public web derivatives in `photos/`, copied without re-encoding. This archive
+does not supply the missing original postcard scans. See `PHOTO_LIBRARY.md`
+and `photo-inventory.json` for the photo import and checksums.
+
 These are personal postcards exchanged over a relationship. Some original scans may show writing, names, postal addresses or identifying marks; inspect before making originals publicly accessible. The website should serve **only the web derivatives**, not files from `originals/`. Keep source media out of a publicly served directory when deploying; a repository root used as static document root would expose `originals/` if filled and left within that root. Use a deploy allowlist or move archival files to private storage before launch.
 
 User-provided images may include copyright-bearing postcard artwork; the repo should remain private by default unless sharing rights are confirmed.
