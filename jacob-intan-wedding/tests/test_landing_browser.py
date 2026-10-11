@@ -38,6 +38,7 @@ with sync_playwright() as p:
         page.evaluate('document.fonts.ready')
         travel = page.evaluate('window.weddingLanding.travel')
         assert abs(travel-3*h) < 1
+        assert page.evaluate('window.weddingLanding.nativeWords') is True
         assert page.locator('.postcard').count() == 8
         assert page.locator('.postcard[data-kind="photo"]').count() >= 1
         assert page.locator('.postcard').evaluate_all('els => new Set(els.map(e=>e.dataset.card)).size') == 8
@@ -54,6 +55,10 @@ with sync_playwright() as p:
         assert not page.evaluate('document.documentElement.scrollWidth>innerWidth')
         prefix = page.locator('.landing-prefix').bounding_box()
         page.screenshot(path=str(ARTIFACTS / f'closer-{w}.png'))
+        for progress in [.25,.5,.75,1.25,1.5,1.75,2.25,2.5,2.75]:
+            move(page,progress*h);page.clock.run_for(50)
+            for word in range(4):
+                assert abs(matrix(page,f'.landing-word:nth-child({word+1})')-(word-progress)*h)<1
         for index in range(4):
             move(page,index*h)
             page.clock.run_for(50)
@@ -137,6 +142,18 @@ with sync_playwright() as p:
     assert page.evaluate('window.weddingLanding.travel')==0
     assert page.evaluate('scrollY')==0
     context.close()
+    # Older browsers retain identical word travel via a frame-batched fallback.
+    context=browser.new_context(viewport={'width':390,'height':844})
+    context.add_init_script("const supports=CSS.supports.bind(CSS);CSS.supports=(...args)=>args[0]==='animation-timeline: scroll(root block)'?false:supports(...args)")
+    page=context.new_page();page.goto(URL+'?intro=replay',wait_until='networkidle')
+    assert page.evaluate('window.weddingLanding.nativeWords') is False
+    for progress in [0,.5,1,1.5,2,2.5,3]:
+        move(page,progress*844)
+        for word in range(4):
+            assert abs(matrix(page,f'.landing-word:nth-child({word+1})')-(word-progress)*844)<1
+        assert abs(matrix(page,'.postcard-plane'))<.1
+    context.close()
+    results.append('native and forced fallback match at intermediate scroll positions')
     # Expiration reenables the intro; reduced-motion bypasses it and stays still.
     for reduced in [False,True]:
         context=browser.new_context(viewport={'width':390,'height':844},reduced_motion='reduce' if reduced else 'no-preference')

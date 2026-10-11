@@ -83,7 +83,8 @@ Headless mobile emulation is not a physical-device GPU or Safari performance tes
 
 ## Intan landing runtime
 
-The first runtime closure configures the sticky scroll hero and exposes only its
+The first runtime closure configures native CSS word scroll timelines (with a
+frame-batched fallback) and the sticky scroll hero and exposes only its
 travel distance and initial pile options to the background closure. Its three-day
 cookie skips extended scroll on return visits; the idle loop uses cancellable
 30-second/three-second timers and pauses outside the visible hero or reduced
@@ -95,3 +96,12 @@ The mobile menu uses ordinary navigation links, a button with `aria-expanded`,
 and `inert` for the closed list. Dropdown height is chosen in half-row increments
 when it must scroll. Great Vibes is loaded from an explicitly allowlisted local
 WOFF2 with an included OFL license. See `LANDING_MOCKUP.md` for review links.
+
+
+October 11 phone optimization: cards commit equivalent 2D resting rotations,
+while arrivals retain the original 3D keyframes. Mobile backgrounds choose
+existing image derivatives within a two-device-pixel budget and fade old settled
+cards to maintain 16 non-retiring items (temporary arrivals/fades may exceed it).
+Mobile glass is dark translucent fill without backdrop blur; a painted dimming
+overlay replaces the per-card filter. Original media and foreground story image
+choices are untouched. See `PERFORMANCE.md` for measured scope and limits.

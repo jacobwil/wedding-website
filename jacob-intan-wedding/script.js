@@ -27,28 +27,39 @@
   }
   let long = (!recent || review.get('intro') === 'replay') && !introMotion.matches && (!location.hash || location.hash === '#home');
   const state = window.weddingLanding = { fullWidth:true, travel:0, openingCount:review.get('pile') === 'airy' ? 6 : 8, openingLayout:review.get('pile') === 'loose' ? 'loose' : 'balanced' };
-  let height = innerHeight, frame = null, idleTimer = null, cycleTimer = null, fadingTimer = null;
+  const nativeWords = CSS.supports('animation-timeline: scroll(root block)') && CSS.supports('animation-range: 0px 1px');
+  let height = innerHeight, heroTop = 0, viewportWidth = innerWidth, frame = null, idleTimer = null, cycleTimer = null, fadingTimer = null;
+  let lastActivity = performance.now();
   let complete = !long, index = long ? 0 : 3, cycling = false, lastProgress = null;
   // Non-sliding expiry: a return visit doesn't extend the three-day window.
   if (!recent && !introMotion.matches) {
     try { document.cookie = `${cookieName}=1; Max-Age=259200; Path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`; } catch (_) {}
   }
-  function configure() {
+  function configure(measuredHeight) {
     hero.classList.toggle('is-long-intro', long);
-    height = hero.querySelector('.landing-stage').getBoundingClientRect().height;
+    height = measuredHeight ?? hero.querySelector('.landing-stage').getBoundingClientRect().height;
+    heroTop = hero.offsetTop;
     state.travel = long ? height * 3 : 0;
+    state.nativeWords = nativeWords && long;
+    hero.classList.toggle('has-native-words', state.nativeWords);
+    hero.style.setProperty('--intro-height', `${height}px`);
+    hero.style.setProperty('--intro-travel', `${state.travel}px`);
     document.dispatchEvent(new Event('wedding:landing-layout'));
   }
   function showScroll() {
-    const progress = long ? Math.min(3, Math.max(0, (scrollY - hero.offsetTop) / height)) : 3;
+    const progress = long ? Math.min(3, Math.max(0, (scrollY - heroTop) / height)) : 3;
     if (lastProgress === progress) return;
     lastProgress = progress;
-    index = Math.round(progress);
-    for (let i=0; i<words.length; i++) {
-      words[i].style.transform = `translate3d(0,${(i-progress)*height}px,0) skewX(-7deg)`;
-      words[i].style.opacity = '1';
+    const nextIndex = Math.round(progress);
+    if (!state.nativeWords) {
+      for (let i=0; i<words.length; i++) {
+        words[i].style.transform = `translate3d(0,${(i-progress)*height}px,0) skewX(-7deg)`;
+      }
     }
-    dots.forEach((dot,i) => dot.classList.toggle('is-current', i === index));
+    if (nextIndex !== index || !dots[nextIndex].classList.contains('is-current')) {
+      dots.forEach((dot,i) => dot.classList.toggle('is-current', i === nextIndex));
+    }
+    index = nextIndex;
     const finished = progress >= 2.995;
     const nextLabel = finished ? 'The details' : 'A little closer';
     if (label.textContent !== nextLabel) label.textContent = nextLabel;
@@ -56,13 +67,13 @@
     if (!finished) complete = false;
   }
   function visible() {
-    const rect = hero.getBoundingClientRect();
-    return !document.hidden && rect.top <= 0 && rect.bottom >= height * .8;
+    return !document.hidden && scrollY >= heroTop && scrollY <= heroTop + state.travel + height * .2;
   }
   function stopCycle() {
     clearTimeout(cycleTimer); clearTimeout(fadingTimer);
     cycleTimer = fadingTimer = null; cycling = false;
     hero.classList.remove('is-cycling');
+    words.forEach(word => { word.style.removeProperty('opacity'); word.style.removeProperty('transform'); });
     lastProgress = null;
   }
   function cycle() {
@@ -81,25 +92,42 @@
     cycleTimer = setTimeout(cycle, 3000);
   }
   function armIdle() {
-    clearTimeout(idleTimer);
-    if (!complete || introMotion.matches || !visible()) return;
+    if (!complete || introMotion.matches || !visible()) { clearTimeout(idleTimer); idleTimer=null; return; }
+    if (idleTimer != null || cycling) return;
+    const remaining = Math.max(0, 30000 - (performance.now() - lastActivity));
     idleTimer = setTimeout(() => {
+      idleTimer=null;
+      if (performance.now() - lastActivity < 30000) { armIdle(); return; }
       if (!complete || !visible() || introMotion.matches) return;
+      words.forEach((word,i) => { word.style.transform = `translate3d(0,${i === index ? 0 : height}px,0) skewX(-7deg)`; word.style.opacity = i === index ? '1' : '0'; });
       cycling = true; hero.classList.add('is-cycling'); cycle();
-    }, 30000);
+    }, remaining);
   }
   function interaction() {
-    clearTimeout(idleTimer);
+    lastActivity = performance.now();
     if (cycling) { stopCycle(); showScroll(); }
     armIdle();
   }
   addEventListener('scroll', () => {
-    interaction();
-    if (frame == null) frame = requestAnimationFrame(() => { frame=null; showScroll(); armIdle(); });
+    lastActivity = performance.now();
+    if (frame == null) frame = requestAnimationFrame(() => {
+      frame=null;
+      if (cycling) stopCycle();
+      showScroll(); armIdle();
+    });
   }, {passive:true});
   for (const type of ['pointerdown','pointermove','keydown','wheel','touchstart']) addEventListener(type, interaction, {passive:true});
-  document.addEventListener('visibilitychange', () => { stopCycle(); showScroll(); armIdle(); });
-  addEventListener('resize', () => { configure(); stopCycle(); showScroll(); armIdle(); }, {passive:true});
+  document.addEventListener('visibilitychange', () => { stopCycle(); showScroll(); interaction(); });
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(entries => {
+      const nextHeight = entries[0].borderBoxSize?.[0]?.blockSize ?? entries[0].contentRect.height;
+      if (nextHeight === height && innerWidth === viewportWidth) return;
+      viewportWidth = innerWidth;
+      configure(nextHeight); stopCycle(); showScroll(); interaction();
+    }).observe(hero.querySelector('.landing-stage'));
+  } else {
+    addEventListener('resize', () => { configure(); stopCycle(); showScroll(); interaction(); }, {passive:true});
+  }
   introMotion.addEventListener('change', () => {
     const previousTravel = state.travel;
     const previousScroll = scrollY;
@@ -120,6 +148,7 @@
   const requestedPhotoShare = Number((window.WEDDING_BACKGROUND || {}).photoShare ?? .20);
   const PHOTO_SHARE = PHOTOS.length && Number.isFinite(requestedPhotoShare)
     ? Math.max(0, Math.min(1, requestedPhotoShare)) : 0;
+  const restPose = degrees => `rotate(${degrees.toFixed(3)}deg)`;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const landing = window.weddingLanding;
   const fullWidth = Boolean(landing?.fullWidth);
@@ -297,7 +326,7 @@
       // The browser then tracks scrolling without a JS callback every frame.
       const root = document.documentElement;
       const start = landing?.travel || 0;
-      plane.style.setProperty('--parallax-start', `${start}px`);
+      if (plane.style.getPropertyValue('--parallax-start') !== `${start}px`) plane.style.setProperty('--parallax-start', `${start}px`);
       const end = `${-(Math.max(0, root.scrollHeight - root.clientHeight - start) * PARALLAX).toFixed(2)}px`;
       if (plane.style.getPropertyValue('--parallax-end') !== end) plane.style.setProperty('--parallax-end', end);
     } else {
@@ -366,7 +395,8 @@
            Math.abs(-dx * bounds.sa + dy * bounds.ca) <= bounds.hh;
   }
   function cellsFor(side) {
-    if (coverageCells.has(side)) return coverageCells.get(side);
+    const key = fullWidth ? 'all' : side;
+    if (coverageCells.has(key)) return coverageCells.get(key);
     const x0 = fullWidth ? 0 : side === 'left' ? 0 : viewport.w * .62;
     const x1 = fullWidth ? viewport.w : side === 'left' ? viewport.w * .38 : viewport.w;
     const points = [];
@@ -375,7 +405,7 @@
         points.push({x:x0 + (ix+.5)*(x1-x0)/16, y:(iy+.5)*viewport.h/20});
       }
     }
-    coverageCells.set(side, points);
+    coverageCells.set(key, points);
     return points;
   }
   function chooseSide() {
@@ -428,6 +458,7 @@
 
   function remove(card) {
     if (card.animation) { try { card.animation.cancel(); } catch (_) {} }
+    clearTimeout(card.budgetTimer);
     card.node.remove();
     if (active.get(card.art.id) === card) active.delete(card.art.id);
   }
@@ -446,6 +477,20 @@
     }
     return true;
   }
+  function trimBudget() {
+    if (!fullWidth || viewport.w > 760) return;
+    const live = [...active.values()].filter(card => !card.retiring);
+    let excess = live.length - 16;
+    for (const card of live) {
+      if (excess <= 0) break;
+      if (card.isAnimating) continue;
+      card.retiring = true;
+      card.node.classList.add('is-retiring');
+      card.node.style.opacity = '0';
+      card.budgetTimer = setTimeout(() => remove(card), 1100);
+      excess--;
+    }
+  }
   function pruneHidden() {
     const shift = offset();
     for (const card of [...active.values()]) {
@@ -455,6 +500,7 @@
         remove(card);
       }
     }
+    trimBudget();
   }
   function prepareNextReuse() {
     const next = peekArt();
@@ -512,7 +558,7 @@
     card.node.dataset.motionProfile = profile.id;
     if (reduced.matches) {
       card.node.style.opacity = String(finalFrame.opacity);
-      card.node.style.transform = finalFrame.transform;
+      card.node.style.transform = restPose(finalDeg);
       card.isAnimating = false;
       return;
     }
@@ -525,13 +571,28 @@
     anim.finished.then(() => {
       if (card.animation !== anim) return;
       card.node.style.opacity = String(finalFrame.opacity);
-      card.node.style.transform = finalFrame.transform;
+      card.node.style.transform = restPose(finalDeg);
       try { anim.cancel(); } catch (_) {}
       card.animation = null;
       card.isAnimating = false;
+      trimBudget();
     }).catch(() => {});
   }
 
+  function setImageSource(img, art, width) {
+    const tiers = [[art.thumb, art.tw], [art.mid, art.mw], [art.full, art.fw]].filter(([src]) => src);
+    img.sizes = `${Math.ceil(width)}px`;
+    if (fullWidth && viewport.w <= 760) {
+      // Decorative art has a density budget; foreground story images stay untouched.
+      const budget = width * Math.min(devicePixelRatio || 1, 2);
+      const tier = tiers.filter(([,pixels]) => pixels <= budget).at(-1) || tiers[0];
+      img.removeAttribute('srcset');
+      if (img.getAttribute('src') !== tier[0]) img.src = tier[0];
+    } else {
+      img.srcset = tiers.map(([src,pixels]) => `${src} ${pixels}w`).join(', ');
+      img.src = art.thumb;
+    }
+  }
   function drop(art, side, initial = false, slot = null) {
     const old = active.get(art.id);
     if (old) remove(old);
@@ -552,10 +613,7 @@
     img.loading = 'eager';
     img.width = art.width;
     img.height = art.height;
-    img.sizes = `${Math.ceil(geometry.w)}px`;
-    img.srcset = [[art.thumb, art.tw], [art.mid, art.mw], [art.full, art.fw]]
-      .filter(([src]) => src).map(([src, width]) => `${src} ${width}w`).join(', ');
-    img.src = art.thumb;
+    setImageSource(img, art, geometry.w);
     node.append(img);
     plane.append(node);
     const card = {...geometry,art,node,serial:++serial,retiring:false,isAnimating:false,side,profileId:profile.id,animation:null};
@@ -563,7 +621,7 @@
     lastSide = side;
     lastDropScroll = scrollY;
     if (fullWidth && slot != null) {
-      const transform = pose({z:card.angle * 180 / Math.PI});
+      const transform = restPose(card.angle * 180 / Math.PI);
       node.dataset.motionProfile = 'opening-fade';
       node.style.transform = transform;
       if (!reduced.matches) {
@@ -574,7 +632,7 @@
         animation.finished.then(() => {
           if (card.animation !== animation) return;
           node.style.opacity='1'; node.style.transform=transform;
-          animation.cancel(); card.animation=null; card.isAnimating=false;
+          animation.cancel(); card.animation=null; card.isAnimating=false; trimBudget();
         }).catch(() => {});
       }
     } else animateLanding(card, profile, initial);
@@ -614,10 +672,15 @@
   reduced.addEventListener('change', () => {
     clearTimeout(timer);timer=null;
     for (const card of active.values()) {
+      if (reduced.matches) {
+        clearTimeout(card.budgetTimer);
+        card.retiring = false;
+        card.node.classList.remove('is-retiring');
+      }
       if (card.animation) { try { card.animation.cancel(); } catch (_) {} card.animation = null; }
       card.isAnimating = false;
       card.node.style.opacity = '1';
-      card.node.style.transform = pose({z: card.angle * 180 / Math.PI});
+      card.node.style.transform = restPose(card.angle * 180 / Math.PI);
     }
     syncParallax();
     if (!reduced.matches) schedule(2400);
@@ -646,9 +709,10 @@
         c.w=dims.w;c.h=dims.h;
         c.node.style.left=`${c.x}px`;c.node.style.top=`${c.y}px`;
         c.node.style.width=`${c.w}px`;c.node.style.height=`${c.h}px`;
-        c.node.querySelector('img').sizes=`${Math.ceil(c.w)}px`;
+        setImageSource(c.node.querySelector('img'), c.art, c.w);
       }
       syncParallax();
+      trimBudget();
     });
   }, {passive:true});
   start();
@@ -657,7 +721,8 @@
   const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
   const setActive = id => {
     const current = document.querySelector('.nav-current');
-    if (current) current.textContent = links.find(link => link.hash === `#${id}`)?.textContent || 'Home';
+    const text = links.find(link => link.hash === `#${id}`)?.textContent || 'Home';
+    if (current && current.textContent !== text) current.textContent = text;
     for (const link of links) {
       const selected = link.getAttribute('href') === `#${id}`;
       link.classList.toggle('is-active', selected);
@@ -677,7 +742,7 @@
     if (open) { fitMenu(); if (focus) links[0].focus(); }
   }
   function fitMenu() {
-    if (!toggle || !mobile.matches) return;
+    if (!toggle || !mobile.matches || toggle.getAttribute('aria-expanded') !== 'true') return;
     const top = toggle.getBoundingClientRect().bottom + 10;
     const available = Math.max(70, (visualViewport?.height || innerHeight) - top - 16);
     const row = 48;

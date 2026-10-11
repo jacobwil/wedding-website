@@ -25,6 +25,10 @@ The table stays fixed for the three-screen scroll through Closer, Sweeter,
 Luckier and Wilder; its existing 18% parallax starts after this opening.
 Repeat visits within three days start at Wilder with no extended scroll.
 Reduced motion has no scroll sequence, fades, cycling or parallax.
+Native CSS scroll timelines animate the headline where supported; the batched
+JavaScript fallback must match at intermediate positions. Idle fades retain the
+same 30-second/three-second behavior. Mobile allows 16 non-retiring cards; old
+settled cards fade out before removal, and in-flight landings are never cut short.
 See `LANDING_MOCKUP.md` and `tests/test_landing_browser.py`.
 
 ## Position, direction, rotation
@@ -39,7 +43,7 @@ See `LANDING_MOCKUP.md` and `tests/test_landing_browser.py`.
 ## Opacity, end state, clean-up
 
 - Postcards are translucent while arriving, and finish **exactly at opacity 1**.
-- Final `transform` is the exact chosen resting transform: translate(0,0), `rotate(finalDeg)`, zero perspective tilt, scale 1. There is no after-contact corrective yaw or sideways movement.
+- Final `transform` is the exact chosen resting pose: translate(0,0), `rotate(finalDeg)`, zero perspective tilt, scale 1. At rest the runtime commits the equivalent 2D `rotate(finalDeg)` so the browser can release 3D layers. Numerical DOMMatrix components must match across cancellation. There is no after-contact corrective yaw or sideways movement.
 - Before WAAPI cancellation, write the final `transform`/`opacity` inline. The computed matrix must match before and after teardown within browser precision.
 - A fully obscured postcard may be removed. A still-visible card should smoothly fade out before reuse; don't allow existing inline opacity to block `.is-retiring`.
 - For reduced motion, no falling/fading loop is shown; the cards are statically arranged.

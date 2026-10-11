@@ -30,7 +30,8 @@ respects reduced motion.
 
 The viewport holds “We're getting” in formal Great Vibes lettering on the left,
 with Closer, Sweeter, Luckier, Wilder on the right. Words follow the scroll
-vertically; an additional seven-degree slant distinguishes the changing word.
+vertically through native CSS scroll timelines when supported, with the same
+JavaScript fallback on older browsers; an additional seven-degree slant distinguishes the changing word.
 The table and fixed phrase do not move during those three screens of travel.
 After Wilder, the hero scrolls away and the existing 18% background parallax
 begins. The navbar remains fixed. The top has no translucent text panel;
@@ -42,7 +43,10 @@ on desktop and two columns/four rows on mobile, with position and rotation
 jitter. Each fades for 420ms with an 85ms stagger at its final resting transform.
 After 2.8 seconds, regular gentle arrivals begin. The existing independently
 shuffled postcard/photo decks, opening three-postcard/one-photo selection,
-retirement and limited 04–06 motion remain. The airy option has six items;
+retirement and limited 04–06 motion remain. Mobile now limits non-retiring
+items to 16, committing flat 2D resting transforms and smaller decorative image
+tiers. Mobile panels use darker translucency instead of background blur; see
+`PERFORMANCE.md` for the October 11 audit. The airy option has six items;
 loose uses ordinary coverage scoring instead of the initial strata. All are
 compositions made from real approved artwork, not new generated placeholders.
 

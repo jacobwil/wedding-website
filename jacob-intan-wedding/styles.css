@@ -193,3 +193,27 @@ html[data-landing="intan"] .readability-veil { background:linear-gradient(180deg
 .landing-replay { position:fixed; z-index:90; right:max(16px,env(safe-area-inset-right)); bottom:max(16px,env(safe-area-inset-bottom)); display:grid; place-items:center; width:44px; height:44px; border-radius:50%; color:rgba(248,242,233,.8); background:rgba(20,20,20,.65); border:1px solid rgba(255,255,255,.14); box-shadow:0 3px 14px rgba(0,0,0,.2); text-decoration:none; transition:color 160ms ease,background 160ms ease; }
 .landing-replay:hover { color:var(--cream); background:rgba(35,35,35,.9); }
 .landing-replay:focus-visible { outline:2px solid #e1bfaa; outline-offset:3px; }
+
+/* Let Safari/Chromium track headline travel without JS writes each scroll frame. */
+.landing-word:nth-child(1) { --word-index:0; }
+.landing-word:nth-child(2) { --word-index:1; }
+.landing-word:nth-child(3) { --word-index:2; }
+.landing-word:nth-child(4) { --word-index:3; }
+.has-native-words:not(.is-cycling) .landing-word { animation:landing-word-scroll 1ms linear both; animation-timeline:scroll(root block); animation-range:0px var(--intro-travel); }
+@keyframes landing-word-scroll {
+  from { transform:translate3d(0,calc(var(--word-index) * var(--intro-height)),0) skewX(-7deg); }
+  to { transform:translate3d(0,calc((var(--word-index) - 3) * var(--intro-height)),0) skewX(-7deg); }
+}
+/* Resting paper is flat; only arriving paper needs the approved 3D transforms. */
+.postcard { backface-visibility:visible; }
+@media(max-width:760px) {
+  /* Mobile glass without a repeated blur pass over the moving collage. */
+  .nav { -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(23,23,23,.88); }
+  .section-card { -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(13,13,13,.88); }
+  .postcard { filter:none; }
+  .postcard::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.09); pointer-events:none; }
+  .postcard img { box-shadow:0 8px 16px rgba(0,0,0,.46); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .has-native-words .landing-word { animation:none; }
+}

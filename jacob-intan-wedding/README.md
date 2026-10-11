@@ -53,7 +53,9 @@ make serve
 
 The canonical landing page now follows Intan’s October 11 sketch: a full-width
 pile beneath formal cursive “We’re getting Closer / Sweeter / Luckier / Wilder.”
-The phrase and table stay fixed during the first-visit scroll. A three-day cookie
+The phrase and table stay fixed during the first-visit scroll. Supporting
+browsers animate the words through native CSS scroll timelines; older browsers
+use the equivalent fallback. A three-day cookie
 shortens repeat visits to “Wilder”; after completion, 30 seconds of inactivity
 starts three-second fading replacements while the hero is visible. Reduced
 motion uses a static one-screen opening. Mobile navigation opens from one pill.
@@ -62,7 +64,7 @@ See [Landing mockup](docs/LANDING_MOCKUP.md) for comparison links and rollback.
 - Eight items rapidly fade into a shuffled, distributed initial pile. The first three selected are postcards, the fourth a photo; the configured mix supplies the remaining four. The historical mixed page keeps the previous two-card opening.
 - Subsequent background cards arrive on a randomized interval, with independently shuffled collections of 24 postcards and five approved photos.
 - The side selection prefers alternation (~80%), and placement favors uncovered space until around 70% coverage before accepting more overlap.
-- Postcards retire/recycle as appropriate, avoiding two visible instances of the same design.
+- Postcards retire/recycle as appropriate, avoiding two visible instances of the same design. Mobile limits non-retiring background items to 16 and uses smaller decorative image tiers; the initial eight-item pile stays intact.
 - The backdrop follows scrolling at 18% of the foreground movement, using a native scroll timeline where supported and a passive, frame-batched fallback elsewhere. Reduced-motion compositions remain static while scrolling.
 - Desktop postcards reach approximately 432 CSS px on a ~1280 px wide laptop viewport and top out around 576 CSS px on wider desktops. Smaller screen rules apply on phones.
 - The preferred motion pool contains only 04 Softer direct hybrid, 05 Longer perspective exhale and 06 Hold then flatten, in mixed order, with no immediate repeat of a profile.
@@ -148,6 +150,10 @@ CHROMIUM_CDP_URL=http://127.0.0.1:9222 make test-browser
 The tests create/close their own browser contexts and leave that external browser
 running. Content screenshots and the artifact-hashed result are in private
 `.build/browser/`, outside both the review root and export.
+
+The October 11 opening-scroll audit adds native word timelines, equivalent 2D
+resting card poses and lower mobile rendering/image costs. See
+[performance evidence and limits](docs/PERFORMANCE.md).
 
 The performance browser test loads the actual public review assets through
 Playwright routing, without a preview server. It checks native/fallback/reduced

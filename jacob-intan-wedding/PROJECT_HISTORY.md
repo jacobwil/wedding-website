@@ -191,6 +191,33 @@ This document preserves the evolution of the wedding website and, especially, **
     temporary. It reloads the full opening and initial pile, preserves any pile
     comparison choice, and respects reduced motion.
 
+## Opening scroll performance — October 11, 2026
+
+73. The user reported frame drops on an iPhone 16 Pro with iOS 27 and clarified
+    that they occur while scrolling through the opening words. The request was
+    for substantial performance improvement while retaining the mockup.
+74. Heading transforms now use native CSS scroll timelines where supported,
+    with JavaScript responsible for word/idle state and a matching fallback.
+    Scroll visibility no longer reads layout, idle activity avoids repeated timer
+    replacement, and a ResizeObserver handles actual stage size changes rather
+    than responding to every mobile toolbar resize.
+75. Mobile removes backdrop blur and per-card filters, uses darker translucent
+    panel fills and a painted 9% dimming overlay, and simplifies paper shadows.
+    Background artwork selects existing smaller derivatives under a two-pixel
+    density budget; foreground story artwork and source images are unchanged.
+    Mobile retains up to 16 non-retiring cards with graceful oldest-card fades.
+    Approved arrivals are unchanged; resting transforms become equivalent 2D
+    rotations with actual runtime matrix continuity tested before cancellation.
+76. A seeded DPR-3 Chromium comparison at 402×874/6× CPU throttling eliminates
+    472 headline style writes, reduces intro main-thread task time from 85.06ms
+    to 48.25ms, and reduces referenced-art RGBA estimates from 19.71 to 4.75MiB
+    initially and 71.81 to 9.64MiB after a 20-arrival stress case. These measure
+    browser work/pixel budgets, not physical-iPhone FPS or total process memory.
+    Safari WebDriver could not start in this environment; phone review remains
+    the authoritative smoothness check. Full motion, content and performance
+    regressions pass; the landing suite covers native/fallback intermediate
+    positions and preserved idle/repeat behavior.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

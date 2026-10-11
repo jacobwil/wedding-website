@@ -64,6 +64,26 @@ with sync_playwright() as p:
               const supports = CSS.supports.bind(CSS);
               CSS.supports = (...args) => args[0] === 'animation-timeline: scroll(root block)' ? false : supports(...args);
             ''')
+        context.add_init_script("""
+          window.__cleanup = {cases:0, landings:0, errors:[]};
+          const originalAnimate = Element.prototype.animate;
+          Element.prototype.animate = function(...args) {
+            const node = this, animation = originalAnimate.apply(this,args), cancel = animation.cancel.bind(animation);
+            animation.cancel = () => {
+              const finished = animation.playState === 'finished' && node.classList.contains('postcard');
+              const before = finished ? new DOMMatrix(getComputedStyle(node).transform).toFloat64Array() : null;
+              cancel();
+              if (before) {
+                const after = new DOMMatrix(getComputedStyle(node).transform).toFloat64Array();
+                const error = Math.max(...before.map((value,i)=>Math.abs(value-after[i])));
+                window.__cleanup.cases++;
+                if (node.dataset.motionProfile !== 'opening-fade') window.__cleanup.landings++;
+                if (error > .00001) window.__cleanup.errors.push(error);
+              }
+            };
+            return animation;
+          };
+        """)
         page = context.new_page()
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
@@ -133,7 +153,7 @@ with sync_playwright() as p:
             position = page.evaluate('''() => ({scrollY,
               y:new DOMMatrix(getComputedStyle(document.getElementById('postcard-plane')).transform).m42})''')
             travel = page.evaluate('window.weddingLanding?.travel || 0')
-            expected = 0 if mode == 'reduced' and not args.baseline else -max(0,position['scrollY']-travel) * .18
+            expected = 0 if mode == 'reduced' else -max(0,position['scrollY']-travel) * .18
             assert abs(position['y'] - expected) < .1, (mode, position, expected)
 
         if not args.baseline:
@@ -167,6 +187,10 @@ with sync_playwright() as p:
                 assert page.evaluate('location.hash') == target
                 assert page.locator(target).is_visible()
         assert not errors, errors
+        if not args.baseline and mode != 'reduced':
+            cleanup=page.evaluate('window.__cleanup')
+            assert cleanup['landings'] > 0 and not cleanup['errors'],cleanup
+            print('PASS actual runtime 3D-to-2D cleanup:',cleanup)
         context.close()
     close_browser(browser)
 print('PASS: real public assets and scroll benchmark' if args.baseline else
