@@ -7,6 +7,7 @@ the design decisions from the handoff.
 
 ## Current status
 
+- Intan’s landing mockup is on `design/intan-landing`; [replay the opening](https://sitedev.saola-mountain.ts.net/?intro=replay) and see [the mockup notes](jacob-intan-wedding/docs/LANDING_MOCKUP.md).
 - Wedding: Jacob and Intan, Jakarta, July 3, 2027.
 - Confirmed direction: **v5 limited motion**, using only profiles 04, 05, and 06,
   with short approaches from eight directions. The October 8 refinement smooths
@@ -55,7 +56,7 @@ Eleventy dependencies on a fresh checkout. `make export` creates a public-only
 
 ## Git history
 
-The workspace is tracked on `main`, including supplied original crops and the
+The original site is preserved on `main`; the landing mockup uses `design/intan-landing`, including supplied original crops and the
 review symlinks. Git metadata lives in `.git-data/`, which is ignored. Local
 development artifacts and credentials are ignored; source artwork is tracked.
 
@@ -77,10 +78,9 @@ git --git-dir=.git-data --work-tree=. status
 
 The homelab Caddy container now serves the review folder persistently at local
 `http://127.0.0.1:18114`. Its read-only parent-workspace bind preserves the
-relative symlinks, so source edits appear on the next request. The intended
+relative symlinks, so source edits appear on the next request. The verified
 HTTPS URL is <https://sitedev.saola-mountain.ts.net> (`svc:sitedev`), available
 to clients admitted by Tailscale permissions, without application auth or a
-Tabula entry. Caddy was deployed and verified on 2026-10-07; privileged Serve
-activation and tailnet browser confirmation remain pending. See
+Tabula entry. Caddy was deployed and verified on 2026-10-07; the HTTPS endpoint and tailnet browser rendering were verified on October 11, 2026. See
 [homelab operation notes](/Users/server/homelab/docs/sitedev.md) for the exact
 operator command, recovery, and deployment evidence.

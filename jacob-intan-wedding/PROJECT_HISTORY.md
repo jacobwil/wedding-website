@@ -160,6 +160,33 @@ This document preserves the evolution of the wedding website and, especially, **
     testing. Native Node watch avoids an optional FSEvents addon that initialized
     inside the sandbox without delivering file changes. No hosting change occurred.
 
+## Intan's landing sketch — October 11, 2026
+
+67. New user-directed mockup follows `AGENT-INBOX/Intan Idea 1 20261011.HEIC`:
+    memorabilia now span the full width. The fixed cursive “We're getting” sits
+    beside Closer, Sweeter, Luckier, Wilder moving upward through the viewport.
+    The changing word has an additional italic slant. This explicitly supersedes
+    the previous hero text container and two-card initial composition, while
+    retaining the approved limited motion for subsequent arrivals.
+68. The user requested work on a new rollback branch and confirmed putting the
+    mockup directly on sitedev, formal wedding script, and a compact “Wilder”
+    repeat-visit hero. Branch: `design/intan-landing`, previous version: `4143106`.
+    Great Vibes is self-hosted with its OFL license. No remote font requests.
+69. First normal visit has a four-viewport sticky hero. A non-sliding three-day
+    cookie selects a one-screen repeat visit; completing the scroll and remaining
+    idle for 30 seconds begins a fading word change every three seconds. Activity
+    restores the scroll-selected word. Hidden/offscreen/reduced-motion views do
+    not cycle. Navigation remains available to skip ahead.
+70. Opening experiments compare balanced eight items (default), airy six, and
+    coverage-selected loose eight. Balanced placement spreads items into jittered
+    regions; all select fresh shuffled assets and rapidly fade at rest before the
+    existing arrivals begin. Subsequent placement uses the full viewport.
+71. Mobile navigation becomes one dropdown pill with quick 160ms opening,
+    keyboard/focus support, Escape/outside closure, and a deliberately half-visible
+    next row when a short viewport requires scrolling. Later content panels and
+    wedding facts remain. This is a requested mockup, awaiting the couple’s
+    visual feedback rather than recording approval of the finished design.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

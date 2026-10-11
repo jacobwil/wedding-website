@@ -1,11 +1,8 @@
-    <section class="hero" id="home" aria-labelledby="hero-title">
-      <div class="announcement">
-        <p class="eyebrow">{{ block.data.eyebrow }}</p>
-        <h1 id="hero-title">{{ site.names[0] }} <span class="and">and</span> {{ site.names[1] }}</h1>
-{{ block.content | heroCopy | safe }}
-        <div class="delicate-rule" aria-hidden="true"><span></span><i>✳</i><span></span></div>
-        <p class="city">{{ site.city }}</p>
-        <p class="date">{{ site.weddingDate | weddingDate }}</p>
+    <section class="hero landing-hero" id="home" aria-labelledby="hero-title">
+      <div class="landing-stage">
+        <h1 class="landing-title" id="hero-title"><span class="sr-only">We're getting Wilder</span><span class="landing-prefix" aria-hidden="true">We're<br>getting</span><span class="landing-word-window" aria-hidden="true"><span class="landing-word">Closer</span><span class="landing-word">Sweeter</span><span class="landing-word">Luckier</span><span class="landing-word">Wilder</span></span></h1>
+        <div class="landing-details"><p class="landing-names">{{ site.names | join(" & ") }}</p>{{ block.content | heroCopy | safe }}<p class="landing-date">{{ site.city }} <span aria-hidden="true">·</span> {{ site.weddingDate | weddingDate }}</p></div>
+        <a class="discover landing-discover" href="#rsvp"><span class="landing-scroll-label">A little closer</span> <span aria-hidden="true">↓</span></a>
+        <div class="landing-progress" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       </div>
-      <a class="discover" href="#rsvp">{{ block.data.discover }} <span aria-hidden="true">↓</span></a>
     </section>

@@ -5,7 +5,7 @@ import { parse, parseFragment } from "parse5";
 
 export const ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const HTML_FILES = ["index.html", "wedding-limited-v5-style.html"];
-const RUNTIME_FILES = ["styles.css", "script.js", "background-config.js", "manifest.json", "photos/catalog.js"];
+const RUNTIME_FILES = ["styles.css", "script.js", "background-config.js", "manifest.json", "photos/catalog.js", "fonts/GreatVibes-Regular-latin.woff2", "fonts/GreatVibes-OFL.txt"];
 
 export function weddingDate(value, weekday = false) {
   if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {

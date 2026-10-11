@@ -1,3 +1,101 @@
+/* Intan's scroll opening. No dependency, no server-side visit tracking. */
+(() => {
+  const hero = document.querySelector('.landing-hero');
+  if (!hero) return;
+  const introMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const words = [...hero.querySelectorAll('.landing-word')];
+  const dots = [...hero.querySelectorAll('.landing-progress i')];
+  const label = hero.querySelector('.landing-scroll-label');
+  const cookieName = 'wedding_intro_seen';
+  let recent = false;
+  try { recent = document.cookie.split(';').some(value => value.trim().startsWith(`${cookieName}=`)); } catch (_) { /* file:// and storage-blocked browsers still work. */ }
+  const review = new URLSearchParams(location.search);
+  let long = (!recent || review.get('intro') === 'replay') && !introMotion.matches && (!location.hash || location.hash === '#home');
+  const state = window.weddingLanding = { fullWidth:true, travel:0, openingCount:review.get('pile') === 'airy' ? 6 : 8, openingLayout:review.get('pile') === 'loose' ? 'loose' : 'balanced' };
+  let height = innerHeight, frame = null, idleTimer = null, cycleTimer = null, fadingTimer = null;
+  let complete = !long, index = long ? 0 : 3, cycling = false, lastProgress = null;
+  // Non-sliding expiry: a return visit doesn't extend the three-day window.
+  if (!recent && !introMotion.matches) {
+    try { document.cookie = `${cookieName}=1; Max-Age=259200; Path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`; } catch (_) {}
+  }
+  function configure() {
+    hero.classList.toggle('is-long-intro', long);
+    height = hero.querySelector('.landing-stage').getBoundingClientRect().height;
+    state.travel = long ? height * 3 : 0;
+    document.dispatchEvent(new Event('wedding:landing-layout'));
+  }
+  function showScroll() {
+    const progress = long ? Math.min(3, Math.max(0, (scrollY - hero.offsetTop) / height)) : 3;
+    if (lastProgress === progress) return;
+    lastProgress = progress;
+    index = Math.round(progress);
+    for (let i=0; i<words.length; i++) {
+      words[i].style.transform = `translate3d(0,${(i-progress)*height}px,0) skewX(-7deg)`;
+      words[i].style.opacity = '1';
+    }
+    dots.forEach((dot,i) => dot.classList.toggle('is-current', i === index));
+    const finished = progress >= 2.995;
+    const nextLabel = finished ? 'The details' : 'A little closer';
+    if (label.textContent !== nextLabel) label.textContent = nextLabel;
+    if (finished && !complete) { complete = true; armIdle(); }
+    if (!finished) complete = false;
+  }
+  function visible() {
+    const rect = hero.getBoundingClientRect();
+    return !document.hidden && rect.top <= 0 && rect.bottom >= height * .8;
+  }
+  function stopCycle() {
+    clearTimeout(cycleTimer); clearTimeout(fadingTimer);
+    cycleTimer = fadingTimer = null; cycling = false;
+    hero.classList.remove('is-cycling');
+    lastProgress = null;
+  }
+  function cycle() {
+    if (!complete || !visible() || introMotion.matches) { stopCycle(); return; }
+    const current = words[index];
+    current.style.opacity = '0';
+    fadingTimer = setTimeout(() => {
+      index = (index + 1) % words.length;
+      words.forEach((word,i) => {
+        word.style.transform = `translate3d(0,${i === index ? 0 : height}px,0) skewX(-7deg)`;
+        word.style.opacity = '0';
+      });
+      requestAnimationFrame(() => requestAnimationFrame(() => { words[index].style.opacity = '1'; }));
+      dots.forEach((dot,i) => dot.classList.toggle('is-current', i === index));
+    }, 350);
+    cycleTimer = setTimeout(cycle, 3000);
+  }
+  function armIdle() {
+    clearTimeout(idleTimer);
+    if (!complete || introMotion.matches || !visible()) return;
+    idleTimer = setTimeout(() => {
+      if (!complete || !visible() || introMotion.matches) return;
+      cycling = true; hero.classList.add('is-cycling'); cycle();
+    }, 30000);
+  }
+  function interaction() {
+    clearTimeout(idleTimer);
+    if (cycling) { stopCycle(); showScroll(); }
+    armIdle();
+  }
+  addEventListener('scroll', () => {
+    interaction();
+    if (frame == null) frame = requestAnimationFrame(() => { frame=null; showScroll(); armIdle(); });
+  }, {passive:true});
+  for (const type of ['pointerdown','pointermove','keydown','wheel','touchstart']) addEventListener(type, interaction, {passive:true});
+  document.addEventListener('visibilitychange', () => { stopCycle(); showScroll(); armIdle(); });
+  addEventListener('resize', () => { configure(); stopCycle(); showScroll(); armIdle(); }, {passive:true});
+  introMotion.addEventListener('change', () => {
+    const previousTravel = state.travel;
+    const previousScroll = scrollY;
+    if (introMotion.matches) long = false;
+    configure(); stopCycle(); showScroll(); armIdle();
+    // Preserve the content position when the long opening is removed.
+    if (previousTravel) scrollTo({top:Math.max(0,previousScroll-previousTravel),behavior:'instant'});
+  });
+  configure(); showScroll(); armIdle();
+})();
+
 /* Postcards and selected photos on a virtual table. Gentle hybrid landing motions.
    No dependencies; works from file:// as well as a web host. */
 (() => {
@@ -8,6 +106,8 @@
   const PHOTO_SHARE = PHOTOS.length && Number.isFinite(requestedPhotoShare)
     ? Math.max(0, Math.min(1, requestedPhotoShare)) : 0;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const landing = window.weddingLanding;
+  const fullWidth = Boolean(landing?.fullWidth);
   const PARALLAX = 0.18;
   const COVERAGE_TARGET = 0.70;
   const random = (a, b) => a + Math.random() * (b - a);
@@ -174,14 +274,16 @@
 
   const nativeParallax = window.CSS && CSS.supports('animation-timeline: scroll(root block)');
   plane.classList.toggle('has-scroll-timeline', Boolean(nativeParallax));
-  const offset = () => reduced.matches ? 0 : window.scrollY * PARALLAX;
+  const offset = () => reduced.matches ? 0 : Math.max(0, window.scrollY - (landing?.travel || 0)) * PARALLAX;
   const syncParallax = () => {
     scrollFrame = null;
     if (nativeParallax) {
       // Resolve the endpoint only when page/viewport dimensions change.
       // The browser then tracks scrolling without a JS callback every frame.
       const root = document.documentElement;
-      const end = `${-(Math.max(0, root.scrollHeight - root.clientHeight) * PARALLAX).toFixed(2)}px`;
+      const start = landing?.travel || 0;
+      plane.style.setProperty('--parallax-start', `${start}px`);
+      const end = `${-(Math.max(0, root.scrollHeight - root.clientHeight - start) * PARALLAX).toFixed(2)}px`;
       if (plane.style.getPropertyValue('--parallax-end') !== end) plane.style.setProperty('--parallax-end', end);
     } else {
       plane.style.transform = `translate3d(0,${-offset().toFixed(2)}px,0)`;
@@ -196,6 +298,7 @@
       if (!reduced.matches && !document.hidden && scrollFrame == null) scrollFrame = requestAnimationFrame(syncParallax);
     }, {passive: true});
   }
+  document.addEventListener('wedding:landing-layout', syncParallax);
   syncParallax();
 
   function ensureDeck() {
@@ -249,8 +352,8 @@
   }
   function cellsFor(side) {
     if (coverageCells.has(side)) return coverageCells.get(side);
-    const x0 = side === 'left' ? 0 : viewport.w * .62;
-    const x1 = side === 'left' ? viewport.w * .38 : viewport.w;
+    const x0 = fullWidth ? 0 : side === 'left' ? 0 : viewport.w * .62;
+    const x1 = fullWidth ? viewport.w : side === 'left' ? viewport.w * .38 : viewport.w;
     const points = [];
     for (let iy = 0; iy < 20; iy++) {
       for (let ix = 0; ix < 16; ix++) {
@@ -264,7 +367,7 @@
     const opposite = lastSide === 'left' ? 'right' : 'left';
     return Math.random() < .80 ? opposite : lastSide;
   }
-  function choosePosition(art, side, initial = false) {
+  function choosePosition(art, side, initial = false, slot = null) {
     const {w,h} = sizeOf(art);
     const shift = offset();
     const pts = cellsFor(side);
@@ -277,13 +380,19 @@
       const nearX = -w * .28;
       const farX = Math.min(viewport.w * .33, viewport.w * .5 - w * .42);
       const leftX = random(nearX, Math.max(nearX+10,farX));
-      const x = side === 'left' ? leftX : viewport.w - w - leftX;
+      let x = fullWidth ? random(-w*.16, viewport.w-w*.84) : side === 'left' ? leftX : viewport.w - w - leftX;
       const minY = -h * .20;
       const maxY = viewport.h - h * .78;
-      const sy = initial
+      let sy = initial
         ? random(viewport.h * (side === 'left' ? .10 : .43) - h*.35,
                  viewport.h * (side === 'left' ? .43 : .79) - h*.45)
         : random(minY, Math.max(minY+5,maxY));
+      if (fullWidth && slot != null && landing.openingLayout === 'balanced') {
+        const columns = viewport.w <= 650 ? 2 : landing.openingCount === 6 ? 3 : 4;
+        const rows = landing.openingCount / columns;
+        x = ((slot % columns + .5) / columns) * viewport.w - w / 2 + random(-.06,.06)*viewport.w;
+        sy = ((Math.floor(slot / columns) + .5) / rows) * viewport.h - h / 2 + random(-.04,.04)*viewport.h;
+      }
       const angle = random(-7.5,7.5) * Math.PI / 180;
       const candidate = {x,y:sy+shift,w,h,angle,retiring:false};
       const bounds = screenBounds(candidate, shift);
@@ -408,10 +517,10 @@
     }).catch(() => {});
   }
 
-  function drop(art, side, initial = false) {
+  function drop(art, side, initial = false, slot = null) {
     const old = active.get(art.id);
     if (old) remove(old);
-    const geometry = choosePosition(art,side,initial);
+    const geometry = choosePosition(art,side,initial,slot);
     const profile = chooseMotionProfile();
     const node = document.createElement('figure');
     node.className = 'postcard';
@@ -438,7 +547,22 @@
     active.set(art.id,card);
     lastSide = side;
     lastDropScroll = scrollY;
-    animateLanding(card, profile, initial);
+    if (fullWidth && slot != null) {
+      const transform = pose({z:card.angle * 180 / Math.PI});
+      node.dataset.motionProfile = 'opening-fade';
+      node.style.transform = transform;
+      if (!reduced.matches) {
+        card.isAnimating = true;
+        const animation = node.animate([{opacity:0,transform},{opacity:1,transform}],
+          {duration:420,delay:slot*85,fill:'both',easing:'ease-out'});
+        card.animation = animation;
+        animation.finished.then(() => {
+          if (card.animation !== animation) return;
+          node.style.opacity='1'; node.style.transform=transform;
+          animation.cancel(); card.animation=null; card.isAnimating=false;
+        }).catch(() => {});
+      }
+    } else animateLanding(card, profile, initial);
     return card;
   }
   function step() {
@@ -454,6 +578,11 @@
     if (!document.hidden && !reduced.matches) timer = setTimeout(step,delay);
   }
   function start() {
+    if (fullWidth) {
+      for (let i=0;i<landing.openingCount;i++) drop(nextArt(),i%2 ? 'right' : 'left',true,i);
+      if (!reduced.matches) { prepareNextReuse(); schedule(2800); }
+      return;
+    }
     drop(nextArt(),'left',true);
     drop(nextArt(),'right',true);
     if (reduced.matches) {
@@ -497,7 +626,7 @@
         const side=c.node.dataset.side;
         const leftMargin=side==='left' ? c.x : before.w-c.x-c.w;
         const dims=sizeOf(c.art);
-        c.x=side==='left' ? leftMargin*viewport.w/before.w : viewport.w-dims.w-leftMargin*viewport.w/before.w;
+        c.x=fullWidth ? (c.x+c.w/2)*viewport.w/before.w-dims.w/2 : side==='left' ? leftMargin*viewport.w/before.w : viewport.w-dims.w-leftMargin*viewport.w/before.w;
         c.y=screenY*viewport.h/before.h+shift;
         c.w=dims.w;c.h=dims.h;
         c.node.style.left=`${c.x}px`;c.node.style.top=`${c.y}px`;
@@ -512,6 +641,8 @@
   const links = [...document.querySelectorAll('.nav-link')];
   const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
   const setActive = id => {
+    const current = document.querySelector('.nav-current');
+    if (current) current.textContent = links.find(link => link.hash === `#${id}`)?.textContent || 'Home';
     for (const link of links) {
       const selected = link.getAttribute('href') === `#${id}`;
       link.classList.toggle('is-active', selected);
@@ -519,7 +650,42 @@
       else link.removeAttribute('aria-current');
     }
   };
-  links.forEach(link => link.addEventListener('click', () => setActive(link.hash.slice(1))));
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.querySelector('.nav');
+  const menu = document.querySelector('.nav-links');
+  const mobile = matchMedia('(max-width: 760px)');
+  function setMenu(open, focus = false) {
+    if (!toggle) return;
+    toggle.setAttribute('aria-expanded', String(open));
+    nav.classList.toggle('is-open', open);
+    menu.inert = mobile.matches && !open;
+    if (open) { fitMenu(); if (focus) links[0].focus(); }
+  }
+  function fitMenu() {
+    if (!toggle || !mobile.matches) return;
+    const top = toggle.getBoundingClientRect().bottom + 10;
+    const available = Math.max(70, (visualViewport?.height || innerHeight) - top - 16);
+    const row = 48;
+    // A half-row is intentionally visible when the list must scroll.
+    const height = available < row*8+18 ? Math.min(available, (Math.max(1,Math.floor((available-18)/row-.5))+.5)*row+18) : row*8+18;
+    menu.style.setProperty('--menu-height', `${height}px`);
+  }
+  toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+  toggle?.addEventListener('keydown', event => { if (event.key === 'ArrowDown') { event.preventDefault(); setMenu(true,true); } });
+  links.forEach(link => link.addEventListener('click', () => {
+    setActive(link.hash.slice(1)); setMenu(false);
+    // Move focus to destination rather than retaining it in the hidden menu.
+    if (toggle && mobile.matches) {
+      const section = document.querySelector(link.hash);
+      section?.setAttribute('tabindex','-1'); section?.focus({preventScroll:true});
+    }
+  }));
+  document.addEventListener('pointerdown', event => { if (!nav.contains(event.target)) setMenu(false); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { setMenu(false); toggle.focus(); } });
+  mobile.addEventListener('change', () => setMenu(false));
+  addEventListener('resize', fitMenu, {passive:true});
+  visualViewport?.addEventListener('resize', fitMenu);
+  setMenu(false);
   if ('IntersectionObserver' in window) {
     const ratios = new Map();
     const observer = new IntersectionObserver(entries => {

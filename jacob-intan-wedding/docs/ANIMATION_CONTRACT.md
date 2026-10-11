@@ -12,6 +12,21 @@ These are numbered from the **11+13 hybrid carousel**, not from the earlier 17-o
 
 The October 8 review rejected visible phase changes and an emphasized final air-release drop. The limited profiles now share a sampled quintic approach with zero endpoint velocity and acceleration, so they decelerate into contact without restarting easing. Their existing contact timings and the exact hold in profile 06 remain. Opacity reaches 1 at contact; the remaining release is only 0.04–0.05% scale and 0.08–0.10° tilt. These numerical bounds are implementation choices intended to make that release almost imperceptible. Scale must decrease monotonically: the old profile 05 enlarged briefly before shrinking, which accentuated the final drop.
 
+## October 11 landing mockup exception
+
+The canonical page now has eight opening items that fade in at their final
+resting transforms: 420ms fade, 85ms stagger, no travel or flattening during
+this pile reveal. Selection remains three random postcards then one random
+photo before the configured mix. Placement is stratified across the full width
+with jitter. Later arrivals use the unchanged limited profiles below.
+The two-card directional opening remains on the historical mixed comparison.
+
+The table stays fixed for the three-screen scroll through Closer, Sweeter,
+Luckier and Wilder; its existing 18% parallax starts after this opening.
+Repeat visits within three days start at Wilder with no extended scroll.
+Reduced motion has no scroll sequence, fades, cycling or parallax.
+See `LANDING_MOCKUP.md` and `tests/test_landing_browser.py`.
+
 ## Position, direction, rotation
 
 - Choose landing position on left/right with coverage-aware scoring, independently of incoming travel vector.

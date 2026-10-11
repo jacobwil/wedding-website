@@ -132,7 +132,8 @@ with sync_playwright() as p:
             page.wait_for_timeout(100)
             position = page.evaluate('''() => ({scrollY,
               y:new DOMMatrix(getComputedStyle(document.getElementById('postcard-plane')).transform).m42})''')
-            expected = 0 if mode == 'reduced' and not args.baseline else -position['scrollY'] * .18
+            travel = page.evaluate('window.weddingLanding?.travel || 0')
+            expected = 0 if mode == 'reduced' and not args.baseline else -max(0,position['scrollY']-travel) * .18
             assert abs(position['y'] - expected) < .1, (mode, position, expected)
 
         if not args.baseline:
@@ -144,7 +145,8 @@ with sync_playwright() as p:
             page.wait_for_timeout(150)
             position = page.evaluate('''() => ({scrollY,
               y:new DOMMatrix(getComputedStyle(document.getElementById('postcard-plane')).transform).m42})''')
-            assert abs(position['y'] - (0 if mode == 'reduced' else -position['scrollY'] * .18)) < .1, position
+            travel = page.evaluate('window.weddingLanding?.travel || 0')
+            assert abs(position['y'] - (0 if mode == 'reduced' else -max(0,position['scrollY']-travel) * .18)) < .1, position
             page.set_viewport_size({'width': 650, 'height': 390})
             page.wait_for_timeout(150)
             assert geometry != page.evaluate("window.__performanceDebug.cards().map(c => [c.x,c.y,c.w,c.h])")
@@ -159,6 +161,7 @@ with sync_playwright() as p:
                 assert page.evaluate("new DOMMatrix(getComputedStyle(document.getElementById('postcard-plane')).transform).m42 === 0")
             for link in page.locator('.nav-link').all():
                 target = link.get_attribute('href')
+                if page.locator('.nav-toggle').is_visible(): page.locator('.nav-toggle').click()
                 link.click()
                 page.wait_for_timeout(50)
                 assert page.evaluate('location.hash') == target

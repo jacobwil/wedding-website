@@ -11,12 +11,12 @@
 ## Key runtime stages
 
 1. Shuffle postcard and photo decks independently (Fisher–Yates) at load and upon each collection's exhaustion. Do not immediately repeat the last item across a reshuffle. Begin with three random postcards and one random photo, then choose the collection by the configured photo share. Cache the next chosen item so retirement previews do not reroll or advance the opening sequence.
-2. On startup place one card on each side, randomly selecting distinct limited-entry sectors (when in limited mode). Later schedule drops ~2.8–4.4 seconds apart (roughly implementation-defined, and intentionally uneven).
-3. Choose a side with a bias toward alternation, score candidate positions using sampled screen-space coverage, prefer uncovered space up to a 70% target.
+2. The canonical Intan landing initially fades eight items at their final poses, distributed across the viewport with jitter. The historical comparison keeps one settling card per side. Later schedule drops ~2.8–4.4 seconds apart (roughly implementation-defined, and intentionally uneven).
+3. Keep side selection independent of entry direction; score candidate positions across the full viewport on the canonical page (side regions on the historical comparison), preferring uncovered space up to a 70% target.
 4. Construct a positioned `<figure>` with an `<img srcset>` from the available tiers (postcards: 480/960/1200; photos: 480/1200 longest-side families). Preserve the image's full aspect ratio. Lazy-by-creation means absent cards are not requested up front.
 5. Generate per-card keyframes from a selected profile with a final rotation specific to that card. For limited mode, add an independent approach vector from eight compass directions. Apply WAAPI; commit final inline pose/opacity then cancel animation.
 6. Periodically remove fully obscured or far-offscreen cards. If the next card's art ID is still visible, begin fading the existing copy one drop interval earlier.
-7. The fixed background plane translates at `scrollY * 0.18` to provide parallax behind independently scrolling content. Supported browsers use a CSS root scroll timeline with an endpoint updated on body/viewport size changes; other browsers retain a passive, frame-batched scroll handler. Reduced-motion mode has no parallax. Position candidates are based on the visible window.
+7. The fixed background plane translates at `max(0, scrollY - introTravel) * 0.18` to provide parallax behind independently scrolling content. Supported browsers use a CSS root scroll timeline with an endpoint updated on body/viewport size changes; other browsers retain a passive, frame-batched scroll handler. Reduced-motion mode has no parallax. Position candidates are based on the visible window.
 
 ## Fragility and known tradeoffs
 
@@ -79,3 +79,19 @@ real image bytes via Playwright routing. Both pass in local headless Chromium,
 including mobile and desktop motion/cleanup checks. `CHROMIUM_PATH` can point
 to an existing cached browser if its version differs from Playwright's default.
 Headless mobile emulation is not a physical-device GPU or Safari performance test.
+
+
+## Intan landing runtime
+
+The first runtime closure configures the sticky scroll hero and exposes only its
+travel distance and initial pile options to the background closure. Its three-day
+cookie skips extended scroll on return visits; the idle loop uses cancellable
+30-second/three-second timers and pauses outside the visible hero or reduced
+motion. The background timeline starts after the intro travel; unsupported
+browsers use the same offset in the frame-batched fallback. After leaving the
+hero, unchanged progress is skipped to avoid repetitive headline style writes.
+
+The mobile menu uses ordinary navigation links, a button with `aria-expanded`,
+and `inert` for the closed list. Dropdown height is chosen in half-row increments
+when it must scroll. Great Vibes is loaded from an explicitly allowlisted local
+WOFF2 with an included OFL license. See `LANDING_MOCKUP.md` for review links.

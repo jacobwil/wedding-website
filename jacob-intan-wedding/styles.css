@@ -131,3 +131,60 @@ h1 .and { font-weight:400; font-size:.56em; font-style:italic; letter-spacing:-.
   .postcard-plane { will-change:auto; transform:translate3d(0,0,0) !important; }
   .announcement { opacity:1; transform:none; }
 }
+
+/* Intan's opening: script directly over a full-width table of memories. */
+@font-face { font-family:'Great Vibes'; src:url('fonts/GreatVibes-Regular-latin.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+.nav-links { display:flex; gap:3px; align-items:center; }
+.nav-toggle { display:none; }
+.postcard-plane.has-scroll-timeline { animation-range-start:var(--parallax-start,0px); }
+html[data-landing="intan"] .readability-veil { background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.20) 45%,rgba(0,0,0,.28)); }
+.landing-hero { display:block; min-height:100svh; height:100svh; }
+.landing-hero.is-long-intro { height:400svh; }
+.landing-stage { position:sticky; top:0; height:100svh; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.landing-title { display:flex; align-items:center; gap:3%; width:min(1500px,94%); font-family:'Great Vibes',cursive; font-size:clamp(100px,12.4vw,225px); font-weight:400; letter-spacing:0; line-height:1.15; white-space:normal; text-shadow:0 3px 18px rgba(0,0,0,.25),0 2px 4px rgba(0,0,0,.25); margin:0 0 35px; }
+.landing-prefix { width:43%; flex-shrink:0; text-align:center; font-size:.81em; line-height:.96; padding:25px 0; }
+.landing-word-window { position:relative; display:block; flex:1; height:1.65em; overflow:visible; }
+.landing-word { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:.15em .10em .05em; will-change:transform; }
+.landing-word:not(:first-child) { transform:translateY(100svh) skewX(-7deg); }
+.is-cycling .landing-word { transition:opacity 350ms ease; }
+.landing-details { position:absolute; bottom:100px; text-align:center; text-shadow:0 2px 9px rgba(0,0,0,.7); }
+.landing-names { margin:0 0 4px; font-family:var(--serif); font-size:24px; letter-spacing:.02em; }
+.landing-details .getting-married { margin:0 0 12px; font-size:19px; }
+.landing-date { font-size:11px; letter-spacing:.18em; margin:0; text-transform:uppercase; }
+.landing-date span { padding:0 8px; }
+.landing-discover { left:50%; transform:translateX(-50%); bottom:25px; white-space:nowrap; color:var(--cream); }
+.landing-progress { position:absolute; right:30px; top:50%; display:flex; flex-direction:column; gap:10px; }
+.landing-progress i { width:4px; height:4px; background:rgba(248,242,233,.35); border-radius:50%; }
+.landing-progress i.is-current { background:var(--cream); box-shadow:0 0 0 3px rgba(248,242,233,.12); }
+@media(max-width:760px) {
+  .header { top:16px; padding:0 16px; }
+  html[data-landing="intan"] .nav { overflow:visible; display:block; padding:0; width:190px; position:relative; border-radius:28px; }
+  .nav-toggle { display:flex; align-items:center; width:100%; gap:13px; min-height:52px; padding:0 20px; border:0; background:none; color:var(--cream); font-family:var(--sans); cursor:pointer; border-radius:999px; }
+  .nav-current { font-size:13px; margin-right:auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .nav-toggle-label { font-size:10px; color:var(--muted); }
+  .nav-chevron { font-size:19px; transition:transform 160ms ease; }
+  .nav-toggle:focus-visible { outline:2px solid #e1bfaa; outline-offset:3px; }
+  .is-open .nav-chevron { transform:rotate(180deg); }
+  .nav-links { position:absolute; top:calc(100% + 10px); left:50%; width:240px; transform:translate(-50%,-6px); flex-direction:column; align-items:stretch; gap:0; padding:8px; border:1px solid rgba(255,255,255,.17); border-radius:21px; background:rgba(20,20,20,.96); box-shadow:0 16px 45px rgba(0,0,0,.4); max-height:var(--menu-height,400px); overflow-y:auto; overscroll-behavior:contain; scrollbar-width:thin; visibility:hidden; opacity:0; pointer-events:none; transition:opacity 160ms ease,transform 160ms ease,visibility 160ms; }
+  .is-open .nav-links { visibility:visible; opacity:1; transform:translate(-50%,0); pointer-events:auto; }
+  .nav-links .nav-link { justify-content:flex-start; min-height:48px; height:48px; padding:0 17px; font-size:14px; border-radius:13px; }
+  .landing-title { width:96%; gap:0; font-size:clamp(62px,16.7vw,124px); margin-bottom:60px; }
+  .landing-prefix { width:42%; font-size:.86em; }
+  .landing-word-window { height:1.9em; }
+  .landing-details { bottom:110px; }
+  .landing-names { font-size:24px; }
+  .landing-date { font-size:10px; letter-spacing:.1em; }
+  .landing-progress { right:12px; top:auto; bottom:72px; flex-direction:row; gap:12px; }
+}
+@media(max-height:540px) {
+  .landing-title { font-size:clamp(65px,10vw,125px); margin-bottom:38px; }
+  .landing-details { bottom:52px; }
+  .landing-names { font-size:18px; }
+  .landing-details .getting-married { display:none; }
+  .landing-discover { bottom:8px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .landing-hero.is-long-intro { height:100svh; }
+  .landing-word { will-change:auto; }
+}

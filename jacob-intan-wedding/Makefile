@@ -5,7 +5,7 @@ endif
 
 PYTHON ?= $(if $(wildcard ../.venv/bin/python),../.venv/bin/python,python3)
 
-.PHONY: setup build watch export check test-content serve verify test-browser test-migration-browser
+.PHONY: setup build watch export check test-content serve verify test-browser test-migration-browser test-landing
 setup:
 	npm ci --include=dev
 build:
@@ -30,3 +30,6 @@ test-migration-browser: export
 	$(PYTHON) tests/test_content_browser.py --baseline-ref b2fc2ae
 	$(PYTHON) tests/test_motion_browser.py
 	$(PYTHON) tests/test_performance_browser.py
+
+test-landing:
+	$(PYTHON) tests/test_landing_browser.py

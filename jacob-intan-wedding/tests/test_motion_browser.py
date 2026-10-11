@@ -134,14 +134,17 @@ with sync_playwright() as p:
         assert basics['count']>=2 and basics['nav']==8 and not basics['overflow'],basics
         if reduced: assert basics['static'],basics
         if mode=='limited':
+            # The new opening fades at rest; later arrivals retain the directional builders.
+            opening=page.locator('html').get_attribute('data-landing') == 'intan'
             entries=basics['entries']
-            diff=abs(math.atan2(math.sin(entries[0]['angle']-entries[1]['angle']), math.cos(entries[0]['angle']-entries[1]['angle'])))*180/math.pi
-            assert diff>126.9,(entries,diff)
+            diff=0 if opening else abs(math.atan2(math.sin(entries[0]['angle']-entries[1]['angle']), math.cos(entries[0]['angle']-entries[1]['angle'])))*180/math.pi
+            if not opening: assert diff>126.9,(entries,diff)
             checks=page.evaluate(JS)
             assert not checks['errors'],checks['errors']
             assert len(checks['profileNames'])==3,checks
             assert len(checks['names'])==8,checks
-            print(f"PASS limited {width}x{height} reduced={reduced}: first-pair={diff:.1f}°, {checks['cases']} keyframe combos, {checks['renderedCount']} rendered motions; 8 approach directions; min sampled pair separation={checks['minSep']:.1f}°; no bounce/snap; JS errors=0")
+            opening_label="opening=static fades" if opening else f"first-pair={diff:.1f}°"
+            print(f"PASS limited {width}x{height} reduced={reduced}: {opening_label}, {checks['cases']} keyframe combos, {checks['renderedCount']} rendered motions; 8 approach directions; min sampled pair separation={checks['minSep']:.1f}°; no bounce/snap; JS errors=0")
         else:
             profiles=page.evaluate('''() => window.__motionDebug.profiles.map(p=>p.id)''')
             assert len(profiles)==7,profiles

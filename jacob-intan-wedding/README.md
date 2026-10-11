@@ -51,7 +51,15 @@ make serve
 
 ## Current behavior
 
-- Two postcards are present on load, one per side, with deliberately different approach directions.
+The canonical landing page now follows Intan’s October 11 sketch: a full-width
+pile beneath formal cursive “We’re getting Closer / Sweeter / Luckier / Wilder.”
+The phrase and table stay fixed during the first-visit scroll. A three-day cookie
+shortens repeat visits to “Wilder”; after completion, 30 seconds of inactivity
+starts three-second fading replacements while the hero is visible. Reduced
+motion uses a static one-screen opening. Mobile navigation opens from one pill.
+See [Landing mockup](docs/LANDING_MOCKUP.md) for comparison links and rollback.
+
+- Eight items rapidly fade into a shuffled, distributed initial pile. The first three selected are postcards, the fourth a photo; the configured mix supplies the remaining four. The historical mixed page keeps the previous two-card opening.
 - Subsequent background cards arrive on a randomized interval, with independently shuffled collections of 24 postcards and five approved photos.
 - The side selection prefers alternation (~80%), and placement favors uncovered space until around 70% coverage before accepting more overlap.
 - Postcards retire/recycle as appropriate, avoiding two visible instances of the same design.
@@ -123,7 +131,7 @@ python3 tests/test_performance_browser.py
 If Chromium is installed by the operating system and Playwright-managed Chromium is unavailable, set `CHROMIUM_PATH=/path/to/chromium` before the test. The test covers the limited and mixed entry points, desktop/mobile/reduced-motion, sampled keyframe paths, initial direction separation and cleanup continuity. It does not replace manual visual review on the target laptop.
 
 `make test-browser` runs content/export, motion, and performance browser checks,
-using the workspace virtual environment when available. A compatible cached
+using the workspace virtual environment when available. `make test-landing` checks the landing sequence and cookie against the existing Caddy endpoint; it needs tailnet access. A compatible cached
 Chromium on this Mac is detected if Playwright's expected binary is missing.
 For the migration's original-design comparison, `make test-migration-browser`
 also checks geometry and screenshots against commit `b2fc2ae`; this special check
