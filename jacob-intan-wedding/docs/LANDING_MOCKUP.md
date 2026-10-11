@@ -21,6 +21,11 @@ means the full introduction may play on each load. Direct `file://` viewing stil
 works with no storage dependency. Hash links to later sections bypass the long
 opening to reach their content immediately.
 
+A small replay icon is fixed in the bottom-right corner as a temporary review
+control. It reloads the full opening and reshuffles the initial pile, preserving
+the current pile option. It leaves the three-day cookie expiry unchanged and
+respects reduced motion.
+
 ## Composition and behavior
 
 The viewport holds “We're getting” in formal Great Vibes lettering on the left,

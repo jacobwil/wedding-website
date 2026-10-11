@@ -187,6 +187,10 @@ This document preserves the evolution of the wedding website and, especially, **
     wedding facts remain. This is a requested mockup, awaiting the couple’s
     visual feedback rather than recording approval of the finished design.
 
+72. The user requested a small bottom-right replay icon for review, possibly
+    temporary. It reloads the full opening and initial pile, preserves any pile
+    comparison choice, and respects reduced motion.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

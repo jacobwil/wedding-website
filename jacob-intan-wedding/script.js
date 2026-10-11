@@ -10,6 +10,21 @@
   let recent = false;
   try { recent = document.cookie.split(';').some(value => value.trim().startsWith(`${cookieName}=`)); } catch (_) { /* file:// and storage-blocked browsers still work. */ }
   const review = new URLSearchParams(location.search);
+  const replay = document.querySelector('.landing-replay');
+  if (replay) {
+    const target = new URL(location.href);
+    target.searchParams.set('intro', 'replay');
+    target.hash = 'home';
+    replay.href = target.href;
+    replay.addEventListener('click', event => {
+      if (location.href !== target.href || event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      // Clicking again at the same URL must reload rather than just follow its hash.
+      event.preventDefault();
+      history.scrollRestoration = 'manual';
+      scrollTo({top:0,behavior:'instant'});
+      location.reload();
+    });
+  }
   let long = (!recent || review.get('intro') === 'replay') && !introMotion.matches && (!location.hash || location.hash === '#home');
   const state = window.weddingLanding = { fullWidth:true, travel:0, openingCount:review.get('pile') === 'airy' ? 6 : 8, openingLayout:review.get('pile') === 'loose' ? 'loose' : 'balanced' };
   let height = innerHeight, frame = null, idleTimer = null, cycleTimer = null, fadingTimer = null;
