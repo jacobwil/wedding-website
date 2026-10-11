@@ -6,11 +6,11 @@ Timings are diagnostic; correctness assertions do not depend on machine speed.
 import argparse
 import json
 import mimetypes
-import os
 from pathlib import Path
 from urllib.parse import urlparse
 
 from playwright.sync_api import sync_playwright
+from browser_support import open_browser, close_browser
 
 BASE = Path(__file__).resolve().parents[1]
 REVIEW = BASE.parent / 'serve'
@@ -49,10 +49,7 @@ def route_public(route):
 
 
 with sync_playwright() as p:
-    launch = {'headless': True, 'args': ['--no-sandbox']}
-    if os.environ.get('CHROMIUM_PATH'):
-        launch['executable_path'] = os.environ['CHROMIUM_PATH']
-    browser = p.chromium.launch(**launch)
+    browser = open_browser(p)
     for mode in ['native', 'fallback', 'reduced']:
         context = browser.new_context(viewport={'width': 390, 'height': 844},
                                       device_scale_factor=3, is_mobile=True, has_touch=True,
@@ -168,6 +165,6 @@ with sync_playwright() as p:
                 assert page.locator(target).is_visible()
         assert not errors, errors
         context.close()
-    browser.close()
+    close_browser(browser)
 print('PASS: real public assets and scroll benchmark' if args.baseline else
       'PASS: native/fallback/reduced parallax, toolbar/orientation/content resize, image loading, retirement and live reduced motion')

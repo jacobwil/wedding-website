@@ -17,7 +17,9 @@ You are working on a real wedding website, not an abstract animation demo. Read 
 
 ## Repo entry points
 
-- `index.html`: canonical version, currently byte-identical to `wedding-limited-v5-style.html` (limited 3-profile, eight-direction approach with quiet settling).
+- `content/sections/*.md`: editable prose and YAML front matter; `content/page.md` assembles the eight sections and supplies navigation order. Shared facts live in `content/_data/site.yaml`. Read `docs/EDITING_CONTENT.md` for authoring.
+- `templates/`, `eleventy.config.js`, `scripts/build*.mjs`: Eleventy authoring/build code. Generated runtime stays plain HTML/CSS/JS.
+- `index.html`: generated canonical version, byte-identical to `wedding-limited-v5-style.html` (limited 3-profile, eight-direction approach with quiet settling). Do not edit either generated entry by hand.
 - `wedding-limited-v5-style.html`: named comparison copy of canonical site.
 - `wedding-mixed-v4-style.html`: secondary reference, 7 styles. The two pages share `script.js` and `styles.css`, selecting their profile pool through `<html data-motion-set="limited|mixed">`.
 - `script.js`: random deck, card placement/coverage, WAAPI motion profiles, retirement, parallax, responsive layout, navigation state.
@@ -40,7 +42,9 @@ You are working on a real wedding website, not an abstract animation demo. Read 
 
 ## Working method
 
-- Make small, reviewable changes. Do not replace the existing zero-build static implementation with a framework without an explicit user request or compelling technical reason. Existing HTML works directly via `file://` and basic static hosting.
+- Make small, reviewable changes. The user approved Eleventy for Markdown authoring on October 11, 2026, and expects the agent to handle nearly all non-Markdown code. Preserve the existing plain static runtime and direct `file://` support. Do not add a client framework without explicit direction.
+- After content/template changes, run `make build` and `make check`; keep both generated limited HTML files tracked. Run `make test-content` for build/inclusion changes and the browser suites for changed rendered structure or styling. `make export` produces only allowlisted public files in `dist/`; never deploy the workspace or serve its internal sources.
+- Keep `serve/` symlinks intact. Content needs a build or native watcher before appearing on reload. `make watch` starts no server. Node 24, pinned npm dependencies, and `package-lock.json` define the build environment.
 - For animation changes: change only the requested dimension (e.g. approach direction, not settling) and run `python3 scripts/verify_repo.py` plus the browser regression test, `python3 tests/test_motion_browser.py`. Chromium/Playwright setup is in `README.md`.
 - Test at 1280×800 (~13-inch MBA CSS viewport), at least one larger desktop size, and ~390×844 mobile. Validate no text overflow, navigation, image loading, no console errors, correct reduced-motion behavior, no unintended yaw backtracking, and no jump after WAAPI teardown.
 - Browser timing and seeded/randomized motion cases matter more than checking keyframes by inspection alone. Inspect `data-motion-profile`, `data-entry-direction`, and rendered `DOMMatrix` when debugging.

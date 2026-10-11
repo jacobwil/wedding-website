@@ -11,6 +11,7 @@ venv/
 *.log
 coverage/
 dist/
+.build/
 .git-data/
 
 # Local settings and credentials.

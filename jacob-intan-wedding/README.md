@@ -4,7 +4,24 @@ A static, responsive wedding website prototype for **Jakarta · July 3, 2027**. 
 
 ## Open it
 
-No build system or dependencies are required to view the site. The stable Caddy review root is `/Users/server/Documents/wedding-website/serve` (the sibling `../serve/` folder). Its relative symlinks follow changes to the canonical source and web assets immediately on reload, without copying files or running a build. The review folder serves the preferred **v5 limited motion** model; the mixed comparison remains in the source directory.
+No dependencies are required to view the generated HTML. Authoring uses
+Eleventy: edit Markdown in `content/sections/`, then run `make build` or leave
+`make watch` running. The stable Caddy review root is
+`/Users/server/Documents/wedding-website/serve` (the sibling `../serve/`). Its
+relative symlinks follow generated HTML and web assets on reload without copying.
+The review folder serves **v5 limited motion**; the mixed comparison remains in
+the source directory.
+
+See [Editing the content](docs/EDITING_CONTENT.md). After installing Node 24,
+`make setup` installs the pinned, locked npm dependencies on a fresh checkout.
+The existing Mac's Homebrew Node path is handled by the Makefile.
+
+```sh
+make build   # Regenerate both limited HTML files
+make watch   # Rebuild on save; reload the existing review page
+make export  # Produce a self-contained public dist/ for future hosting
+make check   # Detect stale generated HTML
+```
 
 Open `index.html` directly, or run a local review server from this directory:
 
@@ -15,6 +32,10 @@ make serve
 
 | File | Purpose |
 | --- | --- |
+| `content/sections/*.md` | Editable prose and section labels, with Markdown and HTML support |
+| `content/_data/site.yaml` | Shared names, date, city, and browser-title suffix |
+| `content/page.md` | Page order and section inclusion; navigation uses the same order |
+| `templates/` / `eleventy.config.js` | Existing presentation and static build configuration |
 | `index.html` | **Preferred current version**: three motion profiles, eight entry directions, and almost imperceptible final settling |
 | `wedding-limited-v5-style.html` | Identical named entry point for the preferred version |
 | `wedding-mixed-v4-style.html` | Seven-profile alternative retained for comparison; not the default |
@@ -56,7 +77,19 @@ independent of each collection's size. See
 
 ## Development and checks
 
-The project intentionally remains plain HTML/CSS/JavaScript, using the Web Animations API (WAAPI). This allows direct local preview and straightforward deployment to any static web host. The other sections currently have **editable placeholder copy** and RSVP does **not** submit data.
+The generated runtime remains plain HTML/CSS/JavaScript, using WAAPI. Eleventy
+runs only during authoring/builds; it adds no client framework or running server.
+Sections still have placeholder copy and RSVP does **not** submit data.
+
+Content/build tests use Node's built-in runner and isolated temporary fixtures:
+
+```sh
+make test-content
+make check
+```
+
+They check Markdown/HTML, nested includes, errors and recovery, shared facts,
+watch invalidation, deterministic output, and independent public-only export.
 
 Static repository and image checks (Python standard library only):
 
@@ -88,6 +121,25 @@ python3 tests/test_performance_browser.py
 ```
 
 If Chromium is installed by the operating system and Playwright-managed Chromium is unavailable, set `CHROMIUM_PATH=/path/to/chromium` before the test. The test covers the limited and mixed entry points, desktop/mobile/reduced-motion, sampled keyframe paths, initial direction separation and cleanup continuity. It does not replace manual visual review on the target laptop.
+
+`make test-browser` runs content/export, motion, and performance browser checks,
+using the workspace virtual environment when available. A compatible cached
+Chromium on this Mac is detected if Playwright's expected binary is missing.
+For the migration's original-design comparison, `make test-migration-browser`
+also checks geometry and screenshots against commit `b2fc2ae`; this special check
+is not intended after deliberate copy/design changes.
+
+If macOS denies launching Chromium inside the agent sandbox, start a dedicated
+browser in a regular Terminal with remote debugging on loopback port 9222 and
+a separate profile, then run:
+
+```sh
+CHROMIUM_CDP_URL=http://127.0.0.1:9222 make test-browser
+```
+
+The tests create/close their own browser contexts and leave that external browser
+running. Content screenshots and the artifact-hashed result are in private
+`.build/browser/`, outside both the review root and export.
 
 The performance browser test loads the actual public review assets through
 Playwright routing, without a preview server. It checks native/fallback/reduced

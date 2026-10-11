@@ -123,6 +123,43 @@ This document preserves the evolution of the wedding website and, especially, **
     the original equation. Physical-phone/Safari performance is not measured.
     See `docs/PERFORMANCE.md` for the method, evidence and reproduction steps.
 
+## Markdown authoring and static generation — October 11, 2026
+
+62. The user likes the visual direction and asked for simple Markdown content
+    authoring with optional inline HTML, upper-level file inclusion, and static
+    generation suitable for eventual Cloudflare Pages or similar. Python was
+    initially preferred, with openness to another toolset.
+63. After comparing a small Python builder, Pelican, and Eleventy, the user
+    clarified that nearly all non-Markdown authoring will be left to the agent
+    and authorized choosing the most pleasant human workflow. Eleventy was
+    selected for established native build/watch/template tooling. The user
+    approved execution, installed Node 24, and requested pauses only for needed
+    human actions beyond the agent's access.
+64. Eight Markdown blocks now assemble through a master `content/page.md` and
+    native Eleventy collection into the existing limited HTML. Shared facts
+    live in YAML, optional snippets use Nunjucks includes, and raw HTML remains
+    supported. Home and Story retain dedicated templates. Builds produce
+    synchronized tracked entry points; the existing Caddy symlinks stay intact.
+    `make export` creates a separate public-only static folder. Placeholder
+    copy, RSVP status, and motion/art behavior remain as before.
+65. Content tests cover rendering/includes, validation, freshness, stable output,
+    public export, native watch, last-good output, and recovery. Browser checks
+    compare the original site at phone, laptop, and larger desktop sizes and
+    exercise longer Markdown/HTML. The new long-table fixture identified a
+    mobile grid-sizing issue; panels now allow shrinking so tables scroll inside
+    them. This is a content-layout fix, not a change to animation direction.
+
+66. Final checks pass after a clean locked dependency installation: content and
+    watch tests, repository/assets, decks/opening sequence, placement geometry,
+    motion curves, original-layout comparisons, rendered motion, and performance.
+    Long content renders without page overflow at phone/laptop/large desktop.
+    Original screenshots match apart from six one-channel-level background edge
+    rounding pixels on the larger capture; text and geometry match exactly.
+    Direct file export and existing Caddy HTTP bytes are verified. The user
+    launched a dedicated Chromium outside the agent's macOS sandbox for CDP
+    testing. Native Node watch avoids an optional FSEvents addon that initialized
+    inside the sandbox without delivering file changes. No hosting change occurred.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

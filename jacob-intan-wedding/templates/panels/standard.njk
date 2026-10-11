@@ -1,0 +1,8 @@
+    <section class="content-section" id="{{ block.data.id }}" aria-labelledby="{{ block.data.id }}-title">
+      <div class="section-card">
+        <p class="eyebrow">{{ block.data.eyebrow }}</p>
+        <h2 id="{{ block.data.id }}-title">{{ block.data.title }}</h2>
+        <div class="hairline"></div>
+{{ block.content | safe }}
+      </div>
+    </section>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" data-motion-set="limited">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e0e0e">
+  <meta name="description" content="{{ site.names[0] }} and {{ site.names[1] }} are getting married in {{ site.city }} on {{ site.weddingDate | weddingDate }}.">
+  <title>{{ site.names | join(" & ") }} — {{ site.titleSuffix }}</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="background-config.js"></script>
+  <script defer src="photos/catalog.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <!-- A fixed tabletop behind the page. JavaScript adds and shuffles postcards lazily. -->
+  <div class="tabletop" aria-hidden="true">
+    <div class="table-light"></div>
+    <div class="postcard-field"><div class="postcard-plane" id="postcard-plane"></div></div>
+    <div class="readability-veil"></div>
+  </div>
+
+  <header class="header">
+    <nav class="nav" aria-label="Wedding website navigation">
+{% for id in sections %}
+{% set block = collections.weddingSections | sectionById(id) %}
+      <a class="nav-link{% if loop.first %} is-active{% endif %}" href="#{{ block.data.id }}"{% if loop.first %} aria-current="location"{% endif %}>{{ block.data.nav }}</a>
+{% endfor %}
+    </nav>
+  </header>
+
+  <main id="main-content">
+{{ content | safe }}
+  </main>
+
+  <footer class="footer"><span>{{ site.names | join(" & ") }}</span><span>{{ site.city }} · {{ site.weddingDate | weddingDate }}</span></footer>
+</body>
+</html>

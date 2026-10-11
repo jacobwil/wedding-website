@@ -1,0 +1,15 @@
+    <section class="content-section story-section" id="{{ block.data.id }}" aria-labelledby="{{ block.data.id }}-title">
+      <div class="section-card story-card">
+        <div class="story-copy">
+          <p class="eyebrow">{{ block.data.eyebrow }}</p>
+          <h2 id="{{ block.data.id }}-title">{{ block.data.title }}</h2>
+          <div class="hairline"></div>
+{{ block.content | safe }}
+        </div>
+        <div class="story-postcards" aria-label="Three postcards from our collection">
+          <img src="thumbnails/unsent_la_pecora_bianca_restaurant.webp" alt="Illustrated La Pecora Bianca postcard" loading="lazy" decoding="async" width="352" height="480">
+          <img src="thumbnails/street_parade_striped_costume.webp" alt="Postcard of a colorful street parade" loading="lazy" decoding="async" width="284" height="480">
+          <img src="thumbnails/unsent_japanese_cherry_blossoms_landscape.webp" alt="Japanese cherry blossom postcard" loading="lazy" decoding="async" width="320" height="480">
+        </div>
+      </div>
+    </section>

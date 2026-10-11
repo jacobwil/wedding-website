@@ -2,7 +2,7 @@
 
 ## Static runtime
 
-- `index.html` is a copy of `wedding-limited-v5-style.html` (preferred). `wedding-mixed-v4-style.html` is a reference. Both include one `script.js` and `styles.css` at repo root.
+- Eleventy generates `index.html` and `wedding-limited-v5-style.html` from the same rendered bytes. `wedding-mixed-v4-style.html` remains a historical reference. All share the plain static runtime at repo root.
 - `<html data-motion-set="limited">` selects three preferred profiles. `data-motion-set="mixed"` selects the seven-profile comparison. Avoid maintaining near-duplicate JS files or changing both experiences inadvertently.
 - The `ART` list is currently embedded in `script.js`. `manifest.json` separately documents all 24 postcard assets, intrinsic dimensions and three WebP quality/size levels. A future refactor can generate the JS metadata from this manifest if parity is tested.
 - Approved photos have a separate `photos/catalog.js`, two WebP tiers, and private masters in `originals/photos/`. `background-config.js` controls the photo share after the opening three postcards and one photo. All three main HTML entries load configuration and photo catalog before `script.js`, retaining direct `file://` support.
@@ -28,9 +28,48 @@
 - **Source artwork:** Large WebP derivatives were produced from earlier full-res cropped JPEGs, but source JPEGs are missing from this handoff. The WebP `images/` directory is *not* archival source.
 - **Content readiness:** Placeholder sections are navigable but incomplete, and no real RSVP backend exists. Treat this as a design prototype, not a completed publicly launchable wedding site.
 
-## Proposed evolution (requires user approval)
+## Markdown authoring and Eleventy builds
 
-Improve content authoring and semantics, add real event details, consider a well-scoped RSVP backend with privacy/security review, add deployment pipeline and accessibility regression coverage. Avoid a broad visual redesign or introducing physics oscillation without a specifically approved motion sample.
+The user approved the content migration on October 11, 2026, choosing an
+established generator and leaving nearly all non-Markdown authoring to the agent.
+See `EDITING_CONTENT.md` for the human workflow.
+
+- Each `content/sections/*.md` is a native Eleventy Markdown template. Directory
+  data sets `permalink: false`, `layout: false`, and a collection tag, so the
+  blocks render for collection use without publishing separate pages.
+- The YAML front matter supplies IDs, titles, eyebrows, navigation labels, and
+  optional `panel: home|story`. Standard panels are the default.
+- Nunjucks preprocesses bodies and includes before markdown-it converts them to
+  HTML with raw HTML enabled. Templates insert already-rendered block HTML into
+  the original panel structure; they never wrap unrendered Markdown in a div.
+- `content/page.md` uses a Nunjucks engine override to assemble the collection
+  without a second Markdown pass. Its `sections` list drives both page and nav
+  order. Home and Story retain their specialized DOM and decoration.
+- Native YAML global data provides `site`; its quoted ISO date is formatted in
+  UTC consistently for announcement, footer, schedule, and metadata. Extra
+  prose snippets live under `content/snippets/`, watched but never published.
+- `scripts/build.mjs` invokes Eleventy build/watch. `build-support.mjs` validates
+  metadata, static include chains, output IDs/references, and export contents.
+  Successful builds synchronize both tracked entry points via atomic writes.
+  Failed content edits retain the last good review HTML and previous export.
+- Native watch performs full builds. Generated root HTML and `.build/` are not
+  input templates; snippet and template changes invalidate correctly.
+  Chokidar uses Node's watcher instead of the optional FSEvents addon, which
+  did not deliver file changes inside this macOS sandbox after a clean install.
+- Builds stage in `.build/site`. Review mode writes root HTML; check mode only
+  compares it; export mode replaces `dist/` with fresh real files. Eleventy's
+  passthrough copying uses explicit runtime/image inventory paths, including
+  the five approved photos. `content/_data/publicAssets.json` may list new files
+  only from `content-images/`; link that public directory into `serve/` if used.
+- `serve/` remains the existing Caddy root. Authoring files require a build;
+  generated runtime files appear on reload through the unchanged symlinks.
+  A future Pages build uses Node 24, `npm ci --include=dev && npm run export`, output `dist`.
+
+## Future work
+
+Add real event details, choose RSVP submission, and connect the static export
+to hosting when requested. Avoid a broad visual redesign or introducing physics
+oscillation without a specifically approved motion sample.
 
 ## Test environment note
 

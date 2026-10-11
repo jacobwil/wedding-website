@@ -1,7 +1,7 @@
 from pathlib import Path
-import os
 import math
 from playwright.sync_api import sync_playwright
+from browser_support import open_browser, close_browser
 
 BASE = Path(__file__).resolve().parents[1]
 SCRIPT = (BASE/'script.js').read_text()
@@ -110,10 +110,7 @@ JS = r'''async () => {
 }'''
 
 with sync_playwright() as p:
-    launch_args = {'headless': True, 'args':['--no-sandbox', '--disable-dev-shm-usage']}
-    chromium_path = os.environ.get('CHROMIUM_PATH')
-    if chromium_path: launch_args['executable_path'] = chromium_path
-    browser=p.chromium.launch(**launch_args)
+    browser = open_browser(p)
     for mode,width,height,reduced in [('limited',1280,800,False),('limited',1920,1080,False),('limited',390,844,False),('limited',1280,800,True),('mixed',1280,800,False)]:
         page=browser.new_page(viewport={'width':width,'height':height}, reduced_motion='reduce' if reduced else 'no-preference')
         errors=[]
@@ -150,5 +147,5 @@ with sync_playwright() as p:
             assert len(profiles)==7,profiles
             print('PASS broad comparison unchanged: seven profiles; no JS errors')
         page.close()
-    browser.close()
+    close_browser(browser)
 print('ALL CHECKS PASSED')

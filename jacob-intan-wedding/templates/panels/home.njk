@@ -1,0 +1,11 @@
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="announcement">
+        <p class="eyebrow">{{ block.data.eyebrow }}</p>
+        <h1 id="hero-title">{{ site.names[0] }} <span class="and">and</span> {{ site.names[1] }}</h1>
+{{ block.content | heroCopy | safe }}
+        <div class="delicate-rule" aria-hidden="true"><span></span><i>✳</i><span></span></div>
+        <p class="city">{{ site.city }}</p>
+        <p class="date">{{ site.weddingDate | weddingDate }}</p>
+      </div>
+      <a class="discover" href="#rsvp">{{ block.data.discover }} <span aria-hidden="true">↓</span></a>
+    </section>

@@ -12,8 +12,8 @@ the design decisions from the handoff.
   with short approaches from eight directions. The October 8 refinement smooths
   the stop and reduces the final flattening to almost imperceptible motion.
   `index.html` selects this version.
-- Plain HTML, CSS, and JavaScript; no build step. The 24 postcards have three
-  web image tiers.
+- Markdown sections assembled with Eleventy; the public runtime remains plain
+  HTML, CSS, and JavaScript. The 24 postcards have three web image tiers.
 - Selected photo IDs 2, 6, 9, 13, and 18 have a separate photo library. Adjust
   `photoShare` in `jacob-intan-wedding/background-config.js` (initially 0.20)
   for arrivals after the opening three random postcards and one random photo.
@@ -29,8 +29,10 @@ Point the existing Caddy site's static root at:
 ```
 
 `serve/` contains relative symlinks to the canonical HTML, shared JavaScript and
-CSS, manifest, and web image directories in `jacob-intan-wedding/`. Source edits
-are available on the next reload; there is no export step or watcher to run.
+CSS, manifest, and web image directories in `jacob-intan-wedding/`. Run
+`make build` there after Markdown/template edits, or leave `make watch` running.
+Generated HTML and runtime asset changes are available on the next reload
+without copying into `serve/`.
 The historical mixed version, experiments, original artwork, and project
 documentation are outside this folder.
 
@@ -42,6 +44,14 @@ make serve
 ```
 
 Caddy is managed separately by the user.
+
+## Editing and static export
+
+Start with [the editing guide](jacob-intan-wedding/docs/EDITING_CONTENT.md).
+Ordinary copy lives in `jacob-intan-wedding/content/sections/*.md`; shared facts
+live in its `content/_data/site.yaml`. Node 24 and `make setup` install locked
+Eleventy dependencies on a fresh checkout. `make export` creates a public-only
+`dist/` for future Cloudflare Pages or another static host.
 
 ## Git history
 
