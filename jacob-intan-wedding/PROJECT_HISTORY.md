@@ -233,6 +233,13 @@ This document preserves the evolution of the wedding website and, especially, **
     menu at 320px, 390px, 402px and short landscape widths; desktop navigation
     retains its presentation.
 
+## Replay placement — October 11, 2026
+
+79. The user clarified that the replay button belongs to the opening frame and
+    should not follow scrolling through the rest of the page. The control now
+    lives inside the sticky landing stage, positioned in its bottom-right corner.
+    It leaves the viewport with that stage; replay behavior stays the same.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

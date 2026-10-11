@@ -21,8 +21,9 @@ means the full introduction may play on each load. Direct `file://` viewing stil
 works with no storage dependency. Hash links to later sections bypass the long
 opening to reach their content immediately.
 
-A small replay icon is fixed in the bottom-right corner as a temporary review
-control. It reloads the full opening and reshuffles the initial pile, preserving
+A small replay icon sits in the opening frame's bottom-right corner as a temporary
+review control. It stays with that frame during the introduction and scrolls away
+with it before the later sections. It reloads the full opening and reshuffles the initial pile, preserving
 the current pile option. It leaves the three-day cookie expiry unchanged and
 respects reduced motion.
 
