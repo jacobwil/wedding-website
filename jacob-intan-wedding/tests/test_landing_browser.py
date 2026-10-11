@@ -102,7 +102,16 @@ with sync_playwright() as p:
             menu=page.locator('.nav-links')
             dimensions=menu.evaluate('e=>({h:e.clientHeight,scroll:e.scrollHeight,top:e.getBoundingClientRect().top})')
             assert dimensions['scroll'] > dimensions['h']
-            assert abs(((dimensions['h']-16)%48)-24) < 2, dimensions
+            clipped=menu.evaluate("""e => {
+              const edge=e.getBoundingClientRect().bottom-1;
+              return [...e.querySelectorAll('.nav-link')].some(link=>{
+                const range=document.createRange();range.selectNodeContents(link);
+                const text=range.getBoundingClientRect();
+                const fraction=(edge-text.top)/text.height;
+                return fraction>.25 && fraction<.75;
+              });
+            }""")
+            assert clipped, dimensions
             assert dimensions['top']+dimensions['h'] < 390
             menu.evaluate('e=>e.scrollTop=e.scrollHeight');page.clock.run_for(50)
             assert page.locator('.nav-link').last.is_visible()

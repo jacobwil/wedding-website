@@ -57,7 +57,10 @@ scroll-selected word and resets the idle delay. Repeat visitors get a one-screen
 Wilder opening with the same idle behavior. Reduced motion has a single static
 Wilder hero and eight static items, with no fade, cycle or parallax.
 
-Mobile uses one navigation pill. Its dropdown opens in 160ms, preserves the
+Mobile uses one navigation pill with a clean SVG chevron and current-section
+label. The wider matte-charcoal dropdown uses warm serif labels, subtle dividers
+and a small checkmark for the current section, without background blur. It
+opens in 160ms, preserves the
 eight labels/order, closes after selection or outside press, supports keyboard
 navigation/Escape, and removes hidden links from the focus order. If scrolling
 is needed, menu height is set to full rows plus half of the next row, bisecting

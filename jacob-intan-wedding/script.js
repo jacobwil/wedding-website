@@ -747,7 +747,9 @@
     const available = Math.max(70, (visualViewport?.height || innerHeight) - top - 16);
     const row = 48;
     // A half-row is intentionally visible when the list must scroll.
-    const height = available < row*8+18 ? Math.min(available, (Math.max(1,Math.floor((available-18)/row-.5))+.5)*row+18) : row*8+18;
+    const fullHeight = row * links.length + 18;
+    // When clipped, only the top padding precedes the half-visible label.
+    const height = available < fullHeight ? Math.min(available, (Math.max(0,Math.floor((available-10)/row-.5))+.5)*row+10) : fullHeight;
     menu.style.setProperty('--menu-height', `${height}px`);
   }
   toggle?.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));

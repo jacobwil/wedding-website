@@ -218,6 +218,21 @@ This document preserves the evolution of the wedding website and, especially, **
     regressions pass; the landing suite covers native/fallback intermediate
     positions and preserved idle/repeat behavior.
 
+## Mobile menu refinement — October 11, 2026
+
+77. The user disliked the initial mobile dropdown appearance and requested a
+    more professional treatment. The new iteration uses a wider matte-charcoal
+    surface, larger warm serif labels, subtle dividers, and a small current-section
+    checkmark. The trigger drops the tiny extra “Menu” label in favor of a clean
+    SVG chevron and current section. This records an iteration for review, not
+    approval of the new appearance.
+78. The 160ms opening, all eight links, keyboard/Escape/outside closure and
+    performance safeguards remain. Short-view height now accounts only for
+    leading padding when clipping, so the bottom edge bisects an actual text
+    label. Browser checks measure text bounds for this hint and verify the
+    menu at 320px, 390px, 402px and short landscape widths; desktop navigation
+    retains its presentation.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

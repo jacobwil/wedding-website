@@ -24,7 +24,7 @@
 
   <header class="header">
     <nav class="nav" aria-label="Wedding website navigation">
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links"><span class="nav-current">Home</span><span class="nav-toggle-label">Menu</span><span class="nav-chevron" aria-hidden="true">⌄</span></button>
+      <button class="nav-toggle" type="button" aria-label="Wedding navigation" aria-expanded="false" aria-controls="nav-links"><span class="nav-current">Home</span><span class="nav-chevron" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg></span></button>
       <div class="nav-links" id="nav-links">
 {% for id in sections %}
 {% set block = collections.weddingSections | sectionById(id) %}
