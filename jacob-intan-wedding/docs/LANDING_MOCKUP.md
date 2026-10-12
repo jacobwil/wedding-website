@@ -23,7 +23,8 @@ opening to reach their content immediately.
 
 A small replay icon sits in the opening frame's bottom-right corner as a temporary
 review control. It stays with that frame during the introduction and scrolls away
-with it before the later sections. It reloads the full opening and reshuffles the initial pile, preserving
+with it before the later sections. It reloads the full opening and reshuffles
+the initial pile, preserving
 the current pile option. It leaves the three-day cookie expiry unchanged and
 respects reduced motion.
 
@@ -42,7 +43,13 @@ remain below the script in the same viewport.
 The chosen opening distributes eight shuffled items over four columns/two rows
 on desktop and two columns/four rows on mobile, with position and rotation
 jitter. Each fades for 420ms with an 85ms stagger at its final resting transform.
-After 2.8 seconds, regular gentle arrivals begin. The existing independently
+The initial pile stays unchanged throughout the opening, including idle word
+cycles. New items begin only once the opening frame has scrolled out of view.
+Further downward progress of about 35% of a viewport earns another arrival,
+with at least 2.8 seconds between drops and no catch-up burst after a large jump.
+Pausing does not run a continuous arrival loop; returning to the hero cancels
+pending drops. These distances/cadences are implementation choices for the
+user's scroll-driven request. The existing independently
 shuffled postcard/photo decks, opening three-postcard/one-photo selection,
 retirement and limited 04–06 motion remain. Mobile now limits non-retiring
 items to 16, committing flat 2D resting transforms and smaller decorative image
@@ -67,6 +74,16 @@ navigation/Escape, and removes hidden links from the focus order. If scrolling
 is needed, menu height is set to full rows plus half of the next row, bisecting
 its label to hint at continuation.
 
+The small upper-right gear opens a temporary font comparison popup. Headline
+choices are Great Vibes (current), Syne Bold, Aboreto, Fraunces Bold, Prata and
+Playfair Display; body choices are the current fonts, Poppins and Zilla Slab.
+Selections apply immediately and persist only in that browser's local storage.
+Reset fonts returns to the original presentation. Non-script choices use sizes
+suited to their wider letterforms and upright changing words. The popup supports
+Escape, outside closure and focus return. All faces are self-hosted Latin WOFF2
+subsets and load only when selected; the seven extra font binaries total about
+100KiB. The gear remains available while comparing the body sections.
+
 ## Implementation and verification
 
 Source lives in `templates/panels/home.njk`, `templates/page.njk`, `styles.css`,
@@ -79,6 +96,9 @@ Run `make build`, `make check`, `make test-content`, and `make test-browser`.
 Run `CHROMIUM_CDP_URL=http://127.0.0.1:9222 make test-landing` to verify the exact
 review endpoint with a fresh browser context. Landing screenshots and the
 artifact-hashed report are kept in `.build/landing/`, outside public hosting.
+The landing target also checks opening/repeat/reduced-motion arrival gates,
+font loading and fit, saved choices, popup closure, and reset at 320px, phone,
+laptop and desktop sizes in `tests/test_review_controls_browser.py`.
 The migration’s old screenshot-equality test is intentionally inappropriate
 for this requested visual redesign; motion/asset/content invariants still apply.
 

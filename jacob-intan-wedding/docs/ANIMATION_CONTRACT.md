@@ -18,7 +18,11 @@ The canonical page now has eight opening items that fade in at their final
 resting transforms: 420ms fade, 85ms stagger, no travel or flattening during
 this pile reveal. Selection remains three random postcards then one random
 photo before the configured mix. Placement is stratified across the full width
-with jitter. Later arrivals use the unchanged limited profiles below.
+with jitter. The opening pile receives no additional items while its frame is
+visible. Later arrivals are earned by scrolling through content below it, with
+at least 2.8 seconds between drops and no continuous idle loop or jump catch-up.
+Returning to the opening cancels pending arrivals. The limited profiles below
+remain unchanged.
 The two-card directional opening remains on the historical mixed comparison.
 
 The table stays fixed for the three-screen scroll through Closer, Sweeter,

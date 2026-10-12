@@ -55,6 +55,31 @@
     </nav>
   </header>
 
+  <div class="font-tools" hidden>
+    <button class="font-toggle" type="button" aria-label="Try different fonts" aria-expanded="false" aria-controls="font-panel" title="Try different fonts">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.5 3-.6 2.2-1.6.9-2.2-.6-2.5 4.3 1.6 1.6v1.8l-1.6 1.6 2.5 4.3 2.2-.6 1.6.9.6 2.2h5l.6-2.2 1.6-.9 2.2.6 2.5-4.3-1.6-1.6v-1.8l1.6-1.6-2.5-4.3-2.2.6-1.6-.9-.6-2.2z"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+    <div class="font-panel" id="font-panel" role="dialog" aria-labelledby="font-panel-title" hidden>
+      <p class="font-panel-title" id="font-panel-title">Try the typography</p>
+      <label for="headline-font">Opening headline</label>
+      <select id="headline-font">
+        <option value="">Great Vibes · current</option>
+        <option value="syne">Syne Bold</option>
+        <option value="aboreto">Aboreto</option>
+        <option value="fraunces">Fraunces Bold</option>
+        <option value="prata">Prata</option>
+        <option value="playfair">Playfair Display</option>
+      </select>
+      <label for="body-font">Body copy</label>
+      <select id="body-font">
+        <option value="">Current fonts</option>
+        <option value="poppins">Poppins</option>
+        <option value="zilla">Zilla Slab</option>
+      </select>
+      <button class="font-reset" type="button">Reset fonts</button>
+    </div>
+  </div>
+
   <main id="main-content">
 
 

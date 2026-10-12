@@ -62,7 +62,7 @@ motion uses a static one-screen opening. Mobile navigation opens from one pill.
 See [Landing mockup](docs/LANDING_MOCKUP.md) for comparison links and rollback.
 
 - Eight items rapidly fade into a shuffled, distributed initial pile. The first three selected are postcards, the fourth a photo; the configured mix supplies the remaining four. The historical mixed page keeps the previous two-card opening.
-- Subsequent background cards arrive on a randomized interval, with independently shuffled collections of 24 postcards and five approved photos.
+- The opening pile stays unchanged while the hero is visible. Subsequent cards arrive as you scroll through the content below it, with a gentle minimum interval and no continuous idle loop. The historical mixed page keeps its timer loop. Collections of 24 postcards and five approved photos shuffle independently.
 - The side selection prefers alternation (~80%), and placement favors uncovered space until around 70% coverage before accepting more overlap.
 - Postcards retire/recycle as appropriate, avoiding two visible instances of the same design. Mobile limits non-retiring background items to 16 and uses smaller decorative image tiers; the initial eight-item pile stays intact.
 - The backdrop follows scrolling at 18% of the foreground movement, using a native scroll timeline where supported and a passive, frame-batched fallback elsewhere. Reduced-motion compositions remain static while scrolling.

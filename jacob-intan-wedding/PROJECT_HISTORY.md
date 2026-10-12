@@ -240,6 +240,23 @@ This document preserves the evolution of the wedding website and, especially, **
     lives inside the sticky landing stage, positioned in its bottom-right corner.
     It leaves the viewport with that stage; replay behavior stays the same.
 
+## Scroll arrivals and font review — October 11, 2026
+
+80. The user requested no further additions to the pile beneath the opening
+    text after initial load, with more items animating in below as they scroll.
+    The canonical page now holds its initial pile through the entire hero and
+    earns arrivals only through downward progress in later content. A 35%-of-
+    viewport step and 2.8-second minimum cadence are implementation choices;
+    there is no continuous idle loop, jump catch-up burst or arrival while
+    returning to the opening. Approved 04–06 landing curves remain unchanged.
+81. The user requested an upper-right gear and popup for headline comparisons:
+    Syne Bold, Aboreto, Fraunces Bold, Prata and Playfair Display; body copy:
+    Poppins and Zilla Slab. All seven Latin fonts and their licenses are
+    self-hosted. Choices apply immediately, persist only in the reviewer's
+    browser, and can reset to the current fonts. This is a comparison tool,
+    not approval of a new default typeface. Wider non-script letterforms get
+    adjusted sizing and upright changing words.
+
 ## Priority order for future creative choices
 
 1. Wedding information and legibility > postcards as decoration > interesting animation technique.

@@ -1,3 +1,61 @@
+/* Temporary typography review controls. Choices stay in this browser only. */
+(() => {
+  const tools = document.querySelector('.font-tools');
+  if (!tools) return;
+  const root = document.documentElement;
+  const toggle = tools.querySelector('.font-toggle');
+  const panel = tools.querySelector('.font-panel');
+  const headline = tools.querySelector('#headline-font');
+  const body = tools.querySelector('#body-font');
+  const headlines = {
+    syne:['"Syne",sans-serif',700], aboreto:['"Aboreto",serif',400],
+    fraunces:['"Fraunces",serif',700], prata:['"Prata",serif',400],
+    playfair:['"Playfair Display",serif',400]
+  };
+  const bodies = {poppins:'"Poppins",sans-serif', zilla:'"Zilla Slab",serif'};
+  const key = 'wedding_font_preview';
+  function apply() {
+    const face = headlines[headline.value];
+    if (face) {
+      root.dataset.headlineFont = headline.value;
+      root.style.setProperty('--headline-font', face[0]);
+      root.style.setProperty('--headline-weight', face[1]);
+      root.style.setProperty('--headline-skew', '0deg');
+    } else {
+      delete root.dataset.headlineFont;
+      for (const property of ['--headline-font','--headline-weight','--headline-skew']) root.style.removeProperty(property);
+    }
+    if (bodies[body.value]) root.style.setProperty('--copy-font', bodies[body.value]);
+    else root.style.removeProperty('--copy-font');
+    try { localStorage.setItem(key, JSON.stringify({headline:headline.value,body:body.value})); } catch (_) {}
+  }
+  function setOpen(open, restoreFocus = false) {
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) headline.focus({preventScroll:true});
+    else if (restoreFocus) toggle.focus({preventScroll:true});
+  }
+  try {
+    const saved = JSON.parse(localStorage.getItem(key));
+    if (saved) {
+      headline.value = headlines[saved.headline] ? saved.headline : '';
+      body.value = bodies[saved.body] ? saved.body : '';
+    }
+  } catch (_) { /* file:// or blocked storage still allows live comparison. */ }
+  apply();
+  tools.hidden = false;
+  headline.addEventListener('change', apply);
+  body.addEventListener('change', apply);
+  tools.querySelector('.font-reset').addEventListener('click', () => {
+    headline.value = body.value = ''; apply();
+  });
+  toggle.addEventListener('click', () => setOpen(panel.hidden));
+  document.addEventListener('pointerdown', event => { if (!tools.contains(event.target)) setOpen(false); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !panel.hidden) { event.preventDefault(); setOpen(false,true); }
+  });
+})();
+
 /* Intan's scroll opening. No dependency, no server-side visit tracking. */
 (() => {
   const hero = document.querySelector('.landing-hero');
@@ -38,6 +96,7 @@
   function configure(measuredHeight) {
     hero.classList.toggle('is-long-intro', long);
     height = measuredHeight ?? hero.querySelector('.landing-stage').getBoundingClientRect().height;
+    state.height = height;
     heroTop = hero.offsetTop;
     state.travel = long ? height * 3 : 0;
     state.nativeWords = nativeWords && long;
@@ -53,7 +112,7 @@
     const nextIndex = Math.round(progress);
     if (!state.nativeWords) {
       for (let i=0; i<words.length; i++) {
-        words[i].style.transform = `translate3d(0,${(i-progress)*height}px,0) skewX(-7deg)`;
+        words[i].style.transform = `translate3d(0,${(i-progress)*height}px,0) skewX(var(--headline-skew,-7deg))`;
       }
     }
     if (nextIndex !== index || !dots[nextIndex].classList.contains('is-current')) {
@@ -83,7 +142,7 @@
     fadingTimer = setTimeout(() => {
       index = (index + 1) % words.length;
       words.forEach((word,i) => {
-        word.style.transform = `translate3d(0,${i === index ? 0 : height}px,0) skewX(-7deg)`;
+        word.style.transform = `translate3d(0,${i === index ? 0 : height}px,0) skewX(var(--headline-skew,-7deg))`;
         word.style.opacity = '0';
       });
       requestAnimationFrame(() => requestAnimationFrame(() => { words[index].style.opacity = '1'; }));
@@ -99,7 +158,7 @@
       idleTimer=null;
       if (performance.now() - lastActivity < 30000) { armIdle(); return; }
       if (!complete || !visible() || introMotion.matches) return;
-      words.forEach((word,i) => { word.style.transform = `translate3d(0,${i === index ? 0 : height}px,0) skewX(-7deg)`; word.style.opacity = i === index ? '1' : '0'; });
+      words.forEach((word,i) => { word.style.transform = `translate3d(0,${i === index ? 0 : height}px,0) skewX(var(--headline-skew,-7deg))`; word.style.opacity = i === index ? '1' : '0'; });
       cycling = true; hero.classList.add('is-cycling'); cycle();
     }, remaining);
   }
@@ -310,6 +369,7 @@
   ];
   let firstEntryAngle = null;
   let timer = null;
+  let arrivalFrame = null, nextArrivalDepth = 0, lastArrivalAt = -Infinity;
   let scrollFrame = null;
   let viewport = {w: innerWidth, h: innerHeight};
   let lastDropScroll = 0;
@@ -641,10 +701,32 @@
   function step() {
     timer = null;
     if (document.hidden || reduced.matches) return;
+    if (fullWidth && contentDepth() < nextArrivalDepth) return;
     drop(nextArt(),chooseSide());
     pruneHidden();
     prepareNextReuse();
-    schedule();
+    if (fullWidth) {
+      nextArrivalDepth = contentDepth() + viewport.h * .35;
+      lastArrivalAt = performance.now();
+    } else schedule();
+  }
+  function contentDepth() { return scrollY - landing.travel - landing.height; }
+  function queueScrolledArrival() {
+    if (!fullWidth) return;
+    if (document.hidden || reduced.matches || contentDepth() < nextArrivalDepth) {
+      clearTimeout(timer); timer=null;
+      return;
+    }
+    // New content earns one arrival; no idle loop or catch-up burst on a jump.
+    if (timer == null) schedule(Math.max(0, 2800 - (performance.now() - lastArrivalAt)));
+  }
+  if (fullWidth) {
+    addEventListener('scroll', () => {
+      if (arrivalFrame == null) arrivalFrame = requestAnimationFrame(() => {
+        arrivalFrame=null; queueScrolledArrival();
+      });
+    }, {passive:true});
+    document.addEventListener('wedding:landing-layout', queueScrolledArrival);
   }
   function schedule(delay = random(2800,4400)) {
     clearTimeout(timer);
@@ -653,7 +735,7 @@
   function start() {
     if (fullWidth) {
       for (let i=0;i<landing.openingCount;i++) drop(nextArt(),i%2 ? 'right' : 'left',true,i);
-      if (!reduced.matches) { prepareNextReuse(); schedule(2800); }
+      queueScrolledArrival();
       return;
     }
     drop(nextArt(),'left',true);
@@ -667,7 +749,7 @@
   }
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {clearTimeout(timer);timer=null;}
-    else {syncParallax();schedule(1800);}
+    else {syncParallax();if (fullWidth) queueScrolledArrival(); else schedule(1800);}
   });
   reduced.addEventListener('change', () => {
     clearTimeout(timer);timer=null;
@@ -683,7 +765,7 @@
       card.node.style.transform = restPose(card.angle * 180 / Math.PI);
     }
     syncParallax();
-    if (!reduced.matches) schedule(2400);
+    if (!reduced.matches) { if (fullWidth) queueScrolledArrival(); else schedule(2400); }
   });
   let resizeFrame;
   window.addEventListener('resize', () => {

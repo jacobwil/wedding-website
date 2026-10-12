@@ -33,3 +33,4 @@ test-migration-browser: export
 
 test-landing:
 	$(PYTHON) tests/test_landing_browser.py
+	$(PYTHON) tests/test_review_controls_browser.py

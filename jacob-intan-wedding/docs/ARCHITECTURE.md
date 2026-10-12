@@ -83,14 +83,21 @@ Headless mobile emulation is not a physical-device GPU or Safari performance tes
 
 ## Intan landing runtime
 
-The first runtime closure configures native CSS word scroll timelines (with a
+The typography review closure applies validated browser-local choices and
+controls an accessible upper-right font popup. Comparison faces load lazily
+from local allowlisted WOFF2 files; no remote font requests are needed.
+
+The landing runtime closure configures native CSS word scroll timelines (with a
 frame-batched fallback) and the sticky scroll hero and exposes only its
-travel distance and initial pile options to the background closure. Its three-day
+travel distance, stage height and initial pile options to the background closure. Its three-day
 cookie skips extended scroll on return visits; the idle loop uses cancellable
 30-second/three-second timers and pauses outside the visible hero or reduced
 motion. The background timeline starts after the intro travel; unsupported
 browsers use the same offset in the frame-batched fallback. After leaving the
 hero, unchanged progress is skipped to avoid repetitive headline style writes.
+The opening pile has no timer-driven additions. A frame-batched scroll gate
+allows later arrivals only below the hero: further downward progress earns one
+drop, at least 2.8 seconds apart, without an idle loop or catch-up burst.
 
 The mobile menu uses ordinary navigation links, a button with `aria-expanded`,
 and `inert` for the closed list. Dropdown height is chosen in half-row increments
